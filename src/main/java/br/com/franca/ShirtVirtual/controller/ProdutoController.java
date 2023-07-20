@@ -1,8 +1,6 @@
 package br.com.franca.ShirtVirtual.controller;
 
-
 import br.com.franca.ShirtVirtual.exceptions.ExceptionShirtVirtual;
-import br.com.franca.ShirtVirtual.model.Acesso;
 import br.com.franca.ShirtVirtual.model.Produto;
 import br.com.franca.ShirtVirtual.repository.ProdutoRepository;
 import io.swagger.annotations.Api;
@@ -97,12 +95,12 @@ public class ProdutoController {
 
             if (produto.getQtdEstoque() < 1) {
                 logger.error("Cadastro de produto encerrado com erro, o produto cadastrado deve ter no minímo 1 no estoque.");
-
                 throw new ExceptionShirtVirtual("O produto cadastrado deve ter no minímo 1 no estoque.");
             }
         }
 
         Produto produtoSalvo = produtoRepository.save(produto);
+        logger.info("Cadastro de produto realizado com sucesso.");
         return new ResponseEntity<Produto>(produtoSalvo, HttpStatus.CREATED);
 
     }
@@ -132,8 +130,9 @@ public class ProdutoController {
     @DeleteMapping(value = "/deletarProdutoPorId/{id}")
     public ResponseEntity<?> deletarProdutoPorId(@PathVariable("id") Long id) {
 
-
+        logger.info("Deleção de produto em andamento...");
         produtoRepository.deleteById(id);
+        logger.info("Produto deletado");
         return new ResponseEntity("Produto removido com sucesso",HttpStatus.OK);
 
     }
@@ -148,9 +147,11 @@ public class ProdutoController {
     @GetMapping(value = "/buscarProdutoPorId/{id}")
     public ResponseEntity<Produto> buscarProdutoPorId(@PathVariable("id") Long id) throws ExceptionShirtVirtual {
 
+        logger.info("Inicio de busca de produto por id...");
         Produto produto = produtoRepository.findById(id).orElse(null);
 
         if (produto == null){
+            logger.error("Erro ao buscar produto por id, o código informado não existe ou é inválido");
             throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id);
 
         }
@@ -165,10 +166,16 @@ public class ProdutoController {
     })
     @ResponseBody
     @GetMapping(value = "/buscarProdutoPorNome/{nome}")
-    public ResponseEntity<List<Produto>> buscarPorDesc(@PathVariable("nome") String nome) {
+    public ResponseEntity<List<Produto>> buscarPorDesc(@PathVariable("nome") String nome) throws ExceptionShirtVirtual {
 
+        logger.info("Inicio de busca de produto por nome...");
         List<Produto> produto = produtoRepository.buscarPorDesc(nome);
 
+        if (produto == null){
+            logger.error("Erro ao buscar produto por nome, o nome informado não existe ou é inválido");
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " nome: "  +  nome);
+
+        }
         return new ResponseEntity<List<Produto>>(produto,HttpStatus.OK);
     }
 }
