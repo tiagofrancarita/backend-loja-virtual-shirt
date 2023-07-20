@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/acessos")
 @Api(tags = "Acessos")
+@Slf4j
 public class AcessoController {
 
 
@@ -44,7 +46,8 @@ public class AcessoController {
     })
     @GetMapping("/listarAcessos")
     public List<Acesso> listarAcessos(){
-
+        log.debug("Iniciando a listagem de acessos");
+        log.info("Lista extraida com sucesso");
         return acessoRepository.findAll();
 
     }
@@ -58,15 +61,18 @@ public class AcessoController {
     })
     public ResponseEntity <Acesso> salvarAcesso(@RequestBody Acesso acesso) throws ExceptionShirtVirtual {
 
-
+        log.info("Inicio do cadastro de acesso / perfi....");
         if (acesso.getId() == null){
             List<Acesso> acessos = acessoRepository.buscarAcessoDescricao(acesso.getDescAcesso().toUpperCase());
 
             if (!acessos.isEmpty()){
+                log.error(ERRO_DESCRICAO_CADASTRADA);
                 throw new ExceptionShirtVirtual(ERRO_DESCRICAO_CADASTRADA +  "Descrição:  " +  acesso.getDescAcesso());
+
             }
         }
         Acesso acessoSalvo = acessoService.salvarAcesso(acesso);
+        log.info("Cadastro realizado com sucesso.");
         return new ResponseEntity<Acesso>(acessoSalvo, HttpStatus.CREATED);
 
     }
