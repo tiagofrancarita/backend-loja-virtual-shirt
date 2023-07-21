@@ -28,7 +28,7 @@ spring.jpa.show-sql = true
 ```
 
 ## Executando a Aplicação
- 1. Clone este repositório para o seu ambiente local. [REPOSITORIO-AWS](//git-codecommit.us-east-1.amazonaws.com/v1/repos/LojaVirtual) 
+ 1. Clone este repositório para o seu ambiente local. [REPOSITORIO-AWS](https://github.com/tiagofrancarita/backend-loja-virtual-shirt) 
  2. Abra o projeto em uma IDE java de sua preferência.
  3. Certifique-se de que todas as dependências do projeto tenham sido baixadas corretamente.
  4. Execute a aplicação através do método `main` na classe principal `Application.java`.
