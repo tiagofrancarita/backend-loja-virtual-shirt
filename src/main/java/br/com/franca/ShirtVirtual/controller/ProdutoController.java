@@ -51,9 +51,9 @@ public class ProdutoController {
 
     @ApiOperation("Cadastro de produto")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "Cadastro realizado com sucesso", response = ProdutoController.class),
+            @ApiResponse(code = 201, message = "CREATED", response = ProdutoController.class),
             @ApiResponse(code = 403, message = "Requisição não autoziada"),
-            @ApiResponse(code = 404, message = "Consulta não encontrada")
+            @ApiResponse(code = 404, message = "NOT FOUND")
     })
     @ResponseBody
     @PostMapping(value = "/salvarProduto")
