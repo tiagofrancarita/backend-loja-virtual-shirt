@@ -3,8 +3,8 @@ package br.com.franca.ShirtVirtual.controller;
 import br.com.franca.ShirtVirtual.exceptions.ExceptionShirtVirtual;
 import br.com.franca.ShirtVirtual.model.ContaPagar;
 import br.com.franca.ShirtVirtual.model.ContaReceber;
-import br.com.franca.ShirtVirtual.repository.ContaPagarRepository;
 import br.com.franca.ShirtVirtual.repository.ContaReceberRepository;
+import br.com.franca.ShirtVirtual.service.ContaReceberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -26,12 +26,14 @@ import java.util.List;
 public class ContaReceberController {
 
     private ContaReceberRepository contaReceberRepository;
+    private ContaReceberService contaReceberService;
 
     final String ERRO_DESCRICAO_CADASTRADA = "Já existe um acesso com essa descrição.!";
 
     @Autowired
-    public ContaReceberController(ContaReceberRepository contaReceberRepository) {
+    public ContaReceberController(ContaReceberRepository contaReceberRepository, ContaReceberService contaReceberService) {
         this.contaReceberRepository = contaReceberRepository;
+        this.contaReceberService = contaReceberService;
     }
 
     @ApiOperation("Listagem de contas a receber cadastradas")
@@ -57,15 +59,31 @@ public class ContaReceberController {
     public ResponseEntity <ContaReceber> cadastroContaReceber(@RequestBody ContaReceber contaReceber) throws ExceptionShirtVirtual {
 
         log.info("Inicio do cadastro de conta a receber");
+
+        if (contaReceber.getEmpresa() == null || contaReceber.getEmpresa().getId() <= 0) {
+            log.error("Cadastro de conta a receber encerrado com erro, empresa responsável deve ser informada.");
+            throw new ExceptionShirtVirtual("Empresa responsável deve ser informada.");
+        }
+
+        if (contaReceber.getPessoa() == null || contaReceber.getPessoa().getId() <= 0) {
+            log.error("Cadastro de conta a receber encerrado com erro, pessoa responsável deve ser informada.");
+            throw new ExceptionShirtVirtual("Pessoa responsável deve ser informada.");
+        }
+
+
+        if (!contaReceberService.verificarDescricaoNoMesCorrente(contaReceber.getDtCadastro())){
+            log.error("Cadastro de conta a receber encerrado com erro, a data de cadastro não é referente ao mês corrente");
+            throw new ExceptionShirtVirtual("Cadastro de conta a receber encerrado com erro, a data de cadastro não é referente ao mês corrente");
+        }
+
         if (contaReceber.getId() == null){
-            List<ContaReceber> contasReceber = contaReceberRepository.buscarContaReceberDescricao(contaReceber.getDescricao().toUpperCase());
-
-            if (!contasReceber.isEmpty()){
-                log.error(ERRO_DESCRICAO_CADASTRADA);
-                throw new ExceptionShirtVirtual(ERRO_DESCRICAO_CADASTRADA +  "Descrição:  " +  contaReceber.getDescricao());
-
+            List<ContaReceber> contasReceber = contaReceberRepository.buscarContaReceberDescricao(contaReceber.getDescricao().toUpperCase().trim());
+            if (!contasReceber.isEmpty()) {
+                log.error("Cadastro de conta a receber encerrado com erro, já existe uma conta com essa descrição");
+                throw new ExceptionShirtVirtual("Cadastro de conta a receber encerrado com erro, já existe uma conta com essa descrição" + contaReceber.getDescricao());
             }
         }
+
         ContaReceber contaReceberCadastrada = contaReceberRepository.save(contaReceber);
         log.info("Cadastro realizado com sucesso.");
         return new ResponseEntity<ContaReceber>(contaReceberCadastrada, HttpStatus.CREATED);
