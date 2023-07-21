@@ -1,8 +1,5 @@
 package br.com.franca.ShirtVirtual.config;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.info.License;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
@@ -31,7 +28,6 @@ public class SwaggerConfig implements WebMvcConfigurer {
         return new ApiKey("JWT", AUTHORIZATION_HEADER, "header");
     }
 
-
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -54,7 +50,8 @@ public class SwaggerConfig implements WebMvcConfigurer {
                         new Tag("Contas-Pagar", "Endpoints para gerenciamento de contas a pagar"),
                         new Tag("Contas-Receber", "Endpoints para gerenciamento de contas a receber"),
                         new Tag("Marca-Produto", "Endpoints para gerenciamento de marcas"),
-                        new Tag("Nota-Fiscal-Compra", "Endpoints para gerenciamento de nota fiscal de compra")
+                        new Tag("Nota-Fiscal-Compra", "Endpoints para gerenciamento de nota fiscal de compra"),
+                        new Tag("Nota-Item-Produto", "Endpoints para gerenciamento de nota item produto")
                 );
     }
 
@@ -81,7 +78,6 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .build();
     }
 
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("swagger-ui.html")
@@ -90,5 +86,4 @@ public class SwaggerConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
-
 }
