@@ -169,7 +169,7 @@ public class ProdutoController {
     public ResponseEntity<List<Produto>> buscarPorDesc(@PathVariable("nome") String nome) throws ExceptionShirtVirtual {
 
         logger.info("Inicio de busca de produto por nome...");
-        List<Produto> produto = produtoRepository.buscarPorDesc(nome);
+        List<Produto> produto = produtoRepository.buscarPorDesc(nome.toUpperCase().trim());
 
         if (produto == null){
             logger.error("Erro ao buscar produto por nome, o nome informado não existe ou é inválido");
