@@ -21,9 +21,9 @@ public class ContaReceber implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_conta_receber")
     private Long id;
 
-    @ManyToOne(targetEntity = Pessoa.class)
+    @ManyToOne(targetEntity = PessoaFisica.class)
     @JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
-    private Pessoa pessoa;
+    private PessoaFisica pessoa;
 
     @NotNull(message = "Favor informar o campo descrição da conta a receber.")
     @Column(name = "descricao_conta_receber", nullable = false)
@@ -44,7 +44,7 @@ public class ContaReceber implements Serializable {
     private Date dtPagamento;
 
     @NotNull(message = "Favor informar a data de cadastro da conta a receber.")
-    @Column(name = "data_cadastro_conta_pagar", nullable = false)
+    @Column(name = "data_cadastro_conta_receber", nullable = false)
     private LocalDate dtCadastro = LocalDate.now();
 
     @NotNull(message = "Favor informar o campo valor total da conta a receber.")
@@ -66,11 +66,11 @@ public class ContaReceber implements Serializable {
         this.id = id;
     }
 
-    public Pessoa getPessoa() {
+    public PessoaFisica getPessoa() {
         return pessoa;
     }
 
-    public void setPessoa(Pessoa pessoa) {
+    public void setPessoa(PessoaFisica pessoa) {
         this.pessoa = pessoa;
     }
 
@@ -128,6 +128,14 @@ public class ContaReceber implements Serializable {
 
     public void setEmpresa(PessoaJuridica empresa) {
         this.empresa = empresa;
+    }
+
+    public LocalDate getDtCadastro() {
+        return dtCadastro;
+    }
+
+    public void setDtCadastro(LocalDate dtCadastro) {
+        this.dtCadastro = dtCadastro;
     }
 
     @Override
