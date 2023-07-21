@@ -16,7 +16,6 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -51,7 +50,10 @@ public class SwaggerConfig implements WebMvcConfigurer {
                         new Tag("Pessoa-Fisica", "Endpoints para gerenciamento de pessoas fisicas"),
                         new Tag("Produtos", "Endpoints para gerenciamento de produtos"),
                         new Tag("Acessos", "Endpoints para gerenciamento de acessos"),
-                        new Tag("Categoria-Produto", "Endpoints para gerenciamento de categorias")
+                        new Tag("Categoria-Produto", "Endpoints para gerenciamento de categorias"),
+                        new Tag("Contas-Pagar", "Endpoints para gerenciamento de contas a pagar"),
+                        new Tag("Contas-Receber", "Endpoints para gerenciamento de contas a receber"),
+                        new Tag("Marca-Produto", "Endpoints para gerenciamento de marcas")
                 );
     }
 
