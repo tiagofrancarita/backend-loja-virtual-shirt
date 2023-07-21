@@ -63,11 +63,6 @@ public class NotaFiscalCompraController {
     })
     public ResponseEntity <NotaFiscalCompra> cadastroNotaFiscalCompra(@RequestBody @Valid NotaFiscalCompra notaFiscalCompra) throws ExceptionShirtVirtual {
 
-
-        /*
-                    log.error("");
-            throw new ExceptionShirtVirtual("");
-         */
         log.info("Inicio do cadastro de nota fiscal");
 
         if (notaFiscalCompra.getId() == null){
