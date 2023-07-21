@@ -139,7 +139,7 @@ public class PessoaJuridicaController {
     @GetMapping(value = "/consultaPessoaJuridicaNome/{nome}")
     public ResponseEntity<List<PessoaJuridica>> consultaPessoaJuridicaNome(@PathVariable("nome") String nome){
 
-        List<PessoaJuridica> pessoaJuridicas = pessoaJuridicaRepository.pesquisaPorNomePJ(nome.trim().toUpperCase(Locale.ROOT));
+        List<PessoaJuridica> pessoaJuridicas = pessoaJuridicaRepository.pesquisaPorNomePJ(nome.toUpperCase().trim());
 
         return new ResponseEntity<List<PessoaJuridica>>(pessoaJuridicas, HttpStatus.OK);
     }
@@ -169,7 +169,7 @@ public class PessoaJuridicaController {
     @GetMapping(value = "/consultaPessoaJuridicaEmail/{email}")
     public ResponseEntity<List<PessoaJuridica>> consultaPessoaFisicaEmail(@PathVariable("email") String email){
 
-        List<PessoaJuridica> pessoaJuridicas = pessoaJuridicaRepository.pesquisaPorEmailPj(email.trim().toUpperCase(Locale.ROOT));
+        List<PessoaJuridica> pessoaJuridicas = pessoaJuridicaRepository.pesquisaPorEmailPj(email.toUpperCase().trim());
 
         return new ResponseEntity<List<PessoaJuridica>>(pessoaJuridicas, HttpStatus.OK);
     }
@@ -184,7 +184,7 @@ public class PessoaJuridicaController {
     @GetMapping(value = "/consultaPessoaJuridicaCategoria/{categoria}")
     public ResponseEntity<List<PessoaJuridica>> consultaPessoaFisicaCategoria(@PathVariable("categoria") String categoria){
 
-        List<PessoaJuridica> pessoaJuridicas = pessoaJuridicaRepository.pesquisaPorCategoriaPj(categoria.trim().toUpperCase(Locale.ROOT));
+        List<PessoaJuridica> pessoaJuridicas = pessoaJuridicaRepository.pesquisaPorCategoriaPj(categoria.toUpperCase().trim());
 
         return new ResponseEntity<List<PessoaJuridica>>(pessoaJuridicas, HttpStatus.OK);
     }
@@ -196,7 +196,7 @@ public class PessoaJuridicaController {
             @ApiResponse(code = 404, message = "Não encontrado")
     })
     @ResponseBody
-    @PostMapping(value = "/deletarPJ")
+    @DeleteMapping(value = "/deletarPJ")
     public ResponseEntity<String> deletarPJ(@RequestBody PessoaJuridica pessoaJuridica) {
 
         pessoaJuridicaRepository.deleteById(pessoaJuridica.getId());

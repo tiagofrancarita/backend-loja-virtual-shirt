@@ -91,7 +91,7 @@ public class PessoaFisicaController {
     @GetMapping(value = "/consultaPessoaFisicaNome/{nome}")
     public ResponseEntity<List<PessoaFisica>> consultaPessoaFisicaNome(@PathVariable("nome") String nome){
 
-        List<PessoaFisica> pessoaFisicas = pessoaFisicaRepository.pesquisaPorNomePF(nome.trim().toUpperCase(Locale.ROOT));
+        List<PessoaFisica> pessoaFisicas = pessoaFisicaRepository.pesquisaPorNomePF(nome.toUpperCase().trim());
 
         return new ResponseEntity<List<PessoaFisica>>(pessoaFisicas, HttpStatus.OK);
     }
@@ -121,7 +121,7 @@ public class PessoaFisicaController {
     @GetMapping(value = "/consultaPessoaFisicaEmail/{email}")
     public ResponseEntity<List<PessoaFisica>> consultaPessoaFisicaEmail(@PathVariable("email") String email){
 
-        List<PessoaFisica> pessoaFisicas = pessoaFisicaRepository.pesquisaPorEmailPF(email.trim().toUpperCase(Locale.ROOT));
+        List<PessoaFisica> pessoaFisicas = pessoaFisicaRepository.pesquisaPorEmailPF(email.toUpperCase().trim());
 
         return new ResponseEntity<List<PessoaFisica>>(pessoaFisicas, HttpStatus.OK);
     }
@@ -133,7 +133,7 @@ public class PessoaFisicaController {
             @ApiResponse(code = 404, message = "Pessoa não encontrada para deleção")
     })
     @ResponseBody
-    @PostMapping(value = "/deletarPF")
+    @DeleteMapping(value = "/deletarPF")
     public ResponseEntity<String> deletarPF(@RequestBody PessoaFisica pessoaFisica) {// Recebe o json e converte para objeto
 
         pessoaFisicaRepository.deleteById(pessoaFisica.getId());

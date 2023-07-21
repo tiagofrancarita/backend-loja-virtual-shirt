@@ -2,6 +2,7 @@ package br.com.franca.ShirtVirtual.model;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -16,6 +17,7 @@ public class MarcaProduto implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_marca_produto")
     private Long id;
 
+    @NotNull(message = "Nome / Descrição da marca é obrigatório, favor preencher")
     @Column(name = "descricao_marca_produto", nullable = false)
     private String nomeDesc;
 

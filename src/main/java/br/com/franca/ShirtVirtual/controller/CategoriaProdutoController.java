@@ -82,7 +82,7 @@ public class CategoriaProdutoController {
             @ApiResponse(code = 404, message = "Categoria não encontrada para exclusão")
     })
     @ResponseBody
-    @PostMapping(value = "/deletarCategoria")
+    @DeleteMapping(value = "/deletarCategoria")
     public ResponseEntity<String> deletarCategoria(@RequestBody CategoriaProduto categoriaProduto) {
 
         categoriaProdutoRepository.deleteById(categoriaProduto.getId());
@@ -100,7 +100,7 @@ public class CategoriaProdutoController {
     @GetMapping(value = "/buscaCategoriaDesc/{desc}")
     public ResponseEntity<List<CategoriaProduto>> obterCategoriaDesc(@PathVariable("desc") String desc) {
 
-        List <CategoriaProduto> categoriaProdutos =  categoriaProdutoRepository.buscarCategoriaDescricao(desc.toUpperCase());
+        List <CategoriaProduto> categoriaProdutos =  categoriaProdutoRepository.buscarCategoriaDescricao(desc.toUpperCase().trim());
 
         return new ResponseEntity<List<CategoriaProduto>>(categoriaProdutos, HttpStatus.OK);
 
