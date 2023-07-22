@@ -98,6 +98,36 @@ public class NotaItemProdutoController {
         return new ResponseEntity<List<NotaItemProduto>>(notaItemProdutos,HttpStatus.OK);
     }
 
+    @ApiOperation("Buscar nota item produto por id nota fiscal")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK", response = NotaItemProdutoController.class),
+            @ApiResponse(code = 403, message = "Requisição não autoziada"),
+            @ApiResponse(code = 404, message = "NOT FOUND")
+    })
+    @ResponseBody
+    @GetMapping(value = "/buscarNotaItemPorProdutoPorNotaFiscal/{idNotaFiscal}")
+    public ResponseEntity<List<NotaItemProduto>> buscarNotaItemPorProdutoPorNotaFiscal(@PathVariable("idNotaFiscal") Long idNotaFiscal) {
+
+        List<NotaItemProduto> notaItemProdutos = notaItemProdutoRepository.buscarNotaItemPorNotaFiscal(idNotaFiscal);
+
+        return new ResponseEntity<List<NotaItemProduto>>(notaItemProdutos,HttpStatus.OK);
+    }
+
+    @ApiOperation("Buscar nota item produto por id empresa")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK", response = NotaItemProdutoController.class),
+            @ApiResponse(code = 403, message = "Requisição não autoziada"),
+            @ApiResponse(code = 404, message = "NOT FOUND")
+    })
+    @ResponseBody
+    @GetMapping(value = "/buscarNotaItemPorProdutoPorEmpresa/{idEmpresa}")
+    public ResponseEntity<List<NotaItemProduto>> buscarNotaItemPorProdutoPorEmpresa(@PathVariable("idEmpresa") Long idEmpresa) {
+
+        List<NotaItemProduto> notaItemProdutos = notaItemProdutoRepository.buscarNotaItemPorEmpresa(idEmpresa);
+
+        return new ResponseEntity<List<NotaItemProduto>>(notaItemProdutos,HttpStatus.OK);
+    }
+
     @ResponseBody
     @PostMapping(value = "/cadastroNotaItemProduto")
     @ApiOperation("Cadastro de uma nota item produto")
