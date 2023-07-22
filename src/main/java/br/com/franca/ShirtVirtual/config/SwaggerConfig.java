@@ -52,7 +52,8 @@ public class SwaggerConfig implements WebMvcConfigurer {
                         new Tag("Marca-Produto", "Endpoints para gerenciamento de marcas"),
                         new Tag("Nota-Fiscal-Compra", "Endpoints para gerenciamento de nota fiscal de compra"),
                         new Tag("Nota-Item-Produto", "Endpoints para gerenciamento de nota item produto"),
-                        new Tag("Imagem-Produto", "Endpoints para gerenciamento de imagem produto")
+                        new Tag("Imagem-Produto", "Endpoints para gerenciamento de imagem produto"),
+                        new Tag("Avaliacao-Produto", "Endpoints para gerenciamento de avaliação do produto")
                 );
     }
 

@@ -1,5 +1,7 @@
 package br.com.franca.ShirtVirtual.model;
 
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -15,6 +17,7 @@ public class ItemVendaLoja implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_item_venda_loja")
     private Long id;
 
+    @Range(min = 0, message = "Informe a quantidade.")
     @Column(name = "quantidade_item_venda_loja", nullable = false)
     private Double quantidade;
 
