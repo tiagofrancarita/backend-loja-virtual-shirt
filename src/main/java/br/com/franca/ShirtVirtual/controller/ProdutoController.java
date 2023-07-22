@@ -123,11 +123,6 @@ public class ProdutoController {
             logger.error("Cadastro de produto encerrado com erro, deve ser carregado imagem do produto");
             throw new ExceptionShirtVirtual("Cadastro de produto encerrado com erro, deve ser informado imagem do produto");
         }
-
-
-
-
-
         if (produto.getImagens().size() < 3 ){
             logger.error("Cadastro de produto encerrado com erro, deve ser carregado pelo menos 3 imagems para o produto");
             throw new ExceptionShirtVirtual("Cadastro de produto encerrado com erro, deve ser carregado pelo menos 3 imagems para o produto");

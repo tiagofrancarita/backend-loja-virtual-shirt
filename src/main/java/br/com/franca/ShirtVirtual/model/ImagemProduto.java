@@ -1,6 +1,7 @@
 package br.com.franca.ShirtVirtual.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,12 +25,12 @@ public class ImagemProduto implements Serializable {
     @Column(name = "imagem_miniatura", columnDefinition = "text", nullable = false)
     private String imagemMiniatura;
 
-    @JsonIgnore
+    @JsonIgnoreProperties(allowGetters = true)
     @ManyToOne
     @JoinColumn(name = "produto_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "produto_fk"))
     private Produto produto;
 
-    @JsonIgnore
+    @JsonIgnoreProperties(allowGetters = true)
     @ManyToOne(targetEntity = PessoaJuridica.class)
     @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
     private PessoaJuridica empresa;
