@@ -1,6 +1,8 @@
 package br.com.franca.ShirtVirtual.model;
 
 
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -50,6 +52,7 @@ public class Produto implements Serializable {
     @Column(name = "profundidade_produto", nullable = false)
     private Double profundidade;
 
+    @Range(min = 1, message = "O valor informado deve ser no minimo R$1,00")
     @NotNull(message = "Valor da venda produto deve ser informado.")
     @Column(name = "valor_total_venda", nullable = false)
     private BigDecimal valorTotalVenda = BigDecimal.ZERO;

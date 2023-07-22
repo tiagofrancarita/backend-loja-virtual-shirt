@@ -19,10 +19,8 @@ public class CupomDesonto implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cup_desc")
     private Long id;
 
-
     @Column(name = "codigo_desconto", nullable = false)
     private String codDesc;
-
 
     @Column(name = "valor_real_desconto")
     private BigDecimal valorRealDesc;
@@ -34,9 +32,9 @@ public class CupomDesonto implements Serializable {
     @Column(name = "data_validade_cupom", nullable = false)
     private Date dtValidadeCupom;
 
-    @ManyToOne(targetEntity = Pessoa.class)
+    @ManyToOne(targetEntity = PessoaJuridica.class)
     @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
-    private Pessoa empresa;
+    private PessoaJuridica empresa;
 
     public Long getId() {
         return id;
@@ -78,11 +76,11 @@ public class CupomDesonto implements Serializable {
         this.dtValidadeCupom = dtValidadeCupom;
     }
 
-    public Pessoa getEmpresa() {
+    public PessoaJuridica getEmpresa() {
         return empresa;
     }
 
-    public void setEmpresa(Pessoa empresa) {
+    public void setEmpresa(PessoaJuridica empresa) {
         this.empresa = empresa;
     }
 
