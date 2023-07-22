@@ -13,7 +13,7 @@ import java.util.Properties;
 public class ServiceSendEmail {
 
     private String userName = "tiagofranca.rita@gmail.com";
-    private String senha = "tlfalxsbnchspvoc";
+    private String senha = "}TY)m\"z61L]'i/2Rb=JK";
 
     @Async
     public void enviaEmailHtml(String assunto, String mensagem, String emailDestino) throws UnsupportedEncodingException, MessagingException {
