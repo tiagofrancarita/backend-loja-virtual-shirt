@@ -7,7 +7,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -21,6 +23,7 @@ public class VendaCompraLojaVirtual implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_vd_cp_loja_virt")
     private Long id;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull(message = "O cliente comprador deve ser informado na nota")
     @ManyToOne(targetEntity = PessoaFisica.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
@@ -49,7 +52,7 @@ public class VendaCompraLojaVirtual implements Serializable {
     @JoinColumn(name = "forma_pagamento_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "forma_pagamento_fk"))
     private FormaPagamento formaPagamento;
 
-    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull(message = "Numero nota fiscal de venda deve ser informado na nota")
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "nota_fiscal_venda_id", nullable = true, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "nota_fiscal_venda_fk"))
@@ -77,11 +80,23 @@ public class VendaCompraLojaVirtual implements Serializable {
     @Column(name = "data_entrega", nullable = false)
     private Date dtEntrega;
 
-
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull(message = "A empresa deve ser informada na nota")
     @ManyToOne(targetEntity = PessoaJuridica.class)
     @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
     private PessoaJuridica empresa;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "vendaCompraLojaVirtual", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<ItemVendaLoja> itemVendaLojas = new ArrayList<ItemVendaLoja>();
+
+    public List<ItemVendaLoja> getItemVendaLojas() {
+        return itemVendaLojas;
+    }
+
+    public void setItemVendaLojas(List<ItemVendaLoja> itemVendaLojas) {
+        this.itemVendaLojas = itemVendaLojas;
+    }
 
     public Long getId() {
         return id;

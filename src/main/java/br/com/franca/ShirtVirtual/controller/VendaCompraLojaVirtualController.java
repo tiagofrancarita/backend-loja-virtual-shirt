@@ -2,14 +2,13 @@ package br.com.franca.ShirtVirtual.controller;
 
 
 import br.com.franca.ShirtVirtual.exceptions.ExceptionShirtVirtual;
-import br.com.franca.ShirtVirtual.model.Endereco;
-import br.com.franca.ShirtVirtual.model.PessoaFisica;
-import br.com.franca.ShirtVirtual.model.VendaCompraLojaVirtual;
+import br.com.franca.ShirtVirtual.model.*;
 import br.com.franca.ShirtVirtual.repository.EnderecoRepository;
 import br.com.franca.ShirtVirtual.repository.NotaFiscalVendaRepository;
 import br.com.franca.ShirtVirtual.repository.VendaCompraLojaVirtualRepository;
 import br.com.franca.ShirtVirtual.service.ServiceSendEmail;
 import br.com.franca.ShirtVirtual.service.VendaCompraLojaVirtualService;
+import br.com.franca.ShirtVirtual.utils.dto.ItemVendaDTO;
 import br.com.franca.ShirtVirtual.utils.dto.VendaCompraLojaVirtualDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -103,18 +102,42 @@ public class VendaCompraLojaVirtualController {
         //Associa a nota fiscal a empresa
         vendaCompraLojaVirtual.getNotaFiscalVenda().setEmpresa(vendaCompraLojaVirtual.getEmpresa());
 
+
+        //Associacao item produto a uma venda
+         for (int item = 0; item < vendaCompraLojaVirtual.getItemVendaLojas().size(); item++){
+             vendaCompraLojaVirtual.getItemVendaLojas().get(item).setEmpresa(vendaCompraLojaVirtual.getEmpresa());
+             vendaCompraLojaVirtual.getItemVendaLojas().get(item).setVendaCompraLojaVirtual(vendaCompraLojaVirtual);
+         }
+
+
         //Salva primeiro os dados basicos  da venda
         vendaCompraLojaVirtual = vendaCompraLojaVirtualRepository.saveAndFlush(vendaCompraLojaVirtual);
 
         //associa a venda salva anteriormente no banco com a nota fiscal
         vendaCompraLojaVirtual.getNotaFiscalVenda().setVendaCompraLojaVirtual(vendaCompraLojaVirtual);
 
-
         //persiste novamente a nota fiscal para amarrar a venda
         notaFiscalVendaRepository.saveAndFlush(vendaCompraLojaVirtual.getNotaFiscalVenda());
 
-        VendaCompraLojaVirtualDTO vendaCompraLojaVirtualDTO = new VendaCompraLojaVirtualDTO();
-        vendaCompraLojaVirtualDTO.setValorTotalVendaLoja(vendaCompraLojaVirtual.getValorTotalVendaLoja());
+        VendaCompraLojaVirtualDTO compraLojaVirtualDTO = new VendaCompraLojaVirtualDTO();
+        compraLojaVirtualDTO.setValorTotalVendaLoja(vendaCompraLojaVirtual.getValorTotalVendaLoja());
+        compraLojaVirtualDTO.setPessoa(vendaCompraLojaVirtual.getPessoa());
+
+        compraLojaVirtualDTO.setEnderecoEntrega(vendaCompraLojaVirtual.getEnderecoEntrega());
+        compraLojaVirtualDTO.setEnderecoCobranca(vendaCompraLojaVirtual.getEnderecoCobranca());
+
+        compraLojaVirtualDTO.setValorTotalDescontoVendaLoja(vendaCompraLojaVirtual.getValorTotalDescontoVendaLoja());
+        compraLojaVirtualDTO.setValorTotalFrete(vendaCompraLojaVirtual.getValorTotalFrete());
+        compraLojaVirtualDTO.setId(vendaCompraLojaVirtual.getId());
+
+        for (ItemVendaLoja item : vendaCompraLojaVirtual.getItemVendaLojas()) {
+
+            ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
+            itemVendaDTO.setQuantidade(item.getQuantidade());
+            itemVendaDTO.setProduto(item.getProduto());
+
+            compraLojaVirtualDTO.getItemVendaLoja().add(itemVendaDTO);
+        }
 
 
         // Após a venda ser salva no banco é enviado um e-mail para o cliente
@@ -128,7 +151,76 @@ public class VendaCompraLojaVirtualController {
             serviceSendEmail.enviaEmailHtml("Venda:" + vendaCompraLojaVirtual.getId(),html.toString(),vendaCompraLojaVirtual.getPessoa().getEmail());
             log.info("Cadastro de venda realizado com sucesso, e-mail enviado para o cliente");
 
-        return new ResponseEntity<VendaCompraLojaVirtualDTO>(vendaCompraLojaVirtualDTO, HttpStatus.CREATED);
+        return new ResponseEntity<VendaCompraLojaVirtualDTO>(compraLojaVirtualDTO, HttpStatus.CREATED);
+
+    }
+
+    @ApiOperation("Buscar venda por id")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK", response = ProdutoController.class),
+            @ApiResponse(code = 403, message = "Acess DENIED"),
+            @ApiResponse(code = 404, message = "NOT FOUND")
+    })
+    @ResponseBody
+    @GetMapping(value = "/buscarVendaPorId/{idVenda}")
+    public ResponseEntity<VendaCompraLojaVirtualDTO> buscarVendaPorId(@PathVariable("idVenda") Long idVenda) throws ExceptionShirtVirtual {
+
+        log.info("Inicio de busca da venda por id...");
+
+        VendaCompraLojaVirtual vendaCompraLojaVirtual = vendaCompraLojaVirtualRepository.findById(idVenda)
+                .orElse(new VendaCompraLojaVirtual());
+
+        VendaCompraLojaVirtualDTO compraLojaVirtualDTO = new VendaCompraLojaVirtualDTO();
+        compraLojaVirtualDTO.setValorTotalVendaLoja(vendaCompraLojaVirtual.getValorTotalVendaLoja());
+        compraLojaVirtualDTO.setPessoa(vendaCompraLojaVirtual.getPessoa());
+
+        compraLojaVirtualDTO.setEnderecoEntrega(vendaCompraLojaVirtual.getEnderecoEntrega());
+        compraLojaVirtualDTO.setEnderecoCobranca(vendaCompraLojaVirtual.getEnderecoCobranca());
+
+        compraLojaVirtualDTO.setValorTotalDescontoVendaLoja(vendaCompraLojaVirtual.getValorTotalDescontoVendaLoja());
+        compraLojaVirtualDTO.setValorTotalFrete(vendaCompraLojaVirtual.getValorTotalFrete());
+        compraLojaVirtualDTO.setId(vendaCompraLojaVirtual.getId());
+
+        for (ItemVendaLoja item : vendaCompraLojaVirtual.getItemVendaLojas()) {
+
+            ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
+            itemVendaDTO.setQuantidade(item.getQuantidade());
+            itemVendaDTO.setProduto(item.getProduto());
+
+            compraLojaVirtualDTO.getItemVendaLoja().add(itemVendaDTO);
+        }
+
+        return new ResponseEntity<VendaCompraLojaVirtualDTO>(compraLojaVirtualDTO, HttpStatus.OK);
+
+    }
+
+    @ApiOperation("Buscar venda por id cliente")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK", response = ProdutoController.class),
+            @ApiResponse(code = 403, message = "Acess DENIED"),
+            @ApiResponse(code = 404, message = "NOT FOUND")
+    })
+    @ResponseBody
+    @GetMapping(value = "/buscarVendaPorCliente/{idCliente}")
+    public ResponseEntity<VendaCompraLojaVirtualDTO> buscarVendaPorCliente(@PathVariable("idCliente") Long idCliente) throws ExceptionShirtVirtual {
+
+        log.info("Inicio de busca da venda por id...");
+
+        VendaCompraLojaVirtual vendaCompraLojaVirtual = (VendaCompraLojaVirtual) vendaCompraLojaVirtualRepository.buscarVendaPorCliente(idCliente);
+        VendaCompraLojaVirtualDTO vendaCompraLojaVirtualDTO = new VendaCompraLojaVirtualDTO();
+
+        vendaCompraLojaVirtualDTO.setId(vendaCompraLojaVirtual.getId());
+        vendaCompraLojaVirtualDTO.setPessoa(vendaCompraLojaVirtual.getPessoa());
+        vendaCompraLojaVirtualDTO.setEnderecoCobranca(vendaCompraLojaVirtual.getEnderecoCobranca());
+        vendaCompraLojaVirtualDTO.setEnderecoEntrega(vendaCompraLojaVirtual.getEnderecoEntrega());
+        vendaCompraLojaVirtualDTO.setFormaPagamento(vendaCompraLojaVirtual.getFormaPagamento());
+        vendaCompraLojaVirtualDTO.setDtVenda(vendaCompraLojaVirtual.getDtVenda());
+        vendaCompraLojaVirtualDTO.setDtEntrega(vendaCompraLojaVirtual.getDtEntrega());
+        vendaCompraLojaVirtualDTO.setDiasEntrega(vendaCompraLojaVirtual.getDiasEntrega());
+        vendaCompraLojaVirtualDTO.setValorTotalVendaLoja(vendaCompraLojaVirtual.getValorTotalVendaLoja());
+        vendaCompraLojaVirtualDTO.setValorTotalDescontoVendaLoja(vendaCompraLojaVirtual.getValorTotalDescontoVendaLoja());
+
+        return new ResponseEntity<VendaCompraLojaVirtualDTO>(vendaCompraLojaVirtualDTO, HttpStatus.OK);
 
     }
 }
