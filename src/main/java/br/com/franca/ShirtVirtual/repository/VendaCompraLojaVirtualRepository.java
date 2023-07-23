@@ -11,6 +11,9 @@ import java.util.List;
 @Transactional
 public interface VendaCompraLojaVirtualRepository extends JpaRepository<VendaCompraLojaVirtual, Long> {
 
+    @Query("select vd from VendaCompraLojaVirtual vd where vd.id = ?1")
+    List<VendaCompraLojaVirtual> buscaVendaPorId(Long idVenda);
+
     @Query("select vd from VendaCompraLojaVirtual vd where vd.pessoa.id = ?1")
     List<VendaCompraLojaVirtual> buscarVendaPorCliente(Long idCliente);
 
