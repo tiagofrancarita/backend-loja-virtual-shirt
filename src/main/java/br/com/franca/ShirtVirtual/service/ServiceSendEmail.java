@@ -12,21 +12,25 @@ import java.util.Properties;
 @Service
 public class ServiceSendEmail {
 
-    private String userName = "tiagofranca.rita@gmail.com";
-    private String senha = "}TY)m\"z61L]'i/2Rb=JK";
+    String senhaAtual = "]p71b<\\%,L[r%{B";
+
+    private String userName = "tiagofranca.ritaa@outlook.com";
+    private String senha = senhaAtual;
 
     @Async
     public void enviaEmailHtml(String assunto, String mensagem, String emailDestino) throws UnsupportedEncodingException, MessagingException {
 
+        try {
         Properties properties = new Properties();
 
         properties.put("mail.smtp.ssl.trust", "*");
         properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls", "false");
-        properties.put("mail.smtp.host", "smtp.gmail.com");
-        properties.put("mail.smtp.port", "465");
-        properties.put("mail.smtp.socketFactory.port", "465");
+        properties.put("mail.smtp.starttls", "true");
+        properties.put("mail.smtp.host", "smtp-mail.outlook.com");
+        properties.put("mail.smtp.port", "587");
+        properties.put("mail.smtp.socketFactory.port", "587");
         properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        properties.put("mail.smtp.starttls.enable", "true");
 
         Session session = Session.getInstance(properties, new Authenticator() {
 
@@ -48,5 +52,9 @@ public class ServiceSendEmail {
         message.setContent(mensagem, "text/html; charset=utf-8");
 
         Transport.send(message);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
