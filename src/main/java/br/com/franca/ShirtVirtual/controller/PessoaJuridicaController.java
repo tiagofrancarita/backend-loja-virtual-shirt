@@ -71,26 +71,26 @@ public class PessoaJuridicaController {
     public ResponseEntity<PessoaJuridica> salvarPessoaJuridica(@RequestBody @Valid PessoaJuridica pessoaJuridica) throws ExceptionShirtVirtual {
 
         if (pessoaJuridica == null) {
-            throw new ExceptionShirtVirtual("Pessoa juridica nao pode ser NULL");
+            throw new ExceptionShirtVirtual("Pessoa juridica nao pode ser NULL", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         if (pessoaJuridica.getTipoPessoa() == null)
-            throw new ExceptionShirtVirtual("Favor informar o tipo. (Juridico ou Fornecedor)");
+            throw new ExceptionShirtVirtual("Favor informar o tipo. (Juridico ou Fornecedor)", HttpStatus.UNPROCESSABLE_ENTITY);
 
         if (pessoaJuridica.getId() == null && pessoaJuridicaRepository.existeCNPJ(pessoaJuridica.getCnpj()) != null) {
-            throw new ExceptionShirtVirtual("Já existe CNPJ cadastrado com o número: " + pessoaJuridica.getCnpj());
+            throw new ExceptionShirtVirtual("Já existe CNPJ cadastrado com o número: " + pessoaJuridica.getCnpj(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         if (pessoaJuridica.getId() == null && pessoaJuridicaRepository.existeInscricaoEstadual(pessoaJuridica.getInscEstadual()) != null) {
-            throw new ExceptionShirtVirtual("Já existe inscrição estadual cadastrada com o número: " + pessoaJuridica.getInscEstadual());
+            throw new ExceptionShirtVirtual("Já existe inscrição estadual cadastrada com o número: " + pessoaJuridica.getInscEstadual(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         if (pessoaJuridica.getId() == null && pessoaJuridicaRepository.existeInscricaoMunincipal(pessoaJuridica.getInscricaoMunicipal()) != null) {
-            throw new ExceptionShirtVirtual("Já existe inscrição munincipal cadastrada com o número: " + pessoaJuridica.getInscricaoMunicipal());
+            throw new ExceptionShirtVirtual("Já existe inscrição munincipal cadastrada com o número: " + pessoaJuridica.getInscricaoMunicipal(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         if (!ValidaCnpj.isCNPJ(pessoaJuridica.getCnpj())) {
-            throw new ExceptionShirtVirtual("Cnpj informado é inválido, favor verificar" + pessoaJuridica.getCnpj());
+            throw new ExceptionShirtVirtual("Cnpj informado é inválido, favor verificar" + pessoaJuridica.getCnpj(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         if (pessoaJuridica.getId() ==  null || pessoaJuridica.getId() <= 0){
@@ -217,7 +217,7 @@ public class PessoaJuridicaController {
         PessoaJuridica pessoaJuridica = pessoaJuridicaRepository.findById(id).orElse(null);
 
         if (pessoaJuridica == null){
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id, HttpStatus.NOT_FOUND);
 
         }
         return new ResponseEntity<PessoaJuridica>(pessoaJuridica,HttpStatus.OK);

@@ -2,21 +2,26 @@ package br.com.franca.ShirtVirtual.repository;
 
 import br.com.franca.ShirtVirtual.model.VendaCompraLojaVirtual;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Transactional
 public interface VendaCompraLojaVirtualRepository extends JpaRepository<VendaCompraLojaVirtual, Long> {
 
-    @Query("select vd from VendaCompraLojaVirtual vd where vd.id = ?1")
-    List<VendaCompraLojaVirtual> buscaVendaPorId(Long idVenda);
 
-    @Query("select vd from VendaCompraLojaVirtual vd where vd.pessoa.id = ?1")
+    @Query(value = "select vd from VendaCompraLojaVirtual vd where vd.id = ?1 and  vd.ativo = true ")
+    VendaCompraLojaVirtual BuscaVendaAtiva(Long id);
+
+    @Query("select vd from VendaCompraLojaVirtual vd where vd.pessoa.id = ?1 and  vd.ativo = true ")
     List<VendaCompraLojaVirtual> buscarVendaPorCliente(Long idCliente);
+
+    @Query(value="select i.vendaCompraLojaVirtual from ItemVendaLoja i where "
+            + " i.vendaCompraLojaVirtual.ativo = false and i.produto.id = ?1")
+    List<VendaCompraLojaVirtual> buscarVendaPorProduto(Long idProduto);
 
     @Query("select vd from VendaCompraLojaVirtual vd where vd.formaPagamento.id = ?1")
     List<VendaCompraLojaVirtual> buscarVendaPorFormaPagamento(Long idFormaPagamento);
@@ -41,5 +46,12 @@ public interface VendaCompraLojaVirtualRepository extends JpaRepository<VendaCom
 
     @Query("SELECT vd FROM VendaCompraLojaVirtual vd WHERE upper(trim(vd.enderecoEntrega.bairro)) LIKE %?1% ")
     List<VendaCompraLojaVirtual> buscarVendaPorBairroEntrega(String nomeBairro);
+
+    @Query("SELECT vd FROM VendaCompraLojaVirtual vd WHERE upper(trim(vd.pessoa.nome)) LIKE %?1% ")
+    List<VendaCompraLojaVirtual> buscaVendaPorNomeCliente(String nomeCliente);
+
+    //@Query("UPDATE vd FROM VendaCompraLojaVirtual vd where vd.id = ?1 ")
+    //List<VendaCompraLojaVirtual> cancelarNotaFiscalVenda(Long idVenda);
+
 
 }

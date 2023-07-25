@@ -49,27 +49,27 @@ public class AvaliacaoProdutoController {
         log.info("Inicio do cadastro de avaliacao produto");
         if (avaliacaoProduto == null  ) {
             log.error("Avaliacao produto não pode ser nulo");
-            throw new ExceptionShirtVirtual("Avaliacao produto não pode ser nulo");
+            throw new ExceptionShirtVirtual("Avaliacao produto não pode ser nulo", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         if(avaliacaoProduto.getEmpresa().getId() == null || (avaliacaoProduto.getEmpresa() != null && avaliacaoProduto.getEmpresa().getId() <= 0)){
             log.error("Deve ser associado uma empresa a avaliacao produto");
-            throw new ExceptionShirtVirtual("Campo empresa é obrigatório.");
+            throw new ExceptionShirtVirtual("Campo empresa é obrigatório.", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         if(avaliacaoProduto.getProduto().getId() == null || (avaliacaoProduto.getProduto() != null && avaliacaoProduto.getProduto().getId() <= 0)){
             log.error("Deve ser associado um produto na avaliacao produto");
-            throw new ExceptionShirtVirtual("Deve ser associado um produto na avaliacao produto");
+            throw new ExceptionShirtVirtual("Deve ser associado um produto na avaliacao produto", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         if(avaliacaoProduto.getPessoa().getId() == null || (avaliacaoProduto.getPessoa() != null && avaliacaoProduto.getPessoa().getId() <= 0)){
             log.error("Deve ser associado uma pessoa na avaliacao produto");
-            throw new ExceptionShirtVirtual("Deve ser associado uma pessoa na avaliacao produto");
+            throw new ExceptionShirtVirtual("Deve ser associado uma pessoa na avaliacao produto", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         if (avaliacaoProduto.getNotaAvaliacaoProduto() == null){
             log.error("Cadastro de avaliacao produto encerrado com erro, deve ser informada uma nota");
-            throw new ExceptionShirtVirtual("Cadastro de avaliacao produto encerrado com erro, deve ser informada uma nota");
+            throw new ExceptionShirtVirtual("Cadastro de avaliacao produto encerrado com erro, deve ser informada uma nota", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         AvaliacaoProduto avaliacaoProdutoSalva = avaliacaoProdutoRepository.save(avaliacaoProduto);
@@ -123,7 +123,7 @@ public class AvaliacaoProdutoController {
         AvaliacaoProdutoDTO avaliacaoProdutoDTO = avaliacaoProdutoService.buscarAvaliacaoPorId(id);
 
         if (avaliacaoProdutoDTO == null){
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id, HttpStatus.NOT_FOUND);
 
         }
         return new ResponseEntity<AvaliacaoProdutoDTO>(avaliacaoProdutoDTO,HttpStatus.OK);

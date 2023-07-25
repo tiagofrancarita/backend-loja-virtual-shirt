@@ -66,7 +66,7 @@ public class FormaPagamentoController {
 
             if (!formaPagamentos.isEmpty()){
                 log.error("Forma de pagamento ja cadastrada");
-                throw new ExceptionShirtVirtual("Forma de pagamento ja cadastrada" +  "Descrição:  " +  formaPagamento.getDescFormaPagamento());
+                throw new ExceptionShirtVirtual("Forma de pagamento ja cadastrada" +  "Descrição:  " +  formaPagamento.getDescFormaPagamento(), HttpStatus.UNPROCESSABLE_ENTITY);
 
             }
         }

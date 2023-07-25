@@ -1,7 +1,6 @@
 package br.com.franca.ShirtVirtual.controller;
 
 import br.com.franca.ShirtVirtual.model.StatusRastreio;
-import br.com.franca.ShirtVirtual.model.VendaCompraLojaVirtual;
 import br.com.franca.ShirtVirtual.repository.StatusRastreioRepository;
 import br.com.franca.ShirtVirtual.service.StatusRastreioService;
 import io.swagger.annotations.Api;

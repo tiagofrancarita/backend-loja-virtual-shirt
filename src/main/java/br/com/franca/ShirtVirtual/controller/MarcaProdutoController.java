@@ -72,7 +72,7 @@ public class MarcaProdutoController {
 
             if (!marcaProdutos.isEmpty()){
                 log.error(ERRO_DESCRICAO_CADASTRADA);
-                throw new ExceptionShirtVirtual(ERRO_DESCRICAO_CADASTRADA +  "Descrição:  " +  marcaProduto.getNomeDesc());
+                throw new ExceptionShirtVirtual(ERRO_DESCRICAO_CADASTRADA +  "Descrição:  " +  marcaProduto.getNomeDesc(), HttpStatus.UNPROCESSABLE_ENTITY);
 
             }
         }
@@ -125,7 +125,7 @@ public class MarcaProdutoController {
         MarcaProduto marcaProduto = marcaProdutoRepository.findById(id).orElse(null);
 
         if (marcaProduto == null){
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id, HttpStatus.NOT_FOUND);
 
         }
         return new ResponseEntity<MarcaProduto>(marcaProduto,HttpStatus.OK);
