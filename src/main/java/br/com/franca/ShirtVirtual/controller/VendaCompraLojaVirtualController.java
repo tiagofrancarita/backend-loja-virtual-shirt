@@ -436,7 +436,7 @@ public class VendaCompraLojaVirtualController {
         return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals,HttpStatus.OK);
     }
 
-    @ApiOperation("Buscar venda por nome cliente")
+    @ApiOperation("Buscar venda por id produto")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK", response = VendaCompraLojaVirtualController.class),
             @ApiResponse(code = 403, message = "Acess DENIED"),
@@ -449,6 +449,64 @@ public class VendaCompraLojaVirtualController {
         List<VendaCompraLojaVirtual> compraLojaVirtual = vendaCompraLojaVirtualRepository.buscarVendaPorProduto(idProduto);
 
         if (compraLojaVirtual == null) {
+            compraLojaVirtual = new ArrayList<VendaCompraLojaVirtual>();
+        }
+
+        List<VendaCompraLojaVirtualDTO> compraLojaVirtualDTOList = new ArrayList<VendaCompraLojaVirtualDTO>();
+
+        for (VendaCompraLojaVirtual vcl : compraLojaVirtual) {
+
+            VendaCompraLojaVirtualDTO compraLojaVirtualDTO = new VendaCompraLojaVirtualDTO();
+
+            compraLojaVirtualDTO.setValorTotalVendaLoja(vcl.getValorTotalVendaLoja());
+            compraLojaVirtualDTO.setPessoa(vcl.getPessoa());
+
+            compraLojaVirtualDTO.setEnderecoEntrega(vcl.getEnderecoEntrega());
+            compraLojaVirtualDTO.setEnderecoCobranca(vcl.getEnderecoCobranca());
+
+            compraLojaVirtualDTO.setValorTotalDescontoVendaLoja(vcl.getValorTotalDescontoVendaLoja());
+            compraLojaVirtualDTO.setFormaPagamento(vcl.getFormaPagamento());
+            compraLojaVirtualDTO.setDtVenda(vcl.getDtVenda());
+            compraLojaVirtualDTO.setDtEntrega(vcl.getDtEntrega());
+            compraLojaVirtualDTO.setDiasEntrega(vcl.getDiasEntrega());
+            compraLojaVirtualDTO.setValorTotalFrete(vcl.getValorTotalFrete());
+            compraLojaVirtualDTO.setId(vcl.getId());
+
+            for (ItemVendaLoja item : vcl.getItemVendaLojas()) {
+
+                ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
+                itemVendaDTO.setQuantidade(item.getQuantidade());
+                itemVendaDTO.setProduto(item.getProduto());
+
+                compraLojaVirtualDTO.getItemVendaLoja().add(itemVendaDTO);
+            }
+
+            compraLojaVirtualDTOList.add(compraLojaVirtualDTO);
+
+        }
+
+        return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(compraLojaVirtualDTOList, HttpStatus.OK);
+    }
+
+    @ApiOperation("Buscar venda por id produto")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK", response = VendaCompraLojaVirtualController.class),
+            @ApiResponse(code = 403, message = "Acess DENIED"),
+            @ApiResponse(code = 404, message = "NOT FOUND")
+    })
+    @ResponseBody
+    @GetMapping(value = "/consultaVendaDinamica/{valor}/{tipoconsulta}")
+    public ResponseEntity<List<VendaCompraLojaVirtualDTO>> consultaVendaDinamica(@PathVariable("valor") String valor, @PathVariable("tipoconsulta") String tipoconsulta) {
+
+        List<VendaCompraLojaVirtual> compraLojaVirtual = null;
+
+        if (tipoconsulta.equalsIgnoreCase("POR-ID-PRODUTO")){
+            compraLojaVirtual = vendaCompraLojaVirtualRepository.buscarVendaPorProduto(Long.parseLong(valor));
+        }else if (tipoconsulta.equalsIgnoreCase("POR-NOME-PRODUTO")){
+            compraLojaVirtual = vendaCompraLojaVirtualRepository.buscarVendaPorNomeProduto(valor.toUpperCase().trim());
+        }
+
+        if (compraLojaVirtual == null){
             compraLojaVirtual = new ArrayList<VendaCompraLojaVirtual>();
         }
 
