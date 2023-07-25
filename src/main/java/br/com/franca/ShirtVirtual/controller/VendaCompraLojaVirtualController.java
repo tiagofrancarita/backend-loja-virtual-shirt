@@ -409,4 +409,51 @@ public class VendaCompraLojaVirtualController {
         return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals,HttpStatus.OK);
     }
 
+    @ApiOperation("Deletar venda")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "a deletado com sucesso", response = VendaCompraLojaVirtualController.class),
+            @ApiResponse(code = 403, message = "Não autorizado"),
+            @ApiResponse(code = 403, message = "Requisição não autoziada"),
+    })
+    @ResponseBody
+    @DeleteMapping(value = "/deletarVendaCompraLojaVirtual")
+    public ResponseEntity <String> deletarAcesso(@RequestBody VendaCompraLojaVirtual vendaCompraLojaVirtual){
+
+        vendaCompraLojaVirtualRepository.deleteById(vendaCompraLojaVirtual.getId());
+
+        return new ResponseEntity<String>("Acesso removido com sucesso",HttpStatus.OK);
+    }
+
+    @ApiOperation("Deletar venda por ID")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Acesso excluido com sucesso", response = AcessoController.class),
+            @ApiResponse(code = 403, message = "Requisição não autoziada"),
+            @ApiResponse(code = 404, message = "Acesso não encontrado para deleção")
+    })
+    @ResponseBody
+    @DeleteMapping(value = "/deletarVendaCompraLojaVirtualPorId/{idVenda}")
+    public ResponseEntity<?> deletarVendaCompraLojaVirtualPorId(@PathVariable("idVenda") Long idVenda) {
+
+
+        vendaCompraLojaVirtualRepository.deleteById(idVenda);
+        return new ResponseEntity("Venda removido com sucesso",HttpStatus.OK);
+
+    }
+
+    @ApiOperation("Deletar venda total por ID")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Acesso excluido com sucesso", response = AcessoController.class),
+            @ApiResponse(code = 403, message = "Requisição não autoziada"),
+            @ApiResponse(code = 404, message = "Acesso não encontrado para deleção")
+    })
+    @ResponseBody
+    @DeleteMapping(value = "/deletarVendaTotal/{idVenda}")
+    public ResponseEntity<?> deletarVendaTotal(@PathVariable("idVenda") Long idVenda) {
+
+
+        vendaCompraLojaVirtualService.deletarVendaTotal(idVenda);
+        return new ResponseEntity("Venda removido com sucesso",HttpStatus.OK);
+
+    }
+
 }
