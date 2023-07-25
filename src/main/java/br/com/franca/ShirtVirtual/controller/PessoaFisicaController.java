@@ -57,7 +57,7 @@ public class PessoaFisicaController {
     public ResponseEntity<PessoaFisica> salvarPessoaFisica(@RequestBody PessoaFisica pessoaFisica) throws ExceptionShirtVirtual {
 
         if (pessoaFisica == null) {
-            throw new ExceptionShirtVirtual("Pessoa fisica nao pode ser NULL");
+            throw new ExceptionShirtVirtual("Pessoa fisica nao pode ser NULL", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         if (pessoaFisica.getTipoPessoa() == null){
@@ -65,15 +65,15 @@ public class PessoaFisicaController {
         }
 
         if (pessoaFisica.getId() == null && pessoaFisicaRepository.existeCPF(pessoaFisica.getCpf()) != null) {
-            throw new ExceptionShirtVirtual("Já existe CPF cadastrado com o número: " + pessoaFisica.getCpf());
+            throw new ExceptionShirtVirtual("Já existe CPF cadastrado com o número: " + pessoaFisica.getCpf(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         if (pessoaFisica.getId() == null && pessoaFisicaRepository.existeEmail(pessoaFisica.getEmail()) != null) {
-            throw new ExceptionShirtVirtual("Já existe email cadastrado: " + pessoaFisica.getEmail());
+            throw new ExceptionShirtVirtual("Já existe email cadastrado: " + pessoaFisica.getEmail(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         if (!ValidaCpf.isCPF(pessoaFisica.getCpf())) {
-            throw new ExceptionShirtVirtual("Cnpj informado é inválido, favor verificar" + pessoaFisica.getCpf());
+            throw new ExceptionShirtVirtual("Cnpj informado é inválido, favor verificar" + pessoaFisica.getCpf(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         pessoaFisica = pessoaFisicaService.salvarPessoaFisica(pessoaFisica);
@@ -154,7 +154,7 @@ public class PessoaFisicaController {
         PessoaFisica pessoaFisica = pessoaFisicaRepository.findById(id).orElse(null);
 
         if (pessoaFisica == null){
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id, HttpStatus.NOT_FOUND);
 
         }
         return new ResponseEntity<PessoaFisica>(pessoaFisica,HttpStatus.OK);

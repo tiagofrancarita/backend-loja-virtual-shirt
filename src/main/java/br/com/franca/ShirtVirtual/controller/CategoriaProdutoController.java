@@ -60,14 +60,14 @@ public class CategoriaProdutoController {
 
 
         if (categoriaProduto == null  ) {
-            throw new ExceptionShirtVirtual("Categoria não pode ser nulo.");
+            throw new ExceptionShirtVirtual("Categoria não pode ser nulo.", HttpStatus.NOT_FOUND);
         }
 
         if(categoriaProduto.getEmpresa().getId() == null || (categoriaProduto.getEmpresa().getId()  == null)){
-            throw new ExceptionShirtVirtual("Campo empresa é obrigatório.");
+            throw new ExceptionShirtVirtual("Campo empresa é obrigatório.", HttpStatus.UNPROCESSABLE_ENTITY);
         }
         if (categoriaProdutoRepository.existeCategoria(categoriaProduto.getNomeDesc().toUpperCase())) {
-            throw new ExceptionShirtVirtual("Categoria já existe." + categoriaProduto.getNomeDesc());
+            throw new ExceptionShirtVirtual("Categoria já existe." + categoriaProduto.getNomeDesc(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
         CategoriaProduto categoriaProdutoSalva = categoriaProdutoRepository.save(categoriaProduto);
 
@@ -119,7 +119,7 @@ public class CategoriaProdutoController {
         CategoriaProduto categoriaProdutos = categoriaProdutoRepository.findById(id).orElse(null);
 
         if (categoriaProdutos == null){
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id, HttpStatus.NOT_FOUND);
 
         }
         return new ResponseEntity<CategoriaProduto>(categoriaProdutos,HttpStatus.OK);

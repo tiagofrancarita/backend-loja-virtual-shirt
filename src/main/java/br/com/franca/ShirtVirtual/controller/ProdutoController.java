@@ -82,17 +82,17 @@ public class ProdutoController {
 
         if (produto.getTipoUnidade() == null || produto.getTipoUnidade().isEmpty()) {
             logger.error("Cadastro de produto encerrado com erro, tipo da unidade deve ser informada.");
-            throw new ExceptionShirtVirtual("Tipo da unidade deve ser informada.");
+            throw new ExceptionShirtVirtual("Tipo da unidade deve ser informada.", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         if (produto.getNome().length() < 10) {
             logger.error("Cadastro de produto encerrado com erro, nome do produto deve ter mais que 10 caracteres.");
-            throw new ExceptionShirtVirtual("Nome do produto deve ter mais que 10 caracteres.");
+            throw new ExceptionShirtVirtual("Nome do produto deve ter mais que 10 caracteres.", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         if (produto.getEmpresa() == null || produto.getEmpresa().getId() <= 0) {
             logger.error("Cadastro de produto encerrado com erro, empresa responsável deve ser informada.");
-            throw new ExceptionShirtVirtual("Empresa responsável deve ser informada.");
+            throw new ExceptionShirtVirtual("Empresa responsável deve ser informada.", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         if (produto.getId() == null) {
@@ -100,37 +100,37 @@ public class ProdutoController {
                     produto.getEmpresa().getId());
             if (!produtos.isEmpty()) {
                 logger.error("Cadastro de produto encerrado com erro, Já existe um produto com essa descrição." + " Descrição: " +  produto.getDescricaoProduto());
-                throw new ExceptionShirtVirtual("Cadastro de produto encerrado com erro, Já existe um produto com essa descrição." + " Descrição: " +  produto.getDescricaoProduto());
+                throw new ExceptionShirtVirtual("Cadastro de produto encerrado com erro, Já existe um produto com essa descrição." + " Descrição: " +  produto.getDescricaoProduto(), HttpStatus.UNPROCESSABLE_ENTITY);
             }
 
             if (produto.getCategoriaProduto() == null || produto.getCategoriaProduto().getId() <= 0) {
                 logger.error("Cadastro de produto encerrado com erro, categoria do produto deve ser imformada.");
-                throw new ExceptionShirtVirtual("Categoria do produto deve ser informada.");
+                throw new ExceptionShirtVirtual("Categoria do produto deve ser informada.", HttpStatus.UNPROCESSABLE_ENTITY);
             }
             if (produto.getMarcaProduto() == null || produto.getMarcaProduto().getId() <= 0) {
                 logger.error("Cadastro de produto encerrado com erro, marca do produto deve ser imformada.");
-                throw new ExceptionShirtVirtual("Marca do produto deve ser informada.");
+                throw new ExceptionShirtVirtual("Marca do produto deve ser informada.", HttpStatus.UNPROCESSABLE_ENTITY);
             }
 
             if (produto.getQtdEstoque() < 1) {
                 logger.error("Cadastro de produto encerrado com erro, o produto cadastrado deve ter no minímo 1 no estoque.");
-                throw new ExceptionShirtVirtual("O produto cadastrado deve ter no minímo 1 no estoque.");
+                throw new ExceptionShirtVirtual("O produto cadastrado deve ter no minímo 1 no estoque.", HttpStatus.UNPROCESSABLE_ENTITY);
             }
         }
 
 
         if (produto.getImagens() == null || produto.getImagens().isEmpty() || produto.getImagens().size() == 0){
             logger.error("Cadastro de produto encerrado com erro, deve ser carregado imagem do produto");
-            throw new ExceptionShirtVirtual("Cadastro de produto encerrado com erro, deve ser informado imagem do produto");
+            throw new ExceptionShirtVirtual("Cadastro de produto encerrado com erro, deve ser informado imagem do produto", HttpStatus.UNPROCESSABLE_ENTITY);
         }
         if (produto.getImagens().size() < 3 ){
             logger.error("Cadastro de produto encerrado com erro, deve ser carregado pelo menos 3 imagems para o produto");
-            throw new ExceptionShirtVirtual("Cadastro de produto encerrado com erro, deve ser carregado pelo menos 3 imagems para o produto");
+            throw new ExceptionShirtVirtual("Cadastro de produto encerrado com erro, deve ser carregado pelo menos 3 imagems para o produto", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         if (produto.getImagens().size() >= 6 ){
             logger.error("Cadastro de produto encerrado com erro, deve ser carregado no maximo 6 imagens para o produto");
-            throw new ExceptionShirtVirtual("Cadastro de produto encerrado com erro, deve ser carregado no maximo 6 imagens para o produto");
+            throw new ExceptionShirtVirtual("Cadastro de produto encerrado com erro, deve ser carregado no maximo 6 imagens para o produto", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         if (produto.getId() == null){
@@ -244,7 +244,7 @@ public class ProdutoController {
 
         if (produto == null){
             logger.error("Erro ao buscar produto por id, o código informado não existe ou é inválido");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id, HttpStatus.NOT_FOUND);
 
         }
         return new ResponseEntity<Produto>(produto,HttpStatus.OK);
@@ -265,7 +265,7 @@ public class ProdutoController {
 
         if (produto == null){
             logger.error("Erro ao buscar produto por nome, o nome informado não existe ou é inválido");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " nome: "  +  nome);
+            throw new ExceptionShirtVirtual("O nome informado não existe. " + " nome: "  +  nome, HttpStatus.NOT_FOUND);
 
         }
         return new ResponseEntity<List<Produto>>(produto,HttpStatus.OK);
