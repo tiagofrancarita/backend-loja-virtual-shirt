@@ -62,7 +62,7 @@ public class NotaItemProdutoController {
         NotaItemProduto notaItemProduto = notaItemProdutoRepository.findById(idNotaItem).orElse(null);
 
         if (notaItemProduto == null){
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idNotaItem);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idNotaItem, HttpStatus.NOT_FOUND);
 
         }
         return new ResponseEntity<NotaItemProduto>(notaItemProduto, HttpStatus.OK);
@@ -143,24 +143,24 @@ public class NotaItemProdutoController {
 
             if (notaItemProduto.getProduto() == null || notaItemProduto.getProduto().getId() <= 0){
                 log.error("Cadastro de nota item produto encerrado com erro, é necessário associar um produto a nota");
-                throw new ExceptionShirtVirtual("Cadastro de nota item produto encerrado com erro, é necessário associar um produto a nota");
+                throw new ExceptionShirtVirtual("Cadastro de nota item produto encerrado com erro, é necessário associar um produto a nota", HttpStatus.UNPROCESSABLE_ENTITY);
             }
 
             if (notaItemProduto.getEmpresa() == null || notaItemProduto.getEmpresa().getId() <= 0){
                 log.error("Cadastro de nota item produto encerrado com erro, é necessário associar uma empresa responsável a nota");
-                throw new ExceptionShirtVirtual("Cadastro de nota item produto encerrado com erro, é necessário associar uma empresa responsável a nota");
+                throw new ExceptionShirtVirtual("Cadastro de nota item produto encerrado com erro, é necessário associar uma empresa responsável a nota", HttpStatus.UNAUTHORIZED);
             }
 
             if (notaItemProduto.getNotaFiscalCompra() == null || notaItemProduto.getNotaFiscalCompra().getId() <= 0){
                 log.error("Cadastro de nota item produto encerrado com erro, é necessário associar uma nota fiscal de compra a nota");
-                throw new ExceptionShirtVirtual("Cadastro de nota item produto encerrado com erro, é necessário associar uma nota fiscal de compra a nota");
+                throw new ExceptionShirtVirtual("Cadastro de nota item produto encerrado com erro, é necessário associar uma nota fiscal de compra a nota", HttpStatus.UNPROCESSABLE_ENTITY);
             }
 
             List<NotaItemProduto> notaExistente = notaItemProdutoRepository.buscarNotaItemPorProdutoNota(notaItemProduto.getProduto().getId(), notaItemProduto.getNotaFiscalCompra().getId());
 
             if (!notaExistente.isEmpty()){
                 log.error("Cadastro de nota item produto encerrado com erro, já existe o produto associado a esta nota");
-                throw new ExceptionShirtVirtual("Cadastro de nota item produto encerrado com erro, já existe o produto associado a esta nota");
+                throw new ExceptionShirtVirtual("Cadastro de nota item produto encerrado com erro, já existe o produto associado a esta nota", HttpStatus.UNPROCESSABLE_ENTITY);
 
             }
 
@@ -168,7 +168,7 @@ public class NotaItemProdutoController {
 
         if (notaItemProduto.getQuantidade() <=0){
             log.error("Cadastro de nota item produto encerrado com erro, a quantidade do produto deve ser maior que 0");
-            throw new ExceptionShirtVirtual("Cadastro de nota item produto encerrado com erro, a quantidade do produto deve ser maior que 0");
+            throw new ExceptionShirtVirtual("Cadastro de nota item produto encerrado com erro, a quantidade do produto deve ser maior que 0", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         NotaItemProduto notaItemProdutoCadastrada = notaItemProdutoRepository.save(notaItemProduto);

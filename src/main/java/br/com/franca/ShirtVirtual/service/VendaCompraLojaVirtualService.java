@@ -28,4 +28,14 @@ public class VendaCompraLojaVirtualService {
 
         jdbcTemplate.execute(value);
     }
+
+    public void cancelarNotaFiscal(Long idVenda) {
+
+        String value =
+                " BEGIN;"
+                + " UPDATE vd_cp_loja_virt SET ativo = false   WHERE id = "+idVenda+"; "
+                + " commit; ";
+
+        jdbcTemplate.execute(value);
+    }
 }

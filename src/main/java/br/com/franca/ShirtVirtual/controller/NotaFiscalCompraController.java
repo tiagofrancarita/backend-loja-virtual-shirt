@@ -71,24 +71,24 @@ public class NotaFiscalCompraController {
                 List<NotaFiscalCompra> notaFiscalCompras = notaFiscalCompraRepository.buscarNotaFiscalCompraDescricao(notaFiscalCompra.getDescricaoObs().toUpperCase().trim());
                 if (!notaFiscalCompras.isEmpty()){
                     log.error("Cadastro de nota fiscal de compra encerrado com erro, descrição já cadastrada, favor informar outra");
-                    throw new ExceptionShirtVirtual("Cadastro de nota fiscal de compra encerrado com erro, descrição já cadastrada, favor informar outra" + " Descrição: " + notaFiscalCompra.getDescricaoObs().toUpperCase().trim());
+                    throw new ExceptionShirtVirtual("Cadastro de nota fiscal de compra encerrado com erro, descrição já cadastrada, favor informar outra" + " Descrição: " + notaFiscalCompra.getDescricaoObs().toUpperCase().trim(), HttpStatus.UNPROCESSABLE_ENTITY);
                 }
             }
 
         }
         if (notaFiscalCompra.getPessoa() == null || notaFiscalCompra.getPessoa().getId() <=0 ){
             log.error("Cadastro de nota fiscal de compra encerrado com erro, é necessário associar uma pessoa responsável a nota de compra");
-            throw new ExceptionShirtVirtual("Cadastro de nota fiscal de compra encerrado com erro, é necessário associar uma pessoa responsável a nota de compra");
+            throw new ExceptionShirtVirtual("Cadastro de nota fiscal de compra encerrado com erro, é necessário associar uma pessoa responsável a nota de compra", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         if (notaFiscalCompra.getEmpresa() == null || notaFiscalCompra.getEmpresa().getId() <=0 ){
             log.error("Cadastro de nota fiscal de compra encerrado com erro, é necessário associar uma empresa responsável a nota de compra");
-            throw new ExceptionShirtVirtual("Cadastro de nota fiscal de compra encerrado com erro, é necessário associar uma empresa responsável a nota de compra");
+            throw new ExceptionShirtVirtual("Cadastro de nota fiscal de compra encerrado com erro, é necessário associar uma empresa responsável a nota de compra", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         if (notaFiscalCompra.getContaPagar() == null || notaFiscalCompra.getContaPagar().getId() <=0 ){
             log.error("Cadastro de nota fiscal de compra encerrado com erro, é necessário associar uma conta a pagar a nota de compra");
-            throw new ExceptionShirtVirtual("Cadastro de nota fiscal de compra encerrado com erro, é necessário associar uma conta a pagar a nota de compra");
+            throw new ExceptionShirtVirtual("Cadastro de nota fiscal de compra encerrado com erro, é necessário associar uma conta a pagar a nota de compra", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         NotaFiscalCompra notaFiscalCompraCadastrada = notaFiscalCompraRepository.save(notaFiscalCompra);
@@ -140,7 +140,7 @@ public class NotaFiscalCompraController {
         NotaFiscalCompra notaFiscalCompra = notaFiscalCompraRepository.findById(id).orElse(null);
 
         if (notaFiscalCompra == null){
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id, HttpStatus.NOT_FOUND);
 
         }
         return new ResponseEntity<NotaFiscalCompra>(notaFiscalCompra,HttpStatus.OK);
@@ -206,7 +206,7 @@ public class NotaFiscalCompraController {
 
         if (notaFiscalCompra == null){
             log.error("Erro ao buscar nota por pessoa, id inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idPessoa);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idPessoa, HttpStatus.NOT_FOUND);
 
         }
         log.info("Busca realizada com sucesso");
@@ -229,7 +229,7 @@ public class NotaFiscalCompraController {
 
         if (notaFiscalCompra == null){
             log.error("Erro ao buscar nota fiscal de compra por empresa, id inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idEmpresa);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idEmpresa, HttpStatus.NOT_FOUND);
 
         }
         log.info("Busca realizada com sucesso");
@@ -251,7 +251,7 @@ public class NotaFiscalCompraController {
 
         if (notaFiscalCompra == null){
             log.error("Erro ao buscar nota fiscal de compra por empresa, id inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idContaPagar);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idContaPagar, HttpStatus.NOT_FOUND);
 
         }
         log.info("Busca realizada com sucesso");
@@ -273,7 +273,7 @@ public class NotaFiscalCompraController {
 
         if (notaFiscalCompra == null){
             log.error("Erro ao buscar nota fiscal de compra por pessoa, cnpj inválido ou inexistente");
-            throw new ExceptionShirtVirtual("Erro ao buscar nota fiscal de compra por pessoa, cnpj inválido ou inexistente" + " CNPJ: "  +  cnpj);
+            throw new ExceptionShirtVirtual("Erro ao buscar nota fiscal de compra por pessoa, cnpj inválido ou inexistente" + " CNPJ: "  +  cnpj, HttpStatus.NOT_FOUND);
 
         }
         log.info("Busca realizada com sucesso");

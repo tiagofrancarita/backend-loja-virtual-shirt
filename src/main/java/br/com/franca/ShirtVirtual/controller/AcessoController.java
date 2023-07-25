@@ -4,10 +4,7 @@ import br.com.franca.ShirtVirtual.exceptions.ExceptionShirtVirtual;
 import br.com.franca.ShirtVirtual.model.Acesso;
 import br.com.franca.ShirtVirtual.repository.AcessoRepository;
 import br.com.franca.ShirtVirtual.service.AcessoService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -67,7 +64,7 @@ public class AcessoController {
 
             if (!acessos.isEmpty()){
                 log.error(ERRO_DESCRICAO_CADASTRADA);
-                throw new ExceptionShirtVirtual(ERRO_DESCRICAO_CADASTRADA +  "Descrição:  " +  acesso.getDescAcesso());
+                throw new ExceptionShirtVirtual(ERRO_DESCRICAO_CADASTRADA +  "Descrição:  " +  acesso.getDescAcesso(), HttpStatus.UNPROCESSABLE_ENTITY);
 
             }
         }
@@ -121,7 +118,7 @@ public class AcessoController {
         Acesso acesso = acessoRepository.findById(id).orElse(null);
 
         if (acesso == null){
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id, HttpStatus.NOT_FOUND);
 
         }
         return new ResponseEntity<Acesso>(acesso,HttpStatus.OK);

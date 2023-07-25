@@ -43,27 +43,10 @@ public class AvaliacaoProdutoService {
 
         if (avaliacaoProdutoDTOS == null){
             log.error("Erro ao buscar produto por nome, o nome informado não existe ou é inválido");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " nome: "  +  desc);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " nome: "  +  desc, HttpStatus.NOT_FOUND);
         }
 
         return modelMapper.map(avaliacaoProdutoDTOS, AvaliacaoProdutoDTO.class);
 
     }
-
 }
-
-/*
-
-public ResponseEntity<List<Produto>> buscarPorDesc(@PathVariable("nome") String nome) throws ExceptionShirtVirtual {
-
-        logger.info("Inicio de busca de produto por nome...");
-        List<Produto> produto = produtoRepository.buscarPorDesc(nome.toUpperCase().trim());
-
-        if (produto == null){
-            logger.error("Erro ao buscar produto por nome, o nome informado não existe ou é inválido");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " nome: "  +  nome);
-
-        }
-        return new ResponseEntity<List<Produto>>(produto,HttpStatus.OK);
-    }
- */
