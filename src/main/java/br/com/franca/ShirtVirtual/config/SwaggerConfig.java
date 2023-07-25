@@ -41,21 +41,24 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .securityContexts(Arrays.asList(securityContext()))
                 .securitySchemes(Arrays.asList(apiKey()))
                 .tags(
-                        new Tag("Consultas-Externas", "Endpoints para consultas externas de CPF / CNPJ e CEP"),
-                        new Tag("Pessoa-Juridica", "Endpoints para gerenciamento de pessoas juridicas"),
-                        new Tag("Pessoa-Fisica", "Endpoints para gerenciamento de pessoas fisicas"),
-                        new Tag("Produtos", "Endpoints para gerenciamento de produtos"),
                         new Tag("Acessos", "Endpoints para gerenciamento de acessos"),
+                        new Tag("Avaliacao-Produto", "Endpoints para gerenciamento de avaliação do produto"),
                         new Tag("Categoria-Produto", "Endpoints para gerenciamento de categorias"),
                         new Tag("Contas-Pagar", "Endpoints para gerenciamento de contas a pagar"),
                         new Tag("Contas-Receber", "Endpoints para gerenciamento de contas a receber"),
+                        new Tag("Cupom-Desconto", "Endpoints para gerenciamento de cupom desconto"),
+                        new Tag("Forma-Pagamento", "Endpoints para gerenciamento de fromas de pagamento"),
+                        new Tag("Imagem-Produto", "Endpoints para gerenciamento de imagem produto"),
                         new Tag("Marca-Produto", "Endpoints para gerenciamento de marcas"),
                         new Tag("Nota-Fiscal-Compra", "Endpoints para gerenciamento de nota fiscal de compra"),
                         new Tag("Nota-Item-Produto", "Endpoints para gerenciamento de nota item produto"),
-                        new Tag("Imagem-Produto", "Endpoints para gerenciamento de imagem produto"),
-                        new Tag("Avaliacao-Produto", "Endpoints para gerenciamento de avaliação do produto"),
+                        new Tag("Pessoa-Juridica", "Endpoints para gerenciamento de pessoas juridicas"),
+                        new Tag("Pessoa-Fisica", "Endpoints para gerenciamento de pessoas fisicas"),
+                        new Tag("Produtos", "Endpoints para gerenciamento de produtos"),
+                        new Tag("Status-Rastreio", "Endpoints para gerenciamento de status de rastreio"),
                         new Tag("Venda-Compra-Loja-Virtual", "Endpoints para gerenciamento de venda"),
-                        new Tag("Forma-Pagamento", "Endpoints para gerenciamento de fromas de pagamento")
+                        new Tag("Consultas-Externas", "Endpoints para consultas externas de CPF / CNPJ e CEP")
+
                 );
     }
 
