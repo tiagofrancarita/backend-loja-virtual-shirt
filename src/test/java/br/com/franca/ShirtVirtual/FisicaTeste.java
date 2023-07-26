@@ -9,6 +9,7 @@ import br.com.franca.ShirtVirtual.model.PessoaJuridica;
 import br.com.franca.ShirtVirtual.repository.PessoaFisicaRepository;
 import br.com.franca.ShirtVirtual.repository.PessoaJuridicaRepository;
 import br.com.franca.ShirtVirtual.service.PessoaFisicaService;
+import br.com.franca.ShirtVirtual.utils.GeradorCpfValido;
 import junit.framework.TestCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import org.springframework.context.annotation.Profile;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 @Profile("test")
@@ -28,13 +28,15 @@ public class FisicaTeste extends TestCase {
     private PessoaFisicaRepository pessoaFisicaRepository;
     private PessoaFisicaController pessoaFisicaController;
     private PessoaJuridicaRepository pessoaJuridicaRepository;
+    private GeradorCpfValido geradorCpfValido;
 
     @Autowired
-    public FisicaTeste(PessoaFisicaService pessoaFisicaService, PessoaFisicaRepository pessoaFisicaRepository, PessoaFisicaController pessoaFisicaController, PessoaJuridicaRepository pessoaJuridicaRepository) {
+    public FisicaTeste(PessoaFisicaService pessoaFisicaService, PessoaFisicaRepository pessoaFisicaRepository, PessoaFisicaController pessoaFisicaController, PessoaJuridicaRepository pessoaJuridicaRepository, GeradorCpfValido geradorCpfValido) {
         this.pessoaFisicaService = pessoaFisicaService;
         this.pessoaFisicaRepository = pessoaFisicaRepository;
         this.pessoaFisicaController = pessoaFisicaController;
         this.pessoaJuridicaRepository = pessoaJuridicaRepository;
+        this.geradorCpfValido = geradorCpfValido;
     }
 
     @Test
@@ -54,7 +56,7 @@ public class FisicaTeste extends TestCase {
 
 
         PessoaFisica pessoaFisica  = new PessoaFisica();
-        pessoaFisica.setCpf("46604416011");
+        pessoaFisica.setCpf(geradorCpfValido.generateRandomCpf());
         pessoaFisica.setEmail("pdc_tiago@hotmail.com");
         pessoaFisica.setTelefone("21964867990");
         pessoaFisica.setTipoPessoa("FISICA");

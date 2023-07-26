@@ -13,23 +13,22 @@ import java.util.Optional;
 public interface VendaCompraLojaVirtualRepository extends JpaRepository<VendaCompraLojaVirtual, Long> {
 
 
-    @Query(value = "select vd from VendaCompraLojaVirtual vd where vd.id = ?1 and  vd.ativo = true ")
+    @Query(value = "SELECT vd FROM VendaCompraLojaVirtual vd WHERE vd.id = ?1 and  vd.ativo = TRUE ")
     VendaCompraLojaVirtual BuscaVendaAtiva(Long id);
 
-    @Query("select vd from VendaCompraLojaVirtual vd where vd.pessoa.id = ?1 and  vd.ativo = true ")
+    @Query("SELECT vd from VendaCompraLojaVirtual vd where vd.pessoa.id = ?1 AND  vd.ativo = TRUE ")
     List<VendaCompraLojaVirtual> buscarVendaPorCliente(Long idCliente);
 
-    @Query(value="select i.vendaCompraLojaVirtual from ItemVendaLoja i where "
-            + " i.vendaCompraLojaVirtual.ativo = false and i.produto.id = ?1")
+    @Query(value="SELECT i.vendaCompraLojaVirtual FROM ItemVendaLoja i WHERE i.vendaCompraLojaVirtual.ativo = TRUE AND i.produto.id = ?1")
     List<VendaCompraLojaVirtual> buscarVendaPorProduto(Long idProduto);
 
-    @Query("select vd from VendaCompraLojaVirtual vd where vd.formaPagamento.id = ?1")
+    @Query("SELECT vd FROM VendaCompraLojaVirtual vd WHERE vd.formaPagamento.id = ?1")
     List<VendaCompraLojaVirtual> buscarVendaPorFormaPagamento(Long idFormaPagamento);
 
-    @Query("select vd from VendaCompraLojaVirtual vd where vd.notaFiscalVenda.id = ?1")
+    @Query("SELECT vd FROM VendaCompraLojaVirtual vd WHERE vd.notaFiscalVenda.id = ?1")
     List<VendaCompraLojaVirtual> buscarVendaPorNotaFiscalVenda(Long idNotaFiscalVenda);
 
-    @Query("select vd from VendaCompraLojaVirtual vd where vd.empresa.id = ?1")
+    @Query("SELECT vd FROM VendaCompraLojaVirtual vd WHERE vd.empresa.id = ?1")
     List<VendaCompraLojaVirtual> buscarVendaPorEmpresa(Long idEmpresa);
 
     @Query("SELECT vd FROM VendaCompraLojaVirtual vd WHERE upper(trim(vd.pessoa.cpf)) LIKE %?1% ")
@@ -47,11 +46,21 @@ public interface VendaCompraLojaVirtualRepository extends JpaRepository<VendaCom
     @Query("SELECT vd FROM VendaCompraLojaVirtual vd WHERE upper(trim(vd.enderecoEntrega.bairro)) LIKE %?1% ")
     List<VendaCompraLojaVirtual> buscarVendaPorBairroEntrega(String nomeBairro);
 
-    @Query("SELECT vd FROM VendaCompraLojaVirtual vd WHERE upper(trim(vd.pessoa.nome)) LIKE %?1% ")
+    @Query(value="SELECT DISTINCT(i.vendaCompraLojaVirtual) FROM ItemVendaLoja i WHERE i.vendaCompraLojaVirtual.ativo = TRUE AND UPPER(TRIM(i.vendaCompraLojaVirtual.pessoa.nome))  LIKE %?1% ")
     List<VendaCompraLojaVirtual> buscaVendaPorNomeCliente(String nomeCliente);
 
-    //@Query("UPDATE vd FROM VendaCompraLojaVirtual vd where vd.id = ?1 ")
-    //List<VendaCompraLojaVirtual> cancelarNotaFiscalVenda(Long idVenda);
+    @Query(value="SELECT DISTINCT(i.vendaCompraLojaVirtual) FROM ItemVendaLoja i WHERE i.vendaCompraLojaVirtual.ativo = TRUE AND UPPER(TRIM(i.produto.nome))  LIKE %?1% ")
+    List<VendaCompraLojaVirtual> buscarVendaPorNomeProduto(String valor);
 
+    @Query(value="SELECT DISTINCT(i.vendaCompraLojaVirtual) FROM ItemVendaLoja i WHERE i.vendaCompraLojaVirtual.ativo = TRUE AND UPPER(TRIM(i.vendaCompraLojaVirtual.enderecoCobranca.logradouro))  LIKE %?1% ")
+    List<VendaCompraLojaVirtual> buscaVendaPorEnderecoCobranca(String valor);
 
+    @Query(value="SELECT DISTINCT(i.vendaCompraLojaVirtual) FROM ItemVendaLoja i WHERE i.vendaCompraLojaVirtual.ativo = TRUE AND UPPER(TRIM(i.vendaCompraLojaVirtual.enderecoCobranca.logradouro))  LIKE %?1% ")
+    List<VendaCompraLojaVirtual> buscaVendaPorEnderecoEntrega(String valor);
+
+    @Query(value="SELECT DISTINCT(i.vendaCompraLojaVirtual) FROM ItemVendaLoja i WHERE i.vendaCompraLojaVirtual.ativo = TRUE AND UPPER(TRIM(i.vendaCompraLojaVirtual.enderecoCobranca.estado))  LIKE %?1% ")
+    List<VendaCompraLojaVirtual> buscaVendaPorEstadoEntrega(String trim);
+
+    @Query(value="SELECT DISTINCT(i.vendaCompraLojaVirtual) FROM ItemVendaLoja i WHERE i.vendaCompraLojaVirtual.ativo = TRUE AND UPPER(TRIM(i.vendaCompraLojaVirtual.enderecoCobranca.estado))  LIKE %?1% ")
+    List<VendaCompraLojaVirtual> buscaVendaPorEstadoCobranca(String trim);
 }

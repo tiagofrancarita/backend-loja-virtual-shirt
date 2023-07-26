@@ -9,6 +9,7 @@ import br.com.franca.ShirtVirtual.repository.PessoaFisicaRepository;
 import br.com.franca.ShirtVirtual.repository.PessoaJuridicaRepository;
 import br.com.franca.ShirtVirtual.service.PessoaFisicaService;
 import br.com.franca.ShirtVirtual.service.PessoaJuridicaService;
+import br.com.franca.ShirtVirtual.utils.GeradorCnpjValido;
 import junit.framework.TestCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,23 +27,25 @@ public class JuridicaTest extends TestCase {
     private PessoaJuridicaRepository pessoaJuridicaRepository;
     private PessoaJuridicaService pessoaJuridicaService;
     private PessoaJuridicaController pessoaJuridicaController;
+    private GeradorCnpjValido geradorCnpjValido;
 
 
     @Autowired
-    public JuridicaTest(PessoaFisicaService pessoaFisicaService, PessoaFisicaRepository pessoaFisicaRepository, PessoaJuridicaRepository pessoaJuridicaRepository, PessoaJuridicaService pessoaJuridicaService, PessoaJuridicaController pessoaJuridicaController) {
+    public JuridicaTest(PessoaFisicaService pessoaFisicaService, PessoaFisicaRepository pessoaFisicaRepository, PessoaJuridicaRepository pessoaJuridicaRepository, PessoaJuridicaService pessoaJuridicaService, PessoaJuridicaController pessoaJuridicaController, GeradorCnpjValido geradorCnpjValido) {
         this.pessoaFisicaService = pessoaFisicaService;
         this.pessoaFisicaRepository = pessoaFisicaRepository;
         this.pessoaJuridicaRepository = pessoaJuridicaRepository;
         this.pessoaJuridicaService = pessoaJuridicaService;
         this.pessoaJuridicaController = pessoaJuridicaController;
 
+        this.geradorCnpjValido = geradorCnpjValido;
     }
 
     @Test
     public void testeCadastroPessoaJuridica() throws ExceptionShirtVirtual {
 
         PessoaJuridica pessoaJuridica = new PessoaJuridica();
-        pessoaJuridica.setCnpj("85985302000119");
+        pessoaJuridica.setCnpj(geradorCnpjValido.cnpj(false));
         pessoaJuridica.setNome("Tiago");
         pessoaJuridica.setEmail("tiago.franca.dev1@outlook.com");
         pessoaJuridica.setTelefone("459997958001");
