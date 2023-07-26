@@ -1,6 +1,7 @@
 package br.com.franca.ShirtVirtual.repository;
 
 
+import br.com.franca.ShirtVirtual.model.CategoriaProduto;
 import br.com.franca.ShirtVirtual.model.PessoaFisica;
 import br.com.franca.ShirtVirtual.model.PessoaJuridica;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -35,5 +36,6 @@ public interface PessoaJuridicaRepository extends JpaRepository<PessoaJuridica, 
 
     @Query(value = "select pj from PessoaJuridica pj where upper(trim(pj.categoria)) like %?1%")
     public List<PessoaJuridica> pesquisaPorCategoriaPj(String categoria);
+
 
 }

@@ -2,6 +2,7 @@ package br.com.franca.ShirtVirtual.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -70,6 +71,7 @@ public class VendaCompraLojaVirtual implements Serializable {
     @Column(name = "dias_entrega", nullable = false)
     private Integer diasEntrega;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "A data da venda deve ser informado na nota")
     @Temporal(TemporalType.DATE)
     @Column(name = "data_venda", nullable = false)

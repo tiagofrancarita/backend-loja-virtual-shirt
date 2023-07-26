@@ -11,7 +11,7 @@ import br.com.franca.ShirtVirtual.service.PessoaFisicaService;
 import br.com.franca.ShirtVirtual.service.PessoaJuridicaService;
 import br.com.franca.ShirtVirtual.utils.GeradorCnpjValido;
 import junit.framework.TestCase;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
