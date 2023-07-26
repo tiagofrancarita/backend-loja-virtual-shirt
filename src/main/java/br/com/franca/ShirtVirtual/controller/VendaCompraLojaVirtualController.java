@@ -504,6 +504,18 @@ public class VendaCompraLojaVirtualController {
             compraLojaVirtual = vendaCompraLojaVirtualRepository.buscarVendaPorProduto(Long.parseLong(valor));
         }else if (tipoconsulta.equalsIgnoreCase("POR-NOME-PRODUTO")){
             compraLojaVirtual = vendaCompraLojaVirtualRepository.buscarVendaPorNomeProduto(valor.toUpperCase().trim());
+        }else if (tipoconsulta.equalsIgnoreCase("POR-NOME-CLIENTE")) {
+            compraLojaVirtual = vendaCompraLojaVirtualRepository.buscaVendaPorNomeCliente(valor.toUpperCase().trim());
+        }else if (tipoconsulta.equalsIgnoreCase("POR-ENDERECO-COBRANCA")) {
+            compraLojaVirtual = vendaCompraLojaVirtualRepository.buscaVendaPorNomeCliente(valor.toUpperCase().trim());
+        }else if (tipoconsulta.equalsIgnoreCase("POR-ENDERECO-ENTREGA")) {
+            compraLojaVirtual = vendaCompraLojaVirtualRepository.buscaVendaPorEnderecoCobranca(valor.toUpperCase().trim());
+        }else if (tipoconsulta.equalsIgnoreCase("POR-ENDERECO-COBRANCA")) {
+            compraLojaVirtual = vendaCompraLojaVirtualRepository.buscaVendaPorEnderecoEntrega(valor.toUpperCase().trim());
+        }else if (tipoconsulta.equalsIgnoreCase("POR-ESTADO-COBRANCA")) {
+            compraLojaVirtual = vendaCompraLojaVirtualRepository.buscaVendaPorEstadoEntrega(valor.toUpperCase().trim());
+        }else if (tipoconsulta.equalsIgnoreCase("POR-ESTADO-COBRANCA")) {
+            compraLojaVirtual = vendaCompraLojaVirtualRepository.buscaVendaPorEstadoCobranca(valor.toUpperCase().trim());
         }
 
         if (compraLojaVirtual == null){

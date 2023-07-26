@@ -19,8 +19,7 @@ public interface VendaCompraLojaVirtualRepository extends JpaRepository<VendaCom
     @Query("SELECT vd from VendaCompraLojaVirtual vd where vd.pessoa.id = ?1 AND  vd.ativo = TRUE ")
     List<VendaCompraLojaVirtual> buscarVendaPorCliente(Long idCliente);
 
-    @Query(value="SELECT i.vendaCompraLojaVirtual FROM ItemVendaLoja i WHERE "
-            + " i.vendaCompraLojaVirtual.ativo = TRUE AND i.produto.id = ?1")
+    @Query(value="SELECT i.vendaCompraLojaVirtual FROM ItemVendaLoja i WHERE i.vendaCompraLojaVirtual.ativo = TRUE AND i.produto.id = ?1")
     List<VendaCompraLojaVirtual> buscarVendaPorProduto(Long idProduto);
 
     @Query("SELECT vd FROM VendaCompraLojaVirtual vd WHERE vd.formaPagamento.id = ?1")
@@ -47,11 +46,21 @@ public interface VendaCompraLojaVirtualRepository extends JpaRepository<VendaCom
     @Query("SELECT vd FROM VendaCompraLojaVirtual vd WHERE upper(trim(vd.enderecoEntrega.bairro)) LIKE %?1% ")
     List<VendaCompraLojaVirtual> buscarVendaPorBairroEntrega(String nomeBairro);
 
-    @Query("SELECT vd FROM VendaCompraLojaVirtual vd WHERE upper(trim(vd.pessoa.nome)) LIKE %?1% ")
+    @Query(value="SELECT DISTINCT(i.vendaCompraLojaVirtual) FROM ItemVendaLoja i WHERE i.vendaCompraLojaVirtual.ativo = TRUE AND UPPER(TRIM(i.vendaCompraLojaVirtual.pessoa.nome))  LIKE %?1% ")
     List<VendaCompraLojaVirtual> buscaVendaPorNomeCliente(String nomeCliente);
 
-    @Query(value="SELECT DISTINCT(i.vendaCompraLojaVirtual) FROM ItemVendaLoja i WHERE "
-            + " i.vendaCompraLojaVirtual.ativo = TRUE AND UPPER(TRIM(i.produto.nome))  LIKE %?1% ")
+    @Query(value="SELECT DISTINCT(i.vendaCompraLojaVirtual) FROM ItemVendaLoja i WHERE i.vendaCompraLojaVirtual.ativo = TRUE AND UPPER(TRIM(i.produto.nome))  LIKE %?1% ")
     List<VendaCompraLojaVirtual> buscarVendaPorNomeProduto(String valor);
 
+    @Query(value="SELECT DISTINCT(i.vendaCompraLojaVirtual) FROM ItemVendaLoja i WHERE i.vendaCompraLojaVirtual.ativo = TRUE AND UPPER(TRIM(i.vendaCompraLojaVirtual.enderecoCobranca.logradouro))  LIKE %?1% ")
+    List<VendaCompraLojaVirtual> buscaVendaPorEnderecoCobranca(String valor);
+
+    @Query(value="SELECT DISTINCT(i.vendaCompraLojaVirtual) FROM ItemVendaLoja i WHERE i.vendaCompraLojaVirtual.ativo = TRUE AND UPPER(TRIM(i.vendaCompraLojaVirtual.enderecoCobranca.logradouro))  LIKE %?1% ")
+    List<VendaCompraLojaVirtual> buscaVendaPorEnderecoEntrega(String valor);
+
+    @Query(value="SELECT DISTINCT(i.vendaCompraLojaVirtual) FROM ItemVendaLoja i WHERE i.vendaCompraLojaVirtual.ativo = TRUE AND UPPER(TRIM(i.vendaCompraLojaVirtual.enderecoCobranca.estado))  LIKE %?1% ")
+    List<VendaCompraLojaVirtual> buscaVendaPorEstadoEntrega(String trim);
+
+    @Query(value="SELECT DISTINCT(i.vendaCompraLojaVirtual) FROM ItemVendaLoja i WHERE i.vendaCompraLojaVirtual.ativo = TRUE AND UPPER(TRIM(i.vendaCompraLojaVirtual.enderecoCobranca.estado))  LIKE %?1% ")
+    List<VendaCompraLojaVirtual> buscaVendaPorEstadoCobranca(String trim);
 }
