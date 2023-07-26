@@ -10,19 +10,34 @@ import br.com.franca.ShirtVirtual.repository.PessoaFisicaRepository;
 import br.com.franca.ShirtVirtual.repository.PessoaJuridicaRepository;
 import br.com.franca.ShirtVirtual.service.PessoaFisicaService;
 import br.com.franca.ShirtVirtual.utils.GeradorCpfValido;
+import io.swagger.models.auth.In;
 import junit.framework.TestCase;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 @Profile("test")
 @SpringBootTest
 public class FisicaTeste extends TestCase {
+
+    String nome = "tiago_teste";
+    Integer numero = 0;
+
+
+    // Método executado antes de cada teste para inicializar os mocks
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     private PessoaFisicaService pessoaFisicaService;
     private PessoaFisicaRepository pessoaFisicaRepository;
@@ -54,10 +69,14 @@ public class FisicaTeste extends TestCase {
 
         PessoaJuridica pessoaJuridica = pessoaJuridicaRepository.existeCNPJ("1685820629792");
 
-
+        String nome = "tiago_teste";
+        Random gerador = new Random();
+        Integer numero = gerador.nextInt(100) + 1;
+        numero = (numero + Calendar.SECOND);
         PessoaFisica pessoaFisica  = new PessoaFisica();
-        pessoaFisica.setCpf(geradorCpfValido.generateRandomCpf());
-        pessoaFisica.setEmail("pdc_tiago@hotmail.com");
+
+        pessoaFisica.setCpf(geradorCpfValido.cpf(false));
+        pessoaFisica.setEmail(nome + numero + "@hotmail.com");
         pessoaFisica.setTelefone("21964867990");
         pessoaFisica.setTipoPessoa("FISICA");
         pessoaFisica.setNome("França");

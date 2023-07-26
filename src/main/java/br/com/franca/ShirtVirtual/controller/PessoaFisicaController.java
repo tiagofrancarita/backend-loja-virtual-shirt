@@ -73,7 +73,7 @@ public class PessoaFisicaController {
         }
 
         if (!ValidaCpf.isCPF(pessoaFisica.getCpf())) {
-            throw new ExceptionShirtVirtual("Cnpj informado é inválido, favor verificar" + pessoaFisica.getCpf(), HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Cpf informado é inválido, favor verificar" + pessoaFisica.getCpf(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         pessoaFisica = pessoaFisicaService.salvarPessoaFisica(pessoaFisica);

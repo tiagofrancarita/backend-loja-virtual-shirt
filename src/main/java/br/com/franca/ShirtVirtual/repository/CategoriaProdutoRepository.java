@@ -1,6 +1,7 @@
 package br.com.franca.ShirtVirtual.repository;
 
 import br.com.franca.ShirtVirtual.model.CategoriaProduto;
+import br.com.franca.ShirtVirtual.model.ContaPagar;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -21,5 +22,8 @@ public interface CategoriaProdutoRepository extends JpaRepository<CategoriaProdu
     @Query(nativeQuery = true,
             value="SELECT COUNT(1) > 0 FROM  categoria_produto WHERE upper(descricao_categoria_produto) = ?1 ;")
     public boolean existeCategoria(String descricaoCategoria);
+
+    @Query("select categ from CategoriaProduto categ where categ.id = ?1")
+    public CategoriaProduto buscarCategoriaPorId(Long idCategoria);
 
 }
