@@ -26,6 +26,6 @@ public class CpfController {
 
     @GetMapping("/gerarCpf")
     public String generateCpf() {
-        return geradorCpfValido.generateRandomCpf();
+        return geradorCpfValido.cpf(false);
     }
 }

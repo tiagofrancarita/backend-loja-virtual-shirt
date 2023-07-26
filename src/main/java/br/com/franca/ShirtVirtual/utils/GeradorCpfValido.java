@@ -5,32 +5,48 @@ import org.springframework.stereotype.Component;
 @Component
 public class GeradorCpfValido {
 
-    public String generateRandomCpf() {
-        String cpfSemDigito = generateRandomDigits(9);
-        String digito1 = calculateCpfDigit(cpfSemDigito);
-        String digito2 = calculateCpfDigit(cpfSemDigito + digito1);
-        return cpfSemDigito + digito1 + digito2;
+    private int randomiza(int n) {
+        int ranNum = (int) (Math.random() * n);
+        return ranNum;
     }
 
-    private String generateRandomDigits(int length) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            sb.append((int) (Math.random() * 10));
-        }
-        return sb.toString();
+    private int mod(int dividendo, int divisor) {
+        return (int) Math.round(dividendo - (Math.floor(dividendo / divisor) * divisor));
     }
 
-    private String calculateCpfDigit(String str) {
-        int sum = 0;
-        int weight = 2;
+    public String cpf(boolean comPontos) {
+        int n = 9;
+        int n1 = randomiza(n);
+        int n2 = randomiza(n);
+        int n3 = randomiza(n);
+        int n4 = randomiza(n);
+        int n5 = randomiza(n);
+        int n6 = randomiza(n);
+        int n7 = randomiza(n);
+        int n8 = randomiza(n);
+        int n9 = randomiza(n);
+        int d1 = n9 * 2 + n8 * 3 + n7 * 4 + n6 * 5 + n5 * 6 + n4 * 7 + n3 * 8 + n2 * 9 + n1 * 10;
 
-        for (int i = str.length() - 1; i >= 0; i--) {
-            sum += Integer.parseInt(str.substring(i, i + 1)) * weight;
-            weight = (weight == 9) ? 2 : weight + 1;
-        }
+        d1 = 11 - (mod(d1, 11));
 
-        int remainder = sum % 11;
-        return (remainder < 2) ? "0" : String.valueOf(11 - remainder);
+        if (d1 >= 10)
+            d1 = 0;
+
+        int d2 = d1 * 2 + n9 * 3 + n8 * 4 + n7 * 5 + n6 * 6 + n5 * 7 + n4 * 8 + n3 * 9 + n2 * 10 + n1 * 11;
+
+        d2 = 11 - (mod(d2, 11));
+
+        String retorno = null;
+
+        if (d2 >= 10)
+            d2 = 0;
+        retorno = "";
+
+        if (comPontos)
+            retorno = "" + n1 + n2 + n3 + '.' + n4 + n5 + n6 + '.' + n7 + n8 + n9 + '-' + d1 + d2;
+        else
+            retorno = "" + n1 + n2 + n3 + n4 + n5 + n6 + n7 + n8 + n9 + d1 + d2;
+
+        return retorno;
     }
-
 }

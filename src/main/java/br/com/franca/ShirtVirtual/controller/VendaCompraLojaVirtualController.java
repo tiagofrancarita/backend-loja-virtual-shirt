@@ -24,7 +24,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.io.IOException;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -447,6 +452,65 @@ public class VendaCompraLojaVirtualController {
     public ResponseEntity<List<VendaCompraLojaVirtualDTO>> consultaVendaPorProduto(@PathVariable("idProduto") Long idProduto) {
 
         List<VendaCompraLojaVirtual> compraLojaVirtual = vendaCompraLojaVirtualRepository.buscarVendaPorProduto(idProduto);
+
+        if (compraLojaVirtual == null) {
+            compraLojaVirtual = new ArrayList<VendaCompraLojaVirtual>();
+        }
+
+        List<VendaCompraLojaVirtualDTO> compraLojaVirtualDTOList = new ArrayList<VendaCompraLojaVirtualDTO>();
+
+        for (VendaCompraLojaVirtual vcl : compraLojaVirtual) {
+
+            VendaCompraLojaVirtualDTO compraLojaVirtualDTO = new VendaCompraLojaVirtualDTO();
+
+            compraLojaVirtualDTO.setValorTotalVendaLoja(vcl.getValorTotalVendaLoja());
+            compraLojaVirtualDTO.setPessoa(vcl.getPessoa());
+
+            compraLojaVirtualDTO.setEnderecoEntrega(vcl.getEnderecoEntrega());
+            compraLojaVirtualDTO.setEnderecoCobranca(vcl.getEnderecoCobranca());
+
+            compraLojaVirtualDTO.setValorTotalDescontoVendaLoja(vcl.getValorTotalDescontoVendaLoja());
+            compraLojaVirtualDTO.setFormaPagamento(vcl.getFormaPagamento());
+            compraLojaVirtualDTO.setDtVenda(vcl.getDtVenda());
+            compraLojaVirtualDTO.setDtEntrega(vcl.getDtEntrega());
+            compraLojaVirtualDTO.setDiasEntrega(vcl.getDiasEntrega());
+            compraLojaVirtualDTO.setValorTotalFrete(vcl.getValorTotalFrete());
+            compraLojaVirtualDTO.setId(vcl.getId());
+
+            for (ItemVendaLoja item : vcl.getItemVendaLojas()) {
+
+                ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
+                itemVendaDTO.setQuantidade(item.getQuantidade());
+                itemVendaDTO.setProduto(item.getProduto());
+
+                compraLojaVirtualDTO.getItemVendaLoja().add(itemVendaDTO);
+            }
+
+            compraLojaVirtualDTOList.add(compraLojaVirtualDTO);
+
+        }
+
+        return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(compraLojaVirtualDTOList, HttpStatus.OK);
+    }
+
+    @ApiOperation("Buscar venda por data ")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK", response = VendaCompraLojaVirtualController.class),
+            @ApiResponse(code = 403, message = "Acess DENIED"),
+            @ApiResponse(code = 404, message = "NOT FOUND")
+    })
+    @ResponseBody
+    @GetMapping(value = "/buscarVendaPorData/{dataInicio}/{dataFim}")
+    public ResponseEntity<List<VendaCompraLojaVirtualDTO>> buscarVendaPorData(@PathVariable("dataInicio") String dataInicio, @PathVariable("dataFim") String dataFim) throws ParseException, ParseException {
+
+        List<VendaCompraLojaVirtual> compraLojaVirtual = null;
+
+
+        SimpleDateFormat dataFormatada = new SimpleDateFormat("yyyy-MM-dd");
+        Date d1 = dataFormatada.parse(dataInicio);
+        Date d2 = dataFormatada.parse(dataFim);
+
+         compraLojaVirtual = vendaCompraLojaVirtualRepository.buscarVendaPorData(d1,d2);
 
         if (compraLojaVirtual == null) {
             compraLojaVirtual = new ArrayList<VendaCompraLojaVirtual>();
