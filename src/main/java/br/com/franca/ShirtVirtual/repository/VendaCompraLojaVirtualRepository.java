@@ -32,7 +32,7 @@ public interface VendaCompraLojaVirtualRepository extends JpaRepository<VendaCom
     @Query("SELECT vd FROM VendaCompraLojaVirtual vd WHERE vd.empresa.id = ?1")
     List<VendaCompraLojaVirtual> buscarVendaPorEmpresa(Long idEmpresa);
 
-    @Query("SELECT vd FROM VendaCompraLojaVirtual vd WHERE upper(trim(vd.pessoa.cpf)) LIKE %?1% ")
+    @Query("SELECT vd FROM VendaCompraLojaVirtual vd WHERE vd.ativo = TRUE AND upper(trim(vd.pessoa.cpf)) LIKE %?1% ")
     List<VendaCompraLojaVirtual> buscarVendaPorCpfCliente(String cpfCliente);
 
     @Query("SELECT vd FROM VendaCompraLojaVirtual vd WHERE upper(trim(vd.pessoa.email)) LIKE %?1% ")

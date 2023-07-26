@@ -14,4 +14,7 @@ public interface StatusRastreioRepository extends JpaRepository<StatusRastreio, 
 
     @Query("select sr from StatusRastreio sr where sr.id = ?1")
     List<StatusRastreio> buscarStatusRastreioPorId(Long idStatusRastreio);
+
+    @Query("select sr from StatusRastreio sr where sr.vendaCompraLojaVirtual.id = ?1")
+    List<StatusRastreio> buscarStatusRastreioPorVenda(Long idVenda);
 }
