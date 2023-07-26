@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -48,9 +48,7 @@ public interface NotaFiscalCompraRepository extends JpaRepository<NotaFiscalComp
     @Query(nativeQuery = true, value = "DELETE FROM nota_item_produto WHERE nota_fiscal_compra_id = ?1")
     void deleteItemNotaFiscalCompra(Long idNotaFiscalCompra);
 
-    //Data
-   // @Query("select notaFiscalCompra from NotaFiscalCompra notaFiscalCompra where notaFiscalCompra. = ?1")
-    //List<NotaFiscalCompra> buscarNotaFiscalCompraPorEmpresa(Long idEmpresa);
-
+    @Query(value = "SELECT notaFiscalCompra FROM NotaFiscalCompra notaFiscalCompra WHERE notaFiscalCompra.dataCompra BETWEEN  ?1 AND ?2 ")
+    List<NotaFiscalCompra> buscarNotaFiscalCompraPorData(Date dataInicio, Date dataFim);
 
 }

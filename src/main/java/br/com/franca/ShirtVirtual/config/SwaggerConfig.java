@@ -13,13 +13,15 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import javax.annotation.Generated;
 import java.util.Arrays;
 import java.util.List;
 
 @Component
 @Configuration
 @EnableSwagger2
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-07-20T17:03:50.911851568Z[GMT]")
+@Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-07-20T17:03:50.911851568Z[GMT]")
 public class SwaggerConfig implements WebMvcConfigurer {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
@@ -41,6 +43,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .securityContexts(Arrays.asList(securityContext()))
                 .securitySchemes(Arrays.asList(apiKey()))
                 .tags(
+                        new Tag("Login", "Endpoints para Login"),
                         new Tag("Acessos", "Endpoints para gerenciamento de acessos"),
                         new Tag("Avaliacao-Produto", "Endpoints para gerenciamento de avaliação do produto"),
                         new Tag("Categoria-Produto", "Endpoints para gerenciamento de categorias"),
@@ -51,6 +54,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
                         new Tag("Imagem-Produto", "Endpoints para gerenciamento de imagem produto"),
                         new Tag("Marca-Produto", "Endpoints para gerenciamento de marcas"),
                         new Tag("Nota-Fiscal-Compra", "Endpoints para gerenciamento de nota fiscal de compra"),
+                        new Tag("Nota-Fiscal-Venda", "Endpoints para gerenciamento de nota fiscal de compra"),
                         new Tag("Nota-Item-Produto", "Endpoints para gerenciamento de nota item produto"),
                         new Tag("Pessoa-Juridica", "Endpoints para gerenciamento de pessoas juridicas"),
                         new Tag("Pessoa-Fisica", "Endpoints para gerenciamento de pessoas fisicas"),
@@ -60,7 +64,6 @@ public class SwaggerConfig implements WebMvcConfigurer {
                         new Tag("Consultas-Externas", "Endpoints para consultas externas de CPF / CNPJ e CEP"),
                         new Tag("Gerador-Cpf", "Endpoints para consultas externas de CPF / CNPJ e CEP"),
                         new Tag("Gerador-Cnpj", "Endpoints para consultas externas de CPF / CNPJ e CEP")
-
                 );
     }
 

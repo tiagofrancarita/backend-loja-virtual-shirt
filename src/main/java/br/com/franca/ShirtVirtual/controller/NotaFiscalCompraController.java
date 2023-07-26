@@ -1,9 +1,13 @@
 package br.com.franca.ShirtVirtual.controller;
 
 import br.com.franca.ShirtVirtual.exceptions.ExceptionShirtVirtual;
+import br.com.franca.ShirtVirtual.model.ItemVendaLoja;
 import br.com.franca.ShirtVirtual.model.NotaFiscalCompra;
+import br.com.franca.ShirtVirtual.model.VendaCompraLojaVirtual;
 import br.com.franca.ShirtVirtual.repository.NotaFiscalCompraRepository;
 import br.com.franca.ShirtVirtual.service.NotaFiscalCompraService;
+import br.com.franca.ShirtVirtual.utils.dto.ItemVendaDTO;
+import br.com.franca.ShirtVirtual.utils.dto.VendaCompraLojaVirtualDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -16,6 +20,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -278,5 +286,29 @@ public class NotaFiscalCompraController {
         }
         log.info("Busca realizada com sucesso");
         return new ResponseEntity<List<NotaFiscalCompra>>(notaFiscalCompra,HttpStatus.OK);
+    }
+
+    @ApiOperation("Buscar venda por data ")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK", response = VendaCompraLojaVirtualController.class),
+            @ApiResponse(code = 403, message = "Acess DENIED"),
+            @ApiResponse(code = 404, message = "NOT FOUND")
+    })
+    @ResponseBody
+    @GetMapping(value = "/buscarNotaFiscalCompraPorData/{dataInicio}/{dataFim}")
+    public ResponseEntity<List<NotaFiscalCompra>> buscarNotaFiscalCompraPorData(@PathVariable("dataInicio") String dataInicio, @PathVariable("dataFim") String dataFim) throws ParseException, ParseException {
+
+
+        log.info("Inicio da busca de nota fiscal de compra data inicio e fim");
+
+        SimpleDateFormat dataFormatada = new SimpleDateFormat("yyyy-MM-dd");
+        Date d1 = dataFormatada.parse(dataInicio);
+        Date d2 = dataFormatada.parse(dataFim);
+
+        List<NotaFiscalCompra> notaFiscalCompra = notaFiscalCompraRepository.buscarNotaFiscalCompraPorData(d1,d2);
+
+        log.info("Busca concluida com sucesso");
+
+        return new ResponseEntity<List<NotaFiscalCompra>>(notaFiscalCompra, HttpStatus.OK);
     }
 }
