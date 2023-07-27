@@ -10,10 +10,13 @@ G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirt
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\config\AppConfig.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\repository\PessoaJuridicaRepository.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\Pessoa.java
+G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\service\RelatoriosService.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\GeradorCnpjValido.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\StatusRastreio.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\ContaPagarController.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\dto\BillingDTO.java
+G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\LoginController.java
+G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\service\NotaFiscalVendaService.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\ProdutoController.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\ConsultaCepController.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\Endereco.java
@@ -31,6 +34,7 @@ G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirt
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\Produto.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\NotaFiscalCompra.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\AcessoController.java
+G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\service\CupomDescontoService.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\ContaReceber.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\service\CategoriaProdutoService.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\repository\ImagemProdutoRepository.java
@@ -55,6 +59,7 @@ G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirt
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\ValidaCpf.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\repository\AvaliacaoProdutoRepository.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\enums\TipoEndereco.java
+G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\CupomDescontoController.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\enums\FormaPagamento.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\VendaCompraLojaVirtualController.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\security\WebConfigSecurity.java
@@ -62,6 +67,7 @@ G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirt
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\enums\StatusContaReceber.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\security\JWTLoginFilter.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\dto\AtividadeDTO.java
+G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\repository\CupomDescontoRepository.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\dto\ObjetoErroDto.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\Usuario.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\CnpjController.java
@@ -86,6 +92,7 @@ G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirt
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\ApplicationContextLoad.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\Acesso.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\FormaPagamento.java
+G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\RelatoriosController.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\service\ContaReceberService.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\IndexController.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\VendaCompraLojaVirtual.java
@@ -95,6 +102,7 @@ G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirt
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\AvaliacaoProdutoController.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\repository\ContaPagarRepository.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\service\NotaFiscalCompraService.java
+G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\NotaFiscalVendaController.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\ConsultaCnpjController.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\ItemVendaLoja.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\repository\PessoaFisicaRepository.java
