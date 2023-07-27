@@ -2,6 +2,7 @@ package br.com.franca.ShirtVirtual.model;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -19,6 +20,7 @@ public class CupomDesonto implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cup_desc")
     private Long id;
 
+    @NotEmpty(message = "Descrição do cupom de desconto é obrigatoria.")
     @Column(name = "codigo_desconto", nullable = false)
     private String codDesc;
 
@@ -28,10 +30,12 @@ public class CupomDesonto implements Serializable {
     @Column(name = "valor_percentual_desconto")
     private BigDecimal valorPercentDesc;
 
+    @NotEmpty(message = "Data de validade do cupom de desconto é obrigatoria.")
     @Temporal(TemporalType.DATE)
     @Column(name = "data_validade_cupom", nullable = false)
     private Date dtValidadeCupom;
 
+    @NotEmpty(message = "Empresa responsavel do cupom de desconto é obrigatoria.")
     @ManyToOne(targetEntity = PessoaJuridica.class)
     @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
     private PessoaJuridica empresa;
