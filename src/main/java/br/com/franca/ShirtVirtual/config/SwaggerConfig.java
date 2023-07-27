@@ -61,6 +61,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
                         new Tag("Produtos", "Endpoints para gerenciamento de produtos"),
                         new Tag("Status-Rastreio", "Endpoints para gerenciamento de status de rastreio"),
                         new Tag("Venda-Compra-Loja-Virtual", "Endpoints para gerenciamento de venda"),
+                        new Tag("Relatorios", "Endpoints para gerenciamento de relatorios"),
                         new Tag("Consultas-Externas", "Endpoints para consultas externas de CPF / CNPJ e CEP"),
                         new Tag("Gerador-Cpf", "Endpoints para consultas externas de CPF / CNPJ e CEP"),
                         new Tag("Gerador-Cnpj", "Endpoints para consultas externas de CPF / CNPJ e CEP")
@@ -80,8 +81,8 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("API - Ecommerce Loja Virtual")
-                .description("Documentação da API - Ecommerce Loja Virtual")
+                .title("T-Shirt Virtual")
+                .description("Documentação da API - Ecommerce Loja T-Shirt Virtual")
                 .license("Apache 2.0")
                 .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
                 .termsOfServiceUrl("")
