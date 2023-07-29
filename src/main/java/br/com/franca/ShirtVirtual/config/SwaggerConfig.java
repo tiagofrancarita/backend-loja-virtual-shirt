@@ -64,7 +64,8 @@ public class SwaggerConfig implements WebMvcConfigurer {
                         new Tag("Relatorios", "Endpoints para gerenciamento de relatorios"),
                         new Tag("Consultas-Externas", "Endpoints para consultas externas de CPF / CNPJ e CEP"),
                         new Tag("Gerador-Cpf", "Endpoints para consultas externas de CPF / CNPJ e CEP"),
-                        new Tag("Gerador-Cnpj", "Endpoints para consultas externas de CPF / CNPJ e CEP")
+                        new Tag("Gerador-Cnpj", "Endpoints para consultas externas de CPF / CNPJ e CEP"),
+                        new Tag("Melhor-Envio-Transportadora", "Endpoints para gerenciamento logistico das encomendas integração com API externa melhor envio.")
                 );
     }
 

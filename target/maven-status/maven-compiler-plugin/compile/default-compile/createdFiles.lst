@@ -1,4 +1,5 @@
 br\com\franca\ShirtVirtual\service\FormaPagamentoService.class
+br\com\franca\ShirtVirtual\utils\dto\EmpresaTransporteDTO.class
 br\com\franca\ShirtVirtual\repository\NotaFiscalVendaRepository.class
 br\com\franca\ShirtVirtual\service\RelatoriosService.class
 br\com\franca\ShirtVirtual\security\JWTTokenAutenticacaoService.class
@@ -43,6 +44,7 @@ br\com\franca\ShirtVirtual\repository\MarcaProdutoRepository.class
 br\com\franca\ShirtVirtual\model\PessoaFisica.class
 br\com\franca\ShirtVirtual\utils\dto\BillingDTO.class
 br\com\franca\ShirtVirtual\ShirtVirtualApplication.class
+br\com\franca\ShirtVirtual\enums\StatusVendaLojaVirtual.class
 br\com\franca\ShirtVirtual\service\PessoaFisicaService.class
 br\com\franca\ShirtVirtual\repository\FormaPagamentoRepository.class
 br\com\franca\ShirtVirtual\repository\ContaPagarRepository.class
@@ -50,13 +52,16 @@ br\com\franca\ShirtVirtual\service\ServiceSendEmail$1.class
 br\com\franca\ShirtVirtual\utils\ValidaCpf.class
 br\com\franca\ShirtVirtual\service\PessoaJuridicaService.class
 br\com\franca\ShirtVirtual\repository\CupomDescontoRepository.class
+br\com\franca\ShirtVirtual\utils\dto\ToDTO.class
 br\com\franca\ShirtVirtual\repository\EnderecoRepository.class
 br\com\franca\ShirtVirtual\utils\dto\ItemVendaDTO.class
 br\com\franca\ShirtVirtual\model\Usuario.class
 br\com\franca\ShirtVirtual\controller\LoginController.class
 br\com\franca\ShirtVirtual\utils\dto\ObjetoErroDto.class
 br\com\franca\ShirtVirtual\service\UserDetailsServiceImpl.class
+br\com\franca\ShirtVirtual\config\tokens\ApiTokenMelhorEnvio.class
 br\com\franca\ShirtVirtual\model\ImagemProduto.class
+br\com\franca\ShirtVirtual\utils\dto\FromDTO.class
 br\com\franca\ShirtVirtual\controller\CategoriaProdutoController.class
 br\com\franca\ShirtVirtual\ApplicationContextLoad.class
 br\com\franca\ShirtVirtual\config\AppConfig.class
@@ -70,17 +75,20 @@ br\com\franca\ShirtVirtual\model\MarcaProduto.class
 br\com\franca\ShirtVirtual\utils\GeradorCnpjValido.class
 br\com\franca\ShirtVirtual\repository\AvaliacaoProdutoRepository.class
 br\com\franca\ShirtVirtual\controller\ImagemProdutoController.class
+br\com\franca\ShirtVirtual\controller\ApiIntegracaoMelhorEnvioController.class
 br\com\franca\ShirtVirtual\model\NotaFiscalCompra.class
 br\com\franca\ShirtVirtual\controller\ProdutoController.class
 br\com\franca\ShirtVirtual\model\Acesso.class
 br\com\franca\ShirtVirtual\model\PessoaJuridica.class
 br\com\franca\ShirtVirtual\model\ContaPagar.class
 br\com\franca\ShirtVirtual\service\ServiceSendEmail.class
+br\com\franca\ShirtVirtual\utils\dto\ProductsDTO.class
 br\com\franca\ShirtVirtual\model\ItemVendaLoja.class
 br\com\franca\ShirtVirtual\repository\NotaFiscalCompraRepository.class
 br\com\franca\ShirtVirtual\utils\dto\AvaliacaoProdutoDTO.class
 br\com\franca\ShirtVirtual\service\StatusRastreioService.class
 br\com\franca\ShirtVirtual\repository\NotaItemProdutoRepository.class
+br\com\franca\ShirtVirtual\utils\dto\RelatorioProdCompraNotaFiscalDTO.class
 br\com\franca\ShirtVirtual\controller\MarcaProdutoController.class
 br\com\franca\ShirtVirtual\service\ProdutoService.class
 br\com\franca\ShirtVirtual\config\SwaggerConfig.class
@@ -106,6 +114,7 @@ br\com\franca\ShirtVirtual\model\CupomDesonto.class
 br\com\franca\ShirtVirtual\repository\ImagemProdutoRepository.class
 br\com\franca\ShirtVirtual\model\CategoriaProduto.class
 br\com\franca\ShirtVirtual\service\NotaItemProdutoService.class
+br\com\franca\ShirtVirtual\utils\dto\ConsultaFreteDTO.class
 br\com\franca\ShirtVirtual\utils\dto\ImagemProdutoDTO.class
 br\com\franca\ShirtVirtual\utils\dto\ExtraDTO.class
 br\com\franca\ShirtVirtual\utils\dto\CategoriaProdutoDTO.class
@@ -113,6 +122,7 @@ br\com\franca\ShirtVirtual\service\ContaPagarService.class
 br\com\franca\ShirtVirtual\service\ConsultaCnpjService.class
 br\com\franca\ShirtVirtual\controller\CnpjController.class
 br\com\franca\ShirtVirtual\enums\TipoPessoa.class
+br\com\franca\ShirtVirtual\integracoes\ApiMelhorEnvio.class
 br\com\franca\ShirtVirtual\controller\PessoaFisicaController.class
 br\com\franca\ShirtVirtual\model\AvaliacaoProduto.class
 br\com\franca\ShirtVirtual\model\NotaFiscalVenda.class
