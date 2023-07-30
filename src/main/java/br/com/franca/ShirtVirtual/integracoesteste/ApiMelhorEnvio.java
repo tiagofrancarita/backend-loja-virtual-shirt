@@ -7,7 +7,7 @@ import okhttp3.*;
 import java.io.IOException;
 
 public class ApiMelhorEnvio {
-
+ /*
     public static void main(String[] args) throws  IOException {
 
         //Imprime etiqueta
@@ -28,18 +28,6 @@ public class ApiMelhorEnvio {
 
         System.out.println(response.body().string());
 
-
-
-
-
-
-
-
-
-
-
-
- /*
         // Geração de etiquetas
         OkHttpClient client = new OkHttpClient();
 
@@ -103,12 +91,7 @@ public class ApiMelhorEnvio {
 
 
     }
-}
-
-
-
-
-        /*
+/*
         //  compra frete / etiqueta
 
         OkHttpClient client = new OkHttpClient();

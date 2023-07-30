@@ -1,5 +1,6 @@
 br\com\franca\ShirtVirtual\service\FormaPagamentoService.class
 br\com\franca\ShirtVirtual\utils\dto\EmpresaTransporteDTO.class
+br\com\franca\ShirtVirtual\utils\dto\ProductsEnvioFreteDTO.class
 br\com\franca\ShirtVirtual\repository\NotaFiscalVendaRepository.class
 br\com\franca\ShirtVirtual\service\RelatoriosService.class
 br\com\franca\ShirtVirtual\security\JWTTokenAutenticacaoService.class
@@ -51,6 +52,7 @@ br\com\franca\ShirtVirtual\repository\ContaPagarRepository.class
 br\com\franca\ShirtVirtual\service\ServiceSendEmail$1.class
 br\com\franca\ShirtVirtual\utils\ValidaCpf.class
 br\com\franca\ShirtVirtual\service\PessoaJuridicaService.class
+br\com\franca\ShirtVirtual\utils\dto\OptionsEnvioFreteDTO.class
 br\com\franca\ShirtVirtual\repository\CupomDescontoRepository.class
 br\com\franca\ShirtVirtual\utils\dto\ToDTO.class
 br\com\franca\ShirtVirtual\repository\EnderecoRepository.class
@@ -58,6 +60,7 @@ br\com\franca\ShirtVirtual\utils\dto\ItemVendaDTO.class
 br\com\franca\ShirtVirtual\model\Usuario.class
 br\com\franca\ShirtVirtual\controller\LoginController.class
 br\com\franca\ShirtVirtual\utils\dto\ObjetoErroDto.class
+br\com\franca\ShirtVirtual\utils\dto\ToEnvioFreteDTO.class
 br\com\franca\ShirtVirtual\service\UserDetailsServiceImpl.class
 br\com\franca\ShirtVirtual\config\tokens\ApiTokenMelhorEnvio.class
 br\com\franca\ShirtVirtual\model\ImagemProduto.class
@@ -66,6 +69,7 @@ br\com\franca\ShirtVirtual\controller\CategoriaProdutoController.class
 br\com\franca\ShirtVirtual\ApplicationContextLoad.class
 br\com\franca\ShirtVirtual\config\AppConfig.class
 br\com\franca\ShirtVirtual\repository\AcessoRepository.class
+br\com\franca\ShirtVirtual\integracoesteste\ApiMelhorEnvio.class
 br\com\franca\ShirtVirtual\utils\dto\ConsultaCnpjDTO.class
 br\com\franca\ShirtVirtual\repository\PessoaJuridicaRepository.class
 br\com\franca\ShirtVirtual\repository\VendaCompraLojaVirtualRepository.class
@@ -78,10 +82,12 @@ br\com\franca\ShirtVirtual\controller\ImagemProdutoController.class
 br\com\franca\ShirtVirtual\controller\ApiIntegracaoMelhorEnvioController.class
 br\com\franca\ShirtVirtual\model\NotaFiscalCompra.class
 br\com\franca\ShirtVirtual\controller\ProdutoController.class
+br\com\franca\ShirtVirtual\utils\dto\FreteDTO.class
 br\com\franca\ShirtVirtual\model\Acesso.class
 br\com\franca\ShirtVirtual\model\PessoaJuridica.class
 br\com\franca\ShirtVirtual\model\ContaPagar.class
 br\com\franca\ShirtVirtual\service\ServiceSendEmail.class
+br\com\franca\ShirtVirtual\utils\dto\VolumeEnvioFreteDTO.class
 br\com\franca\ShirtVirtual\utils\dto\ProductsDTO.class
 br\com\franca\ShirtVirtual\model\ItemVendaLoja.class
 br\com\franca\ShirtVirtual\repository\NotaFiscalCompraRepository.class
@@ -120,10 +126,12 @@ br\com\franca\ShirtVirtual\utils\dto\ExtraDTO.class
 br\com\franca\ShirtVirtual\utils\dto\CategoriaProdutoDTO.class
 br\com\franca\ShirtVirtual\service\ContaPagarService.class
 br\com\franca\ShirtVirtual\service\ConsultaCnpjService.class
+br\com\franca\ShirtVirtual\utils\dto\TagsEnvioFreteDTO.class
 br\com\franca\ShirtVirtual\controller\CnpjController.class
 br\com\franca\ShirtVirtual\enums\TipoPessoa.class
-br\com\franca\ShirtVirtual\integracoes\ApiMelhorEnvio.class
+br\com\franca\ShirtVirtual\utils\dto\FromEnvioFreteDTO.class
 br\com\franca\ShirtVirtual\controller\PessoaFisicaController.class
 br\com\franca\ShirtVirtual\model\AvaliacaoProduto.class
 br\com\franca\ShirtVirtual\model\NotaFiscalVenda.class
+br\com\franca\ShirtVirtual\utils\dto\InvoiceEnvioDTO.class
 br\com\franca\ShirtVirtual\service\CupomDescontoService.class

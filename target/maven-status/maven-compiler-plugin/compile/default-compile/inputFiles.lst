@@ -2,11 +2,11 @@ G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirt
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\dto\QsaDTO.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\ContaReceberController.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\NotaFiscalCompraController.java
-G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\integracoes\ApiMelhorEnvio.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\repository\ProdutoRepository.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\security\JWTTokenAutenticacaoService.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\dto\AvaliacaoProdutoDTO.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\config\SwaggerConfig.java
+G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\dto\ToEnvioFreteDTO.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\PessoaFisicaController.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\config\AppConfig.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\enums\StatusVendaLojaVirtual.java
@@ -21,6 +21,7 @@ G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirt
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\service\NotaFiscalVendaService.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\ProdutoController.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\ConsultaCepController.java
+G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\dto\ProductsEnvioFreteDTO.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\Endereco.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\service\ImagemProdutoService.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\config\tokens\ApiTokenMelhorEnvio.java
@@ -54,6 +55,7 @@ G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirt
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\repository\NotaItemProdutoRepository.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\dto\FromDTO.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\repository\UsuarioRepository.java
+G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\dto\FreteDTO.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\service\PessoaJuridicaService.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\CategoriaProduto.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\dto\CategoriaProdutoDTO.java
@@ -83,6 +85,7 @@ G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirt
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\repository\CategoriaProdutoRepository.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\repository\FormaPagamentoRepository.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\service\AutomatizacaoService.java
+G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\dto\FromEnvioFreteDTO.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\exceptions\ControleExcecao.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\service\AcessoService.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\service\ConsultaCepService.java
@@ -101,10 +104,13 @@ G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirt
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\ApplicationContextLoad.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\Acesso.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\FormaPagamento.java
+G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\dto\TagsEnvioFreteDTO.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\RelatoriosController.java
+G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\dto\InvoiceEnvioDTO.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\service\ContaReceberService.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\IndexController.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\VendaCompraLojaVirtual.java
+G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\dto\VolumeEnvioFreteDTO.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\CupomDesonto.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\PessoaJuridica.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\GeradorCpfValido.java
@@ -112,11 +118,13 @@ G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirt
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\repository\ContaPagarRepository.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\service\NotaFiscalCompraService.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\ApiIntegracaoMelhorEnvioController.java
+G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\integracoesteste\ApiMelhorEnvio.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\NotaFiscalVendaController.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\ConsultaCnpjController.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\ItemVendaLoja.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\repository\PessoaFisicaRepository.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\dto\ItemVendaDTO.java
+G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\dto\OptionsEnvioFreteDTO.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\exceptions\ExceptionShirtVirtual.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\ContaPagar.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\service\PessoaFisicaService.java

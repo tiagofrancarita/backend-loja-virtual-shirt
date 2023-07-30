@@ -1,5 +1,6 @@
 package br.com.franca.ShirtVirtual.model;
 
+import br.com.franca.ShirtVirtual.enums.TipoEndereco;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -46,6 +47,23 @@ public abstract class Pessoa implements Serializable {
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
     private Pessoa empresa;
+
+
+
+    public Endereco enderecoEntrega() {
+
+        Endereco enderecoReturn = null;
+
+        for (Endereco endereco : enderecos){
+            if (endereco.getTipoEndereco().name().equals(TipoEndereco.ENTREGA.name())){
+                    enderecoReturn = endereco;
+                    break;
+            }
+        }
+
+        return enderecoReturn;
+    }
+
 
     public List<Endereco> getEnderecos() {
         return enderecos;
@@ -102,6 +120,8 @@ public abstract class Pessoa implements Serializable {
     public void setEmpresa(Pessoa empresa) {
         this.empresa = empresa;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

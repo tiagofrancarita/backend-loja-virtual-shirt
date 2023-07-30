@@ -1,6 +1,6 @@
 package br.com.franca.ShirtVirtual.controller;
 
-
+import br.com.franca.ShirtVirtual.config.tokens.ApiTokenMelhorEnvio;
 import br.com.franca.ShirtVirtual.exceptions.ExceptionShirtVirtual;
 import br.com.franca.ShirtVirtual.model.*;
 import br.com.franca.ShirtVirtual.repository.EnderecoRepository;
@@ -9,13 +9,14 @@ import br.com.franca.ShirtVirtual.repository.StatusRastreioRepository;
 import br.com.franca.ShirtVirtual.repository.VendaCompraLojaVirtualRepository;
 import br.com.franca.ShirtVirtual.service.ServiceSendEmail;
 import br.com.franca.ShirtVirtual.service.VendaCompraLojaVirtualService;
-import br.com.franca.ShirtVirtual.utils.dto.ItemVendaDTO;
-import br.com.franca.ShirtVirtual.utils.dto.VendaCompraLojaVirtualDTO;
+import br.com.franca.ShirtVirtual.utils.dto.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.OkHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +25,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.io.IOException;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
 import java.util.Date;
 import java.util.List;
 
@@ -62,6 +61,8 @@ public class VendaCompraLojaVirtualController {
         this.notaFiscalVendaRepository = notaFiscalVendaRepository;
         this.statusRastreioRepository = statusRastreioRepository;
     }
+
+
 
     @ApiOperation("Listagem de todas as vendas cadastradas")
     @ApiResponses({
