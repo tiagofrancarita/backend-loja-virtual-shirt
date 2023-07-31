@@ -60,25 +60,25 @@ public class ContaReceberController {
 
         if (contaReceber.getEmpresa() == null || contaReceber.getEmpresa().getId() <= 0) {
             log.error("Cadastro de conta a receber encerrado com erro, empresa responsável deve ser informada.");
-            throw new ExceptionShirtVirtual("Empresa responsável deve ser informada.", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Empresa responsável deve ser informada.");
         }
 
         if (contaReceber.getPessoa() == null || contaReceber.getPessoa().getId() <= 0) {
             log.error("Cadastro de conta a receber encerrado com erro, pessoa responsável deve ser informada.");
-            throw new ExceptionShirtVirtual("Pessoa responsável deve ser informada.", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Pessoa responsável deve ser informada.");
         }
 
 
         if (!contaReceberService.verificarDescricaoNoMesCorrente(contaReceber.getDtCadastro())){
             log.error("Cadastro de conta a receber encerrado com erro, a data de cadastro não é referente ao mês corrente");
-            throw new ExceptionShirtVirtual("Cadastro de conta a receber encerrado com erro, a data de cadastro não é referente ao mês corrente", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Cadastro de conta a receber encerrado com erro, a data de cadastro não é referente ao mês corrente");
         }
 
         if (contaReceber.getId() == null){
             List<ContaReceber> contasReceber = contaReceberRepository.buscarContaReceberDescricao(contaReceber.getDescricao().toUpperCase().trim());
             if (!contasReceber.isEmpty()) {
                 log.error("Cadastro de conta a receber encerrado com erro, já existe uma conta com essa descrição");
-                throw new ExceptionShirtVirtual("Cadastro de conta a receber encerrado com erro, já existe uma conta com essa descrição" + contaReceber.getDescricao(), HttpStatus.UNPROCESSABLE_ENTITY);
+                throw new ExceptionShirtVirtual("Cadastro de conta a receber encerrado com erro, já existe uma conta com essa descrição" + contaReceber.getDescricao());
             }
         }
 
@@ -103,7 +103,7 @@ public class ContaReceberController {
 
         if (contaReceber == null){
             log.error("Erro ao buscar conta a receber, codigo inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id);
 
         }
         log.info("Busca realizada com sucesso");
@@ -125,7 +125,7 @@ public class ContaReceberController {
 
         if (contaReceber == null){
             log.error("Erro ao buscar conta a receber, descricao inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " nome: "  +  descricao, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " nome: "  +  descricao);
 
         }
         log.info("Busca realizada com sucesso");
@@ -147,7 +147,7 @@ public class ContaReceberController {
 
         if (contaReceber == null){
             log.error("Erro ao buscar conta a receber, id inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " idPessoa: "  +  idPessoa, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " idPessoa: "  +  idPessoa);
 
         }
         log.info("Busca realizada com sucesso");
@@ -169,7 +169,7 @@ public class ContaReceberController {
 
         if (contaReceber == null){
             log.error("Erro ao buscar conta a receber, id inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " idPessoa: "  +  idEmpresa, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " idPessoa: "  +  idEmpresa);
 
         }
         log.info("Busca realizada com sucesso");

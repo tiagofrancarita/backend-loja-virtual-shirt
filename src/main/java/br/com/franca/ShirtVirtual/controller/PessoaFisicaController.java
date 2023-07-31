@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Locale;
 
 @Controller
 @RestController
@@ -57,7 +56,7 @@ public class PessoaFisicaController {
     public ResponseEntity<PessoaFisica> salvarPessoaFisica(@RequestBody PessoaFisica pessoaFisica) throws ExceptionShirtVirtual {
 
         if (pessoaFisica == null) {
-            throw new ExceptionShirtVirtual("Pessoa fisica nao pode ser NULL", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Pessoa fisica nao pode ser NULL");
         }
 
         if (pessoaFisica.getTipoPessoa() == null){
@@ -65,15 +64,15 @@ public class PessoaFisicaController {
         }
 
         if (pessoaFisica.getId() == null && pessoaFisicaRepository.existeCPF(pessoaFisica.getCpf()) != null) {
-            throw new ExceptionShirtVirtual("Já existe CPF cadastrado com o número: " + pessoaFisica.getCpf(), HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Já existe CPF cadastrado com o número: " + pessoaFisica.getCpf());
         }
 
         if (pessoaFisica.getId() == null && pessoaFisicaRepository.existeEmail(pessoaFisica.getEmail()) != null) {
-            throw new ExceptionShirtVirtual("Já existe email cadastrado: " + pessoaFisica.getEmail(), HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Já existe email cadastrado: " + pessoaFisica.getEmail());
         }
 
         if (!ValidaCpf.isCPF(pessoaFisica.getCpf())) {
-            throw new ExceptionShirtVirtual("Cpf informado é inválido, favor verificar" + pessoaFisica.getCpf(), HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Cpf informado é inválido, favor verificar" + pessoaFisica.getCpf());
         }
 
         pessoaFisica = pessoaFisicaService.salvarPessoaFisica(pessoaFisica);
@@ -154,7 +153,7 @@ public class PessoaFisicaController {
         PessoaFisica pessoaFisica = pessoaFisicaRepository.findById(id).orElse(null);
 
         if (pessoaFisica == null){
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id);
 
         }
         return new ResponseEntity<PessoaFisica>(pessoaFisica,HttpStatus.OK);

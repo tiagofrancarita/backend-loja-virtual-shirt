@@ -1,11 +1,8 @@
 package br.com.franca.ShirtVirtual.controller;
 
 import br.com.franca.ShirtVirtual.exceptions.ExceptionShirtVirtual;
-import br.com.franca.ShirtVirtual.model.Acesso;
 import br.com.franca.ShirtVirtual.model.MarcaProduto;
-import br.com.franca.ShirtVirtual.repository.AcessoRepository;
 import br.com.franca.ShirtVirtual.repository.MarcaProdutoRepository;
-import br.com.franca.ShirtVirtual.service.AcessoService;
 import br.com.franca.ShirtVirtual.service.MarcaProdutoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -72,7 +69,7 @@ public class MarcaProdutoController {
 
             if (!marcaProdutos.isEmpty()){
                 log.error(ERRO_DESCRICAO_CADASTRADA);
-                throw new ExceptionShirtVirtual(ERRO_DESCRICAO_CADASTRADA +  "Descrição:  " +  marcaProduto.getNomeDesc(), HttpStatus.UNPROCESSABLE_ENTITY);
+                throw new ExceptionShirtVirtual(ERRO_DESCRICAO_CADASTRADA +  "Descrição:  " +  marcaProduto.getNomeDesc());
 
             }
         }
@@ -125,7 +122,7 @@ public class MarcaProdutoController {
         MarcaProduto marcaProduto = marcaProdutoRepository.findById(id).orElse(null);
 
         if (marcaProduto == null){
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id);
 
         }
         return new ResponseEntity<MarcaProduto>(marcaProduto,HttpStatus.OK);

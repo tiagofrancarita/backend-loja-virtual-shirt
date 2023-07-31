@@ -1,16 +1,12 @@
 package br.com.franca.ShirtVirtual.controller;
 
-
+import br.com.franca.ShirtVirtual.enums.StatusContaReceber;
 import br.com.franca.ShirtVirtual.exceptions.ExceptionShirtVirtual;
 import br.com.franca.ShirtVirtual.model.*;
-import br.com.franca.ShirtVirtual.repository.EnderecoRepository;
-import br.com.franca.ShirtVirtual.repository.NotaFiscalVendaRepository;
-import br.com.franca.ShirtVirtual.repository.StatusRastreioRepository;
-import br.com.franca.ShirtVirtual.repository.VendaCompraLojaVirtualRepository;
+import br.com.franca.ShirtVirtual.repository.*;
 import br.com.franca.ShirtVirtual.service.ServiceSendEmail;
 import br.com.franca.ShirtVirtual.service.VendaCompraLojaVirtualService;
-import br.com.franca.ShirtVirtual.utils.dto.ItemVendaDTO;
-import br.com.franca.ShirtVirtual.utils.dto.VendaCompraLojaVirtualDTO;
+import br.com.franca.ShirtVirtual.utils.dto.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -24,11 +20,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.io.IOException;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -47,12 +42,11 @@ public class VendaCompraLojaVirtualController {
     private PessoaJuridicaController pessoaJuridicaController;
     private NotaFiscalVendaRepository notaFiscalVendaRepository;
     private StatusRastreioRepository statusRastreioRepository;
-
-
-
+    private ContaReceberRepository contaReceberRepository;
+    private ContaReceberController contaReceberController;
 
     @Autowired
-    public VendaCompraLojaVirtualController(VendaCompraLojaVirtualRepository vendaCompraLojaVirtualRepository, VendaCompraLojaVirtualService vendaCompraLojaVirtualService, ServiceSendEmail serviceSendEmail, EnderecoRepository enderecoRepository, PessoaFisicaController pessoaFisicaController, PessoaJuridicaController pessoaJuridicaController, NotaFiscalVendaRepository notaFiscalVendaRepository, StatusRastreioRepository statusRastreioRepository) {
+    public VendaCompraLojaVirtualController(VendaCompraLojaVirtualRepository vendaCompraLojaVirtualRepository, VendaCompraLojaVirtualService vendaCompraLojaVirtualService, ServiceSendEmail serviceSendEmail, EnderecoRepository enderecoRepository, PessoaFisicaController pessoaFisicaController, PessoaJuridicaController pessoaJuridicaController, NotaFiscalVendaRepository notaFiscalVendaRepository, StatusRastreioRepository statusRastreioRepository, ContaReceberRepository contaReceberRepository, ContaReceberController contaReceberController) {
         this.vendaCompraLojaVirtualRepository = vendaCompraLojaVirtualRepository;
         this.vendaCompraLojaVirtualService = vendaCompraLojaVirtualService;
         this.serviceSendEmail = serviceSendEmail;
@@ -61,6 +55,8 @@ public class VendaCompraLojaVirtualController {
         this.pessoaJuridicaController = pessoaJuridicaController;
         this.notaFiscalVendaRepository = notaFiscalVendaRepository;
         this.statusRastreioRepository = statusRastreioRepository;
+        this.contaReceberRepository = contaReceberRepository;
+        this.contaReceberController = contaReceberController;
     }
 
     @ApiOperation("Listagem de todas as vendas cadastradas")
@@ -94,11 +90,9 @@ public class VendaCompraLojaVirtualController {
         vendaCompraLojaVirtual.getPessoa().setEmpresa(vendaCompraLojaVirtual.getEmpresa());
         PessoaFisica pessoaFisica = pessoaFisicaController.salvarPessoaFisica(vendaCompraLojaVirtual.getPessoa()).getBody();
         vendaCompraLojaVirtual.setPessoa(pessoaFisica);
-       // pessoaJuridicaController.salvarPessoaJuridica()
-
 
          vendaCompraLojaVirtual.getEnderecoEntrega().setPessoa(pessoaFisica);
-        vendaCompraLojaVirtual.getEnderecoEntrega().setEmpresa(vendaCompraLojaVirtual.getEmpresa());
+         vendaCompraLojaVirtual.getEnderecoEntrega().setEmpresa(vendaCompraLojaVirtual.getEmpresa());
             Endereco enderecoEntrega = enderecoRepository.save(vendaCompraLojaVirtual.getEnderecoEntrega());
             vendaCompraLojaVirtual.setEnderecoEntrega(enderecoEntrega);
 
@@ -110,13 +104,11 @@ public class VendaCompraLojaVirtualController {
         //Associa a nota fiscal a empresa
         vendaCompraLojaVirtual.getNotaFiscalVenda().setEmpresa(vendaCompraLojaVirtual.getEmpresa());
 
-
         //Associacao item produto a uma venda
          for (int item = 0; item < vendaCompraLojaVirtual.getItemVendaLojas().size(); item++){
              vendaCompraLojaVirtual.getItemVendaLojas().get(item).setEmpresa(vendaCompraLojaVirtual.getEmpresa());
              vendaCompraLojaVirtual.getItemVendaLojas().get(item).setVendaCompraLojaVirtual(vendaCompraLojaVirtual);
          }
-
 
         //Salva primeiro os dados basicos  da venda
         vendaCompraLojaVirtual = vendaCompraLojaVirtualRepository.saveAndFlush(vendaCompraLojaVirtual);
@@ -162,17 +154,32 @@ public class VendaCompraLojaVirtualController {
             log.info("item adicionado");
         }
 
+        ContaReceber contaReceber = new ContaReceber();
 
-        // Após a venda ser salva no banco é enviado um e-mail para o cliente
-            StringBuilder html = new StringBuilder();
-            html.append("<h2>").append("Venda:" + vendaCompraLojaVirtual.getId())
-            .append("Data da venda" + vendaCompraLojaVirtual.getDtVenda());
-            html.append("<p> Tem entrega estimada para ").append(vendaCompraLojaVirtual.getDiasEntrega()).append("</p>")
-            .append("Data estimada de entrega:").append(vendaCompraLojaVirtual.getDtEntrega())
-            .append("Numero nota fiscal").append(vendaCompraLojaVirtual.getNotaFiscalVenda().getNumeroNotaFiscalVenda());
+        contaReceber.setDescricao("Venda da loja virtual nº: " + vendaCompraLojaVirtual.getId());
+        contaReceber.setDtPagamento(Calendar.getInstance().getTime());
+        contaReceber.setDtVencimento(Calendar.getInstance().getTime());
+        contaReceber.setEmpresa(vendaCompraLojaVirtual.getEmpresa());
+        contaReceber.setPessoa(vendaCompraLojaVirtual.getPessoa());
+        contaReceber.setStatusContaReceber(StatusContaReceber.QUITADA);
+        contaReceber.setValorDesconto(vendaCompraLojaVirtual.getValorTotalDescontoVendaLoja());
+        contaReceber.setValorTotal(vendaCompraLojaVirtual.getValorTotalVendaLoja());
 
-            serviceSendEmail.enviaEmailHtml("Venda:" + vendaCompraLojaVirtual.getId(),html.toString(),vendaCompraLojaVirtual.getPessoa().getEmail());
-            log.info("Cadastro de venda realizado com sucesso, e-mail enviado para o cliente");
+        contaReceberController.cadastroContaReceber(contaReceber);
+
+
+        /*Emil para o comprador*/
+        StringBuilder msgemail = new StringBuilder();
+        msgemail.append("Olá, ").append(pessoaFisica.getNome()).append("</br>");
+        msgemail.append("Você realizou a compra de nº: ").append(vendaCompraLojaVirtual.getId()).append("</br>");
+        msgemail.append("Na loja ").append(vendaCompraLojaVirtual.getEmpresa().getNomeFantasia());
+        /*assunto, msg, destino*/
+        serviceSendEmail.enviaEmailHtml("Compra Realizada", msgemail.toString(), pessoaFisica.getEmail());
+
+        /*Email para o vendedor*/
+        msgemail = new StringBuilder();
+        msgemail.append("Você realizou uma venda, nº " ).append(vendaCompraLojaVirtual.getId());
+        serviceSendEmail.enviaEmailHtml("Venda Realizada", msgemail.toString(), vendaCompraLojaVirtual.getEmpresa().getEmail());
 
         return new ResponseEntity<VendaCompraLojaVirtualDTO>(compraLojaVirtualDTO, HttpStatus.CREATED);
 
@@ -235,7 +242,7 @@ public class VendaCompraLojaVirtualController {
 
         if (vendaCompraLojaVirtuals == null){
             log.error("Erro ao buscar venda por cliente, id inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idCliente, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idCliente);
 
         }
         log.info("Busca realizada com sucesso");
@@ -257,7 +264,7 @@ public class VendaCompraLojaVirtualController {
 
         if (vendaCompraLojaVirtuals == null){
             log.error("Erro ao buscar venda por forma de pagamanto, id inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idFormaPagamento, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idFormaPagamento);
 
         }
         log.info("Busca realizada com sucesso");
@@ -279,7 +286,7 @@ public class VendaCompraLojaVirtualController {
 
         if (vendaCompraLojaVirtuals == null){
             log.error("Erro ao buscar venda por forma de pagamanto, id inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idNotaFiscalvenda, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idNotaFiscalvenda);
 
         }
         log.info("Busca realizada com sucesso");
@@ -301,7 +308,7 @@ public class VendaCompraLojaVirtualController {
 
         if (vendaCompraLojaVirtuals == null){
             log.error("Erro ao buscar venda por forma de pagamanto, id inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idEmpresa, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idEmpresa);
 
         }
         log.info("Busca realizada com sucesso");
@@ -323,7 +330,7 @@ public class VendaCompraLojaVirtualController {
 
         if (vendaCompraLojaVirtuals == null){
             log.error("Erro ao buscar venda por cpf, cpf inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O cpf informado não existe. " + " id: "  +  cpfCliente, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O cpf informado não existe. " + " id: "  +  cpfCliente);
 
         }
         log.info("Busca realizada com sucesso");
@@ -345,7 +352,7 @@ public class VendaCompraLojaVirtualController {
 
         if (vendaCompraLojaVirtuals == null){
             log.error("Erro ao buscar venda por email, email inválido ou inexistente");
-            throw new ExceptionShirtVirtual("Erro ao buscar venda por email, email inválido ou inexistente. " + " id: "  +  emailCliente, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("Erro ao buscar venda por email, email inválido ou inexistente. " + " id: "  +  emailCliente);
 
         }
         log.info("Busca realizada com sucesso");
@@ -367,7 +374,7 @@ public class VendaCompraLojaVirtualController {
 
         if (vendaCompraLojaVirtuals == null){
             log.error("Erro ao buscar venda por email, email inválido ou inexistente");
-            throw new ExceptionShirtVirtual("Erro ao buscar venda por email, email inválido ou inexistente. " + " id: "  +  numeroNota, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("Erro ao buscar venda por email, email inválido ou inexistente. " + " id: "  +  numeroNota);
 
         }
         log.info("Busca realizada com sucesso");
@@ -389,7 +396,7 @@ public class VendaCompraLojaVirtualController {
 
         if (vendaCompraLojaVirtuals == null){
             log.error("Erro ao buscar venda por email, email inválido ou inexistente");
-            throw new ExceptionShirtVirtual("Erro ao buscar venda por email, email inválido ou inexistente. " + " id: "  +  cnpjEmpresa, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("Erro ao buscar venda por email, email inválido ou inexistente. " + " id: "  +  cnpjEmpresa);
 
         }
         log.info("Busca realizada com sucesso");
@@ -411,7 +418,7 @@ public class VendaCompraLojaVirtualController {
 
         if (vendaCompraLojaVirtuals == null){
             log.error("Erro ao buscar venda por email, email inválido ou inexistente");
-            throw new ExceptionShirtVirtual("Erro ao buscar venda por email, email inválido ou inexistente. " + " id: "  +  bairroEntrega, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("Erro ao buscar venda por email, email inválido ou inexistente. " + " id: "  +  bairroEntrega);
 
         }
         log.info("Busca realizada com sucesso");
@@ -433,7 +440,7 @@ public class VendaCompraLojaVirtualController {
 
         if (vendaCompraLojaVirtuals == null){
             log.error("Erro ao buscar venda por nome, nome inválido ou inexistente");
-            throw new ExceptionShirtVirtual("Erro ao buscar venda por email, email inválido ou inexistente. " + " id: "  +  nomeCliente, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("Erro ao buscar venda por email, email inválido ou inexistente. " + " id: "  +  nomeCliente);
 
 
         }

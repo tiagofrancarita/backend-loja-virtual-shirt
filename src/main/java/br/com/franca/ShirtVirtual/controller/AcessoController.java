@@ -64,7 +64,7 @@ public class AcessoController {
 
             if (!acessos.isEmpty()){
                 log.error(ERRO_DESCRICAO_CADASTRADA);
-                throw new ExceptionShirtVirtual(ERRO_DESCRICAO_CADASTRADA +  "Descrição:  " +  acesso.getDescAcesso(), HttpStatus.UNPROCESSABLE_ENTITY);
+                throw new ExceptionShirtVirtual(ERRO_DESCRICAO_CADASTRADA +  "Descrição:  " +  acesso.getDescAcesso());
 
             }
         }
@@ -118,7 +118,7 @@ public class AcessoController {
         Acesso acesso = acessoRepository.findById(id).orElse(null);
 
         if (acesso == null){
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id);
 
         }
         return new ResponseEntity<Acesso>(acesso,HttpStatus.OK);
