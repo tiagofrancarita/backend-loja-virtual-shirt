@@ -1,10 +1,10 @@
 package br.com.franca.ShirtVirtual.exceptions;
 
-import org.springframework.http.HttpStatus;
-
 public class ExceptionShirtVirtual extends Exception{
 
-    public ExceptionShirtVirtual(String msgErro, HttpStatus responseHttp) {
+    private static final long serialVersionUID = 1L;
+
+    public ExceptionShirtVirtual(String msgErro) {
         super(msgErro);
     }
 }

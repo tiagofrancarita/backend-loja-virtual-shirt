@@ -2,7 +2,7 @@ package br.com.franca.ShirtVirtual.utils.dto;
 
 import java.io.Serializable;
 
-public class TagsEnvioFreteDTO implements Serializable {
+public class TagsEnvioDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

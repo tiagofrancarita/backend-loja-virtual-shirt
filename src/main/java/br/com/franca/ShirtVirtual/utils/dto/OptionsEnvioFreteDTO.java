@@ -10,19 +10,16 @@ public class OptionsEnvioFreteDTO implements Serializable {
 
     private String insurance_value;
 
-    private String receipt;
-
-    private String own_hand;
-
-    private String reverse;
-
-    private String non_commercial;
+    private boolean receipt;
+    private boolean own_hand;
+    private boolean reverse;
+    private boolean non_commercial;
 
     private InvoiceEnvioDTO invoice = new InvoiceEnvioDTO();
 
     private String platform;
 
-   private List<TagsEnvioFreteDTO> tags = new ArrayList<TagsEnvioFreteDTO>();
+    private List<TagsEnvioDto> tags = new ArrayList<TagsEnvioDto>();
 
     public String getInsurance_value() {
         return insurance_value;
@@ -32,35 +29,35 @@ public class OptionsEnvioFreteDTO implements Serializable {
         this.insurance_value = insurance_value;
     }
 
-    public String getReceipt() {
+    public boolean isReceipt() {
         return receipt;
     }
 
-    public void setReceipt(String receipt) {
+    public void setReceipt(boolean receipt) {
         this.receipt = receipt;
     }
 
-    public String getOwn_hand() {
+    public boolean isOwn_hand() {
         return own_hand;
     }
 
-    public void setOwn_hand(String own_hand) {
+    public void setOwn_hand(boolean own_hand) {
         this.own_hand = own_hand;
     }
 
-    public String getReverse() {
+    public boolean isReverse() {
         return reverse;
     }
 
-    public void setReverse(String reverse) {
+    public void setReverse(boolean reverse) {
         this.reverse = reverse;
     }
 
-    public String getNon_commercial() {
+    public boolean isNon_commercial() {
         return non_commercial;
     }
 
-    public void setNon_commercial(String non_commercial) {
+    public void setNon_commercial(boolean non_commercial) {
         this.non_commercial = non_commercial;
     }
 
@@ -80,11 +77,12 @@ public class OptionsEnvioFreteDTO implements Serializable {
         this.platform = platform;
     }
 
-    public List<TagsEnvioFreteDTO> getTags() {
+    public List<TagsEnvioDto> getTags() {
         return tags;
     }
 
-    public void setTags(List<TagsEnvioFreteDTO> tags) {
+    public void setTags(List<TagsEnvioDto> tags) {
         this.tags = tags;
     }
+
 }

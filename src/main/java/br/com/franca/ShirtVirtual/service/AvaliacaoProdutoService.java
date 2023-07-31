@@ -7,10 +7,7 @@ import br.com.franca.ShirtVirtual.utils.dto.AvaliacaoProdutoDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MultiValueMap;
 
 import java.util.List;
 
@@ -43,7 +40,7 @@ public class AvaliacaoProdutoService {
 
         if (avaliacaoProdutoDTOS == null){
             log.error("Erro ao buscar produto por nome, o nome informado não existe ou é inválido");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " nome: "  +  desc, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " nome: "  +  desc);
         }
 
         return modelMapper.map(avaliacaoProdutoDTOS, AvaliacaoProdutoDTO.class);

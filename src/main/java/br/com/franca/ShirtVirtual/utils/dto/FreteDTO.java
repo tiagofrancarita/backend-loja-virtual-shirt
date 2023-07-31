@@ -1,6 +1,5 @@
 package br.com.franca.ShirtVirtual.utils.dto;
 
-import javax.swing.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +16,9 @@ public class FreteDTO implements Serializable {
 
     private ToEnvioFreteDTO to =  new ToEnvioFreteDTO();
 
-    private List<ProductsEnvioFreteDTO> products = new ArrayList<ProductsEnvioFreteDTO>();
+    private List<ProductsEnvioEtiquetaDTO> products = new ArrayList<ProductsEnvioEtiquetaDTO>();
 
-    private List<VolumeEnvioFreteDTO> volumes = new ArrayList<VolumeEnvioFreteDTO>();
+    private List<VolumesEnvioEtiquetaDTO> volumes = new ArrayList<VolumesEnvioEtiquetaDTO>();
 
     private OptionsEnvioFreteDTO options = new OptionsEnvioFreteDTO();
 
@@ -63,19 +62,19 @@ public class FreteDTO implements Serializable {
         this.to = to;
     }
 
-    public List<ProductsEnvioFreteDTO> getProducts() {
+    public List<ProductsEnvioEtiquetaDTO> getProducts() {
         return products;
     }
 
-    public void setProducts(List<ProductsEnvioFreteDTO> products) {
+    public void setProducts(List<ProductsEnvioEtiquetaDTO> products) {
         this.products = products;
     }
 
-    public List<VolumeEnvioFreteDTO> getVolumes() {
+    public List<VolumesEnvioEtiquetaDTO> getVolumes() {
         return volumes;
     }
 
-    public void setVolumes(List<VolumeEnvioFreteDTO> volumes) {
+    public void setVolumes(List<VolumesEnvioEtiquetaDTO> volumes) {
         this.volumes = volumes;
     }
 }

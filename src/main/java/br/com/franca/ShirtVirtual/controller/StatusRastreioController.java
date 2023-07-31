@@ -1,7 +1,6 @@
 package br.com.franca.ShirtVirtual.controller;
 
 import br.com.franca.ShirtVirtual.exceptions.ExceptionShirtVirtual;
-import br.com.franca.ShirtVirtual.model.Acesso;
 import br.com.franca.ShirtVirtual.model.StatusRastreio;
 import br.com.franca.ShirtVirtual.repository.StatusRastreioRepository;
 import br.com.franca.ShirtVirtual.service.StatusRastreioService;
@@ -64,7 +63,7 @@ public class StatusRastreioController {
         List<StatusRastreio> statusRastreio = statusRastreioRepository.buscarStatusRastreioPorId(idStatus);
 
         if (statusRastreio == null){
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idStatus, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idStatus);
 
         }
         return new ResponseEntity<List<StatusRastreio>>(statusRastreio, HttpStatus.OK);
@@ -83,7 +82,7 @@ public class StatusRastreioController {
         List<StatusRastreio> statusRastreio = statusRastreioRepository.buscarStatusRastreioPorVenda(idVenda);
 
         if (statusRastreio == null){
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idVenda, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idVenda);
 
         }
 

@@ -95,8 +95,8 @@ public class VendaCompraLojaVirtual implements Serializable {
     @Column(name = "ativo", nullable = false)
     private Boolean ativo = Boolean.TRUE;
 
-    @Column(name = "codigo_frete")
-    private String codigoFrete;
+    @Column(name = "codigo_etiqueta")
+    private String codigoEtiqueta;
 
     @Column(name = "url_impressao_etiqueta")
     private String urlImpressaoEtiqueta;
@@ -120,12 +120,12 @@ public class VendaCompraLojaVirtual implements Serializable {
         this.urlImpressaoEtiqueta = urlImpressaoEtiqueta;
     }
 
-    public String getCodigoFrete() {
-        return codigoFrete;
+    public String getCodigoEtiqueta() {
+        return codigoEtiqueta;
     }
 
-    public void setCodigoFrete(String codigoFrete) {
-        this.codigoFrete = codigoFrete;
+    public void setCodigoEtiqueta(String codigoEtiqueta) {
+        this.codigoEtiqueta = codigoEtiqueta;
     }
 
     public Boolean getAtivo() {

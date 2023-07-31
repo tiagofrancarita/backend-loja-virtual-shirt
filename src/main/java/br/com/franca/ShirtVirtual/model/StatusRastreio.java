@@ -28,6 +28,9 @@ public class StatusRastreio implements Serializable {
     @Column(name = "status_rastreio", nullable = false)
     private String statusRastreio;
 
+    @Column(name = "url_rastreio")
+    private String urlRastreio;
+
     @ManyToOne
     @JoinColumn(name = "vd_cp_loja_virt_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "vd_cp_loja_virt_fk"))
     private VendaCompraLojaVirtual vendaCompraLojaVirtual;
@@ -90,6 +93,14 @@ public class StatusRastreio implements Serializable {
 
     public void setEmpresa(Pessoa empresa) {
         this.empresa = empresa;
+    }
+
+    public String getUrlRastreio() {
+        return urlRastreio;
+    }
+
+    public void setUrlRastreio(String urlRastreio) {
+        this.urlRastreio = urlRastreio;
     }
 
     @Override

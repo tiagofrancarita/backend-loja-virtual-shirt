@@ -3,7 +3,6 @@ package br.com.franca.ShirtVirtual.controller;
 
 import br.com.franca.ShirtVirtual.exceptions.ExceptionShirtVirtual;
 import br.com.franca.ShirtVirtual.model.Endereco;
-import br.com.franca.ShirtVirtual.model.PessoaFisica;
 import br.com.franca.ShirtVirtual.model.PessoaJuridica;
 import br.com.franca.ShirtVirtual.repository.EnderecoRepository;
 import br.com.franca.ShirtVirtual.repository.PessoaJuridicaRepository;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Locale;
 
 @Controller
 @RestController
@@ -71,26 +69,26 @@ public class PessoaJuridicaController {
     public ResponseEntity<PessoaJuridica> salvarPessoaJuridica(@RequestBody @Valid PessoaJuridica pessoaJuridica) throws ExceptionShirtVirtual {
 
         if (pessoaJuridica == null) {
-            throw new ExceptionShirtVirtual("Pessoa juridica nao pode ser NULL", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Pessoa juridica nao pode ser NULL");
         }
 
         if (pessoaJuridica.getTipoPessoa() == null)
-            throw new ExceptionShirtVirtual("Favor informar o tipo. (Juridico ou Fornecedor)", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Favor informar o tipo. (Juridico ou Fornecedor)");
 
         if (pessoaJuridica.getId() == null && pessoaJuridicaRepository.existeCNPJ(pessoaJuridica.getCnpj()) != null) {
-            throw new ExceptionShirtVirtual("Já existe CNPJ cadastrado com o número: " + pessoaJuridica.getCnpj(), HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Já existe CNPJ cadastrado com o número: " + pessoaJuridica.getCnpj());
         }
 
         if (pessoaJuridica.getId() == null && pessoaJuridicaRepository.existeInscricaoEstadual(pessoaJuridica.getInscEstadual()) != null) {
-            throw new ExceptionShirtVirtual("Já existe inscrição estadual cadastrada com o número: " + pessoaJuridica.getInscEstadual(), HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Já existe inscrição estadual cadastrada com o número: " + pessoaJuridica.getInscEstadual());
         }
 
         if (pessoaJuridica.getId() == null && pessoaJuridicaRepository.existeInscricaoMunincipal(pessoaJuridica.getInscricaoMunicipal()) != null) {
-            throw new ExceptionShirtVirtual("Já existe inscrição munincipal cadastrada com o número: " + pessoaJuridica.getInscricaoMunicipal(), HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Já existe inscrição munincipal cadastrada com o número: " + pessoaJuridica.getInscricaoMunicipal());
         }
 
         if (!ValidaCnpj.isCNPJ(pessoaJuridica.getCnpj())) {
-            throw new ExceptionShirtVirtual("Cnpj informado é inválido, favor verificar" + pessoaJuridica.getCnpj(), HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Cnpj informado é inválido, favor verificar" + pessoaJuridica.getCnpj());
         }
 
         if (pessoaJuridica.getId() ==  null || pessoaJuridica.getId() <= 0){
@@ -217,7 +215,7 @@ public class PessoaJuridicaController {
         PessoaJuridica pessoaJuridica = pessoaJuridicaRepository.findById(id).orElse(null);
 
         if (pessoaJuridica == null){
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id);
 
         }
         return new ResponseEntity<PessoaJuridica>(pessoaJuridica,HttpStatus.OK);

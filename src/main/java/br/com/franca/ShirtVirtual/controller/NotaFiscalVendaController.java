@@ -2,7 +2,6 @@ package br.com.franca.ShirtVirtual.controller;
 
 
 import br.com.franca.ShirtVirtual.exceptions.ExceptionShirtVirtual;
-import br.com.franca.ShirtVirtual.model.NotaFiscalCompra;
 import br.com.franca.ShirtVirtual.model.NotaFiscalVenda;
 import br.com.franca.ShirtVirtual.repository.NotaFiscalVendaRepository;
 import br.com.franca.ShirtVirtual.service.NotaFiscalVendaService;
@@ -63,7 +62,7 @@ public class NotaFiscalVendaController {
         NotaFiscalVenda notaFiscalVenda = notaFiscalVendaRepository.findById(id).orElse(null);
 
         if (notaFiscalVenda == null){
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id);
 
         }
         return new ResponseEntity<NotaFiscalVenda>(notaFiscalVenda,HttpStatus.OK);

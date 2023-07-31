@@ -15,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.List;
 
 @Controller
@@ -64,29 +62,29 @@ public class ContaPagarController {
 
         if (contaPagar.getEmpresa() == null || contaPagar.getEmpresa().getId() <= 0) {
             log.error("Cadastro de conta a pagar encerrado com erro, empresa responsável deve ser informada.");
-            throw new ExceptionShirtVirtual("Empresa responsável deve ser informada.", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Empresa responsável deve ser informada.");
         }
 
         if (contaPagar.getPessoa() == null || contaPagar.getPessoa().getId() <= 0) {
             log.error("Cadastro de conta a pagar encerrado com erro, pessoa responsável deve ser informada.");
-            throw new ExceptionShirtVirtual("Pessoa responsável deve ser informada.", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Pessoa responsável deve ser informada.");
         }
 
         if (contaPagar.getPessoaFornecedor() == null || contaPagar.getPessoaFornecedor().getId() <= 0) {
             log.error("Cadastro de conta a pagar encerrado com erro, fornecedor responsável deve ser informada.");
-            throw new ExceptionShirtVirtual("Fornecedor responsável deve ser informada.", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Fornecedor responsável deve ser informada.");
         }
 
         if (!contaPagarService.verificarDescricaoNoMesCorrente(contaPagar.getDtCadastro())){
             log.error("Cadastro de conta a pagar encerrado com erro, a data de cadastro não é referente ao mês corrente");
-            throw new ExceptionShirtVirtual("Cadastro de conta a pagar encerrado com erro, a data de cadastro não é referente ao mês corrente", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Cadastro de conta a pagar encerrado com erro, a data de cadastro não é referente ao mês corrente");
         }
 
         if (contaPagar.getId() == null){
             List<ContaPagar> contasPagar = contaPagarRepository.buscarContaPagarDescricao(contaPagar.getDescricao().toUpperCase().trim());
             if (!contasPagar.isEmpty()) {
                 log.error("Cadastro de conta a pagar encerrado com erro, já existe uma conta com essa descrição");
-                throw new ExceptionShirtVirtual("Cadastro de conta a pagar encerrado com erro, já existe uma conta com essa descrição" + contaPagar.getDescricao(), HttpStatus.NOT_FOUND);
+                throw new ExceptionShirtVirtual("Cadastro de conta a pagar encerrado com erro, já existe uma conta com essa descrição" + contaPagar.getDescricao());
             }
         }
 
@@ -112,7 +110,7 @@ public class ContaPagarController {
 
         if (contaPagar == null){
             log.error("Erro ao buscar conta a pagar, codigo inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id);
 
         }
         log.info("Busca realizada com sucesso");
@@ -134,7 +132,7 @@ public class ContaPagarController {
 
         if (contaPagar == null){
             log.error("Erro ao buscar conta a pagar, descricao inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " descricao: "  +  descricao, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " descricao: "  +  descricao);
 
         }
         log.info("Busca realizada com sucesso");
@@ -156,7 +154,7 @@ public class ContaPagarController {
 
         if (contaPagar == null){
             log.error("Erro ao buscar conta a pagar por pessoa, id inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idPessoa, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idPessoa);
 
         }
         log.info("Busca realizada com sucesso");
@@ -178,7 +176,7 @@ public class ContaPagarController {
 
         if (contaPagar == null){
             log.error("Erro ao buscar conta a pagar por fornecedor, id inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idFornecedor, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idFornecedor);
 
         }
         log.info("Busca realizada com sucesso");
@@ -200,7 +198,7 @@ public class ContaPagarController {
 
         if (contaPagar == null){
             log.error("Erro ao buscar conta a pagar por empresa, id inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idEmpresa, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idEmpresa);
 
         }
         log.info("Busca realizada com sucesso");
