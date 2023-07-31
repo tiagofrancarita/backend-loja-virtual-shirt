@@ -252,7 +252,6 @@ public class ApiIntegracaoMelhorEnvioController {
 
         JsonNode jsonNode = new ObjectMapper().readTree(respostaJson);
 
-
         Iterator<JsonNode> iterator = jsonNode.iterator();
 
         String idEtiqueta = "";
@@ -334,6 +333,59 @@ public class ApiIntegracaoMelhorEnvioController {
 
 
         jdbcTemplate.execute("begin; update vd_cp_loja_virt set url_impressao_etiqueta =  '"+urlEtiqueta+"'  where id = " + compraLojaVirtual.getId() + "; commit;");
+
+
+        OkHttpClient clientTracking = new OkHttpClient();
+
+        okhttp3.MediaType mediaTypeTracking = okhttp3.MediaType.parse("application/json");
+        okhttp3.RequestBody bodyTracking = okhttp3.RequestBody.create(mediaTypeTracking, "{\"orders\":[\""+idEtiqueta+"\"]}");
+        okhttp3.Request requestTracking = new okhttp3.Request.Builder()
+                .url(ApiTokenMelhorEnvio.URL_MELHOR_ENVIO_ENDPOINT  + "/api/v2/me/shipment/tracking")
+                .method("POST", bodyTracking)
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-type", "application/json")
+                .addHeader("Authorization", "Bearer " + ApiTokenMelhorEnvio.TOKEN_MELHOR_ENVIO_AMBIENTE_TESTE)
+                .addHeader("User-Agent", ApiTokenMelhorEnvio.EMAIL)
+                .build();
+
+        okhttp3.Response responseTracking = clientTracking.newCall(requestTracking).execute();
+
+        JsonNode jsonNodeTracking = new ObjectMapper().readTree(responseTracking.body().string());
+
+        Iterator<JsonNode> iteratorTracking = jsonNodeTracking.iterator();
+
+        String idEtiquetaTracking = "";
+        String statusTracking = "";
+
+        while(iteratorTracking.hasNext()) {
+            JsonNode node = iteratorTracking.next();
+            if (node.get("tracking") != null && node.get("status") != null ) {
+                idEtiquetaTracking = node.get("tracking").asText();
+                statusTracking = node.get("status").asText();
+            }else {
+                idEtiquetaTracking= node.asText();
+                statusTracking= node.asText();
+            }
+            break;
+        }
+
+        System.out.println(idEtiquetaTracking);
+        System.out.println(statusTracking);
+
+        List<StatusRastreio> rastreios =	statusRastreioRepository.listaRastreioVenda(idVenda);
+
+        if (rastreios.isEmpty()) {
+
+            StatusRastreio rastreio = new StatusRastreio();
+            rastreio.setEmpresa(compraLojaVirtual.getEmpresa());
+            rastreio.setVendaCompraLojaVirtual(compraLojaVirtual);
+            rastreio.setUrlRastreio("https://www.melhorrastreio.com.br/rastreio/" + idEtiquetaTracking);
+            rastreio.setStatusRastreio(statusTracking);
+
+            statusRastreioRepository.saveAndFlush(rastreio);
+        }else {
+            statusRastreioRepository.salvaUrlRastreio("https://www.melhorrastreio.com.br/rastreio/" + idEtiquetaTracking, idVenda);
+        }
 
         return new ResponseEntity<String>("Sucesso", HttpStatus.OK);
 
