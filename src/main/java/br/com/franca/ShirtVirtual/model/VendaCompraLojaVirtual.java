@@ -92,7 +92,41 @@ public class VendaCompraLojaVirtual implements Serializable {
     @OneToMany(mappedBy = "vendaCompraLojaVirtual", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ItemVendaLoja> itemVendaLojas = new ArrayList<ItemVendaLoja>();
 
+    @Column(name = "ativo", nullable = false)
     private Boolean ativo = Boolean.TRUE;
+
+    @Column(name = "codigo_etiqueta")
+    private String codigoEtiqueta;
+
+    @Column(name = "url_impressao_etiqueta")
+    private String urlImpressaoEtiqueta;
+
+    @Column(name = "servico_transportadora")
+    private String servicoTransportadora;
+
+    public String getServicoTransportadora() {
+        return servicoTransportadora;
+    }
+
+    public void setServicoTransportadora(String servicoTransportadora) {
+        this.servicoTransportadora = servicoTransportadora;
+    }
+
+    public String getUrlImpressaoEtiqueta() {
+        return urlImpressaoEtiqueta;
+    }
+
+    public void setUrlImpressaoEtiqueta(String urlImpressaoEtiqueta) {
+        this.urlImpressaoEtiqueta = urlImpressaoEtiqueta;
+    }
+
+    public String getCodigoEtiqueta() {
+        return codigoEtiqueta;
+    }
+
+    public void setCodigoEtiqueta(String codigoEtiqueta) {
+        this.codigoEtiqueta = codigoEtiqueta;
+    }
 
     public Boolean getAtivo() {
         return ativo;

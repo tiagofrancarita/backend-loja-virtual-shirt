@@ -2,7 +2,6 @@ package br.com.franca.ShirtVirtual.controller;
 
 
 import br.com.franca.ShirtVirtual.exceptions.ExceptionShirtVirtual;
-import br.com.franca.ShirtVirtual.model.Acesso;
 import br.com.franca.ShirtVirtual.model.CupomDesonto;
 import br.com.franca.ShirtVirtual.repository.CupomDescontoRepository;
 import br.com.franca.ShirtVirtual.service.CupomDescontoService;
@@ -76,7 +75,7 @@ public class CupomDescontoController {
 
             if (!cuponsDesconto.isEmpty()){
                 log.error(ERRO_DESCRICAO_CADASTRADA);
-                throw new ExceptionShirtVirtual(ERRO_DESCRICAO_CADASTRADA +  "Descrição:  " +  cupomDesonto.getCodDesc(), HttpStatus.UNPROCESSABLE_ENTITY);
+                throw new ExceptionShirtVirtual(ERRO_DESCRICAO_CADASTRADA +  "Descrição:  " +  cupomDesonto.getCodDesc());
 
             }
         }

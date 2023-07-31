@@ -3,7 +3,6 @@ package br.com.franca.ShirtVirtual.controller;
 
 import br.com.franca.ShirtVirtual.exceptions.ExceptionShirtVirtual;
 import br.com.franca.ShirtVirtual.model.AvaliacaoProduto;
-import br.com.franca.ShirtVirtual.model.CategoriaProduto;
 import br.com.franca.ShirtVirtual.repository.AvaliacaoProdutoRepository;
 import br.com.franca.ShirtVirtual.service.AvaliacaoProdutoService;
 import br.com.franca.ShirtVirtual.utils.dto.AvaliacaoProdutoDTO;
@@ -18,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RestController
@@ -49,27 +47,27 @@ public class AvaliacaoProdutoController {
         log.info("Inicio do cadastro de avaliacao produto");
         if (avaliacaoProduto == null  ) {
             log.error("Avaliacao produto não pode ser nulo");
-            throw new ExceptionShirtVirtual("Avaliacao produto não pode ser nulo", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Avaliacao produto não pode ser nulo");
         }
 
         if(avaliacaoProduto.getEmpresa().getId() == null || (avaliacaoProduto.getEmpresa() != null && avaliacaoProduto.getEmpresa().getId() <= 0)){
             log.error("Deve ser associado uma empresa a avaliacao produto");
-            throw new ExceptionShirtVirtual("Campo empresa é obrigatório.", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Campo empresa é obrigatório.");
         }
 
         if(avaliacaoProduto.getProduto().getId() == null || (avaliacaoProduto.getProduto() != null && avaliacaoProduto.getProduto().getId() <= 0)){
             log.error("Deve ser associado um produto na avaliacao produto");
-            throw new ExceptionShirtVirtual("Deve ser associado um produto na avaliacao produto", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Deve ser associado um produto na avaliacao produto");
         }
 
         if(avaliacaoProduto.getPessoa().getId() == null || (avaliacaoProduto.getPessoa() != null && avaliacaoProduto.getPessoa().getId() <= 0)){
             log.error("Deve ser associado uma pessoa na avaliacao produto");
-            throw new ExceptionShirtVirtual("Deve ser associado uma pessoa na avaliacao produto", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Deve ser associado uma pessoa na avaliacao produto");
         }
 
         if (avaliacaoProduto.getNotaAvaliacaoProduto() == null){
             log.error("Cadastro de avaliacao produto encerrado com erro, deve ser informada uma nota");
-            throw new ExceptionShirtVirtual("Cadastro de avaliacao produto encerrado com erro, deve ser informada uma nota", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ExceptionShirtVirtual("Cadastro de avaliacao produto encerrado com erro, deve ser informada uma nota");
         }
 
         AvaliacaoProduto avaliacaoProdutoSalva = avaliacaoProdutoRepository.save(avaliacaoProduto);
@@ -123,7 +121,7 @@ public class AvaliacaoProdutoController {
         AvaliacaoProdutoDTO avaliacaoProdutoDTO = avaliacaoProdutoService.buscarAvaliacaoPorId(id);
 
         if (avaliacaoProdutoDTO == null){
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id, HttpStatus.NOT_FOUND);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  id);
 
         }
         return new ResponseEntity<AvaliacaoProdutoDTO>(avaliacaoProdutoDTO,HttpStatus.OK);

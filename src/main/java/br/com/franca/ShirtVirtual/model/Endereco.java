@@ -43,6 +43,9 @@ public class Endereco implements Serializable {
     @Column(name = "uf", nullable = false)
     private String uf;
 
+    @Column(name = "pais", nullable = false)
+    private String pais;
+
     @JsonIgnore
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
@@ -151,6 +154,14 @@ public class Endereco implements Serializable {
 
     public void setEmpresa(PessoaJuridica empresa) {
         this.empresa = empresa;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
     }
 
     @Override

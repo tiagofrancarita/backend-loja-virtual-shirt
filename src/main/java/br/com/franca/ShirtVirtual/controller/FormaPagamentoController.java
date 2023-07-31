@@ -2,7 +2,6 @@ package br.com.franca.ShirtVirtual.controller;
 
 
 import br.com.franca.ShirtVirtual.exceptions.ExceptionShirtVirtual;
-import br.com.franca.ShirtVirtual.model.Acesso;
 import br.com.franca.ShirtVirtual.model.FormaPagamento;
 import br.com.franca.ShirtVirtual.repository.FormaPagamentoRepository;
 import br.com.franca.ShirtVirtual.service.FormaPagamentoService;
@@ -66,7 +65,7 @@ public class FormaPagamentoController {
 
             if (!formaPagamentos.isEmpty()){
                 log.error("Forma de pagamento ja cadastrada");
-                throw new ExceptionShirtVirtual("Forma de pagamento ja cadastrada" +  "Descrição:  " +  formaPagamento.getDescFormaPagamento(), HttpStatus.UNPROCESSABLE_ENTITY);
+                throw new ExceptionShirtVirtual("Forma de pagamento ja cadastrada" +  "Descrição:  " +  formaPagamento.getDescFormaPagamento());
 
             }
         }
