@@ -114,15 +114,7 @@ public class VendaCompraLojaVirtualController {
         vendaCompraLojaVirtual = vendaCompraLojaVirtualRepository.saveAndFlush(vendaCompraLojaVirtual);
         log.info("Dados basicos salvo");
 
-        StatusRastreio statusRastreio = new StatusRastreio();
-            statusRastreio.setCentroDistribuicao("CD-Matriz");
-            statusRastreio.setCidade("São Paulo");
-            statusRastreio.setEstado("São Paulo");
-            statusRastreio.setEmpresa(vendaCompraLojaVirtual.getEmpresa());
-            statusRastreio.setStatusRastreio("Em Separação");
-            statusRastreio.setVendaCompraLojaVirtual(vendaCompraLojaVirtual);
-            statusRastreioRepository.saveAndFlush(statusRastreio);
-        log.info("Status rastreio atualizado");
+
 
 
         //associa a venda salva anteriormente no banco com a nota fiscal
