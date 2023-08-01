@@ -384,6 +384,7 @@ public class ApiIntegracaoMelhorEnvioController {
 
             statusRastreioRepository.saveAndFlush(rastreio);
         }else {
+
             statusRastreioRepository.salvaUrlRastreio("https://www.melhorrastreio.com.br/rastreio/" + idEtiquetaTracking, idVenda);
         }
 

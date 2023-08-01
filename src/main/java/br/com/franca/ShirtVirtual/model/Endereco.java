@@ -3,6 +3,7 @@ package br.com.franca.ShirtVirtual.model;
 
 import br.com.franca.ShirtVirtual.enums.TipoEndereco;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.io.Serializable;
