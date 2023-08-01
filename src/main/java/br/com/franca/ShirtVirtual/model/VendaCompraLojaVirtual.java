@@ -104,6 +104,17 @@ public class VendaCompraLojaVirtual implements Serializable {
     @Column(name = "servico_transportadora")
     private String servicoTransportadora;
 
+    @Column(name = "url_rastreio")
+    private String urlRastreio;
+
+    public String getUrlRastreio() {
+        return urlRastreio;
+    }
+
+    public void setUrlRastreio(String urlRastreio) {
+        this.urlRastreio = urlRastreio;
+    }
+
     public String getServicoTransportadora() {
         return servicoTransportadora;
     }

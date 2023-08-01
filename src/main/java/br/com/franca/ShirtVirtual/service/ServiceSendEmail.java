@@ -26,7 +26,7 @@ public class ServiceSendEmail {
         properties.put("mail.smtp.ssl.trust", "*");
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls", "true");
-        properties.put("mail.smtp.host", "smtp-mail.outlook.com");
+        properties.put("mail.smtp.host", "smtp.mail.yahoo.com");
         properties.put("mail.smtp.port", "587");
         properties.put("mail.smtp.socketFactory.port", "587");
         properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");

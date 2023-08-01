@@ -16,28 +16,19 @@ public class StatusRastreio implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_status_rastreio")
     private Long id;
 
-    @Column(name = "centro_distribuicao", nullable = false)
-    private String centroDistribuicao;
-
-    @Column(name = "cidade", nullable = false)
-    private String cidade;
-
-    @Column(name = "estado", nullable = false)
-    private String estado;
-
-    @Column(name = "status_rastreio", nullable = false)
-    private String statusRastreio;
-
     @Column(name = "url_rastreio")
     private String urlRastreio;
+
+    @Column(name = "status_rastreio")
+    private String statusRastreio;
 
     @ManyToOne
     @JoinColumn(name = "vd_cp_loja_virt_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "vd_cp_loja_virt_fk"))
     private VendaCompraLojaVirtual vendaCompraLojaVirtual;
 
-    @ManyToOne(targetEntity = Pessoa.class)
+    @ManyToOne(targetEntity = PessoaJuridica.class)
     @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
-    private Pessoa empresa;
+    private PessoaJuridica empresa;
 
     public Long getId() {
         return id;
@@ -47,37 +38,6 @@ public class StatusRastreio implements Serializable {
         this.id = id;
     }
 
-    public String getCentroDistribuicao() {
-        return centroDistribuicao;
-    }
-
-    public void setCentroDistribuicao(String centroDistribuicao) {
-        this.centroDistribuicao = centroDistribuicao;
-    }
-
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public String getStatusRastreio() {
-        return statusRastreio;
-    }
-
-    public void setStatusRastreio(String statusRastreio) {
-        this.statusRastreio = statusRastreio;
-    }
 
     public VendaCompraLojaVirtual getVendaCompraLojaVirtual() {
         return vendaCompraLojaVirtual;
@@ -87,11 +47,11 @@ public class StatusRastreio implements Serializable {
         this.vendaCompraLojaVirtual = vendaCompraLojaVirtual;
     }
 
-    public Pessoa getEmpresa() {
+    public PessoaJuridica getEmpresa() {
         return empresa;
     }
 
-    public void setEmpresa(Pessoa empresa) {
+    public void setEmpresa(PessoaJuridica empresa) {
         this.empresa = empresa;
     }
 
@@ -101,6 +61,14 @@ public class StatusRastreio implements Serializable {
 
     public void setUrlRastreio(String urlRastreio) {
         this.urlRastreio = urlRastreio;
+    }
+
+    public String getStatusRastreio() {
+        return statusRastreio;
+    }
+
+    public void setStatusRastreio(String statusRastreio) {
+        this.statusRastreio = statusRastreio;
     }
 
     @Override
