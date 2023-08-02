@@ -1,11 +1,13 @@
 package br.com.franca.ShirtVirtual.service;
 
 import br.com.franca.ShirtVirtual.model.AccessTokenJunoAPI;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+@Service
 public class AccessTokenJunoService{
 
     @PersistenceContext

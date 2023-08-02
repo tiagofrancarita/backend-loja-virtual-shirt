@@ -15,10 +15,7 @@ import br.com.franca.ShirtVirtual.model.VendaCompraLojaVirtual;
 import br.com.franca.ShirtVirtual.repository.AccesTokenJunoRepository;
 import br.com.franca.ShirtVirtual.repository.BoletoJunoRepository;
 import br.com.franca.ShirtVirtual.repository.VendaCompraLojaVirtualRepository;
-import br.com.franca.ShirtVirtual.utils.dto.BoletoGeradoApiJuno;
-import br.com.franca.ShirtVirtual.utils.dto.CobrancaJunoAPI;
-import br.com.franca.ShirtVirtual.utils.dto.ConteudoBoletoJuno;
-import br.com.franca.ShirtVirtual.utils.dto.ObjetoPostCarneJuno;
+import br.com.franca.ShirtVirtual.utils.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -44,6 +41,27 @@ public class ServiceJunoBoleto implements Serializable {
         this.accesTokenJunoRepository = accesTokenJunoRepository;
         this.vd_Cp_Loja_virt_repository = vd_Cp_Loja_virt_repository;
         this.boletoJunoRepository = boletoJunoRepository;
+    }
+
+    public String cancelarBoleto(String code) throws Exception {
+
+        AccessTokenJunoAPI accessTokenJunoAPI = this.obterTokenApiJuno();
+
+        Client client = new HostIgnoringClient("https://api.juno.com.br/").hostIgnoringClient();
+        WebResource webResource = client.resource("https://api.juno.com.br/charges/"+code+"/cancelation");
+
+        ClientResponse clientResponse = webResource.accept(MediaType.APPLICATION_JSON)
+                .header("X-Api-Version", 2)
+                .header("X-Resource-Token", ApiTokenIntegracaoJuno.TOKEN_PRIVATE_JUNO)
+                .header("Authorization", "Bearer " + accessTokenJunoAPI.getAccess_token())
+                .put(ClientResponse.class);
+
+        if (clientResponse.getStatus() == 204) {
+            return "Cancelado com sucesso";
+        }
+
+        return clientResponse.getEntity(String.class);
+
     }
 
     public String gerarCarneApiJuno(ObjetoPostCarneJuno objetoPostCarneJuno) throws Exception {
@@ -199,4 +217,36 @@ public class ServiceJunoBoleto implements Serializable {
             return accessTokenJunoAPI;
         }
     }
+
+    /*
+     * {"id":"wbh_AE815607C1F5A94934934A2EA3CA0180","url":"","secret":"","status":"ACTIVE","eventTypes"
+     * * :[{"id":"evt_DC2E7E8848B08C62","name":"DOCUMENT_STATUS_CHANGED",
+     * * "label":"O status de um documento foi alterado","status":"ENABLED"}],"
+     * * _links":{"self":{"href":"https://api.juno.com.br/api-integration/notifications/webhooks/wbh_AE815607C1F5A94934934A2EA3CA0180"}}}
+     *
+     * */
+    public String criarWebHook(CriarWebHook criarWebHook) throws Exception {
+
+        AccessTokenJunoAPI accessTokenJunoAPI = this.obterTokenApiJuno();
+
+        Client client = new HostIgnoringClient("https://api.juno.com.br/").hostIgnoringClient();
+        WebResource webResource = client.resource("https://api.juno.com.br/notifications/webhooks");
+
+        String json = new ObjectMapper().writeValueAsString(criarWebHook);
+
+        ClientResponse clientResponse = webResource
+                .accept("application/json;charset=UTF-8")
+                .header("Content-Type", "application/json")
+                .header("X-API-Version", 2)
+                .header("X-Resource-Token", ApiTokenIntegracaoJuno.TOKEN_PRIVATE_JUNO)
+                .header("Authorization", "Bearer " + accessTokenJunoAPI.getAccess_token())
+                .post(ClientResponse.class, json);
+
+        String resposta = clientResponse.getEntity(String.class);
+        clientResponse.close();
+
+        return resposta;
+
+    }
+
 }

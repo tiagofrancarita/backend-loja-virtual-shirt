@@ -62,6 +62,7 @@ public class VendaCompraLojaVirtualController {
         this.serviceJunoBoleto = serviceJunoBoleto;
     }
 
+
     @ApiOperation("Gerar boleto pix -- JUNO")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK", response = AcessoController.class),
@@ -70,8 +71,22 @@ public class VendaCompraLojaVirtualController {
     })
     @GetMapping("/gerarBoletoPixJuno")
     public ResponseEntity<String> gerarBoletoPixJuno(@RequestBody @Valid ObjetoPostCarneJuno objetoPostCarneJuno) throws Exception{
+
         return  new ResponseEntity<String>(serviceJunoBoleto.gerarCarneApiJuno(objetoPostCarneJuno), HttpStatus.OK);
     }
+
+    @ApiOperation("cancelar boleto pix -- JUNO")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK", response = AcessoController.class),
+            @ApiResponse(code = 403, message = "Requisição não autoziada"),
+            @ApiResponse(code = 404, message = "Consulta não encontrada")
+    })
+    @GetMapping("/cancelarBoletoPixJuno")
+    public ResponseEntity<String> cancelarBoletoPixJuno(@RequestBody @Valid String code) throws Exception{
+
+        return  new ResponseEntity<String>(serviceJunoBoleto.cancelarBoleto(code), HttpStatus.OK);
+    }
+
 
     @ApiOperation("Listagem de todas as vendas cadastradas")
     @ApiResponses({
