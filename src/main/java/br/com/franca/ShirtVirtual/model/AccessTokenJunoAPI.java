@@ -43,6 +43,21 @@ public class AccessTokenJunoAPI implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCadastro = Calendar.getInstance().getTime();
 
+    public boolean expirado() {
+
+        Date dataAtual = Calendar.getInstance().getTime();
+
+        Long tempo = dataAtual.getTime() - this.dataCadastro.getTime(); /*Tempo entre datas*/
+
+        Long minutos = (tempo / 1000) / 60; /*difereca de minutos entra dastas e horas inicial e final*/
+
+        if (minutos.intValue() > 55) {
+            return true;
+        }
+
+        return false;
+    }
+
     public Long getId() {
         return id;
     }
@@ -115,18 +130,5 @@ public class AccessTokenJunoAPI implements Serializable {
         this.dataCadastro = dataCadastro;
     }
 
-    public boolean expirado() {
 
-        Date dataAtual = Calendar.getInstance().getTime();
-
-        Long tempo = dataAtual.getTime() - this.dataCadastro.getTime(); /*Tempo entre datas*/
-
-        Long minutos = (tempo / 1000) / 60; /*difereca de minutos entra dastas e horas inicial e final*/
-
-        if (minutos.intValue() > 50) {
-            return true;
-        }
-
-        return false;
-    }
 }

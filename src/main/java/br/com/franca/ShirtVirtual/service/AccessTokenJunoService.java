@@ -11,7 +11,7 @@ public class AccessTokenJunoService{
     @PersistenceContext
     private EntityManager entityManager;
 
-    public AccessTokenJunoAPI buscaTokenAtivo() {
+    public AccessTokenJunoAPI buscaTokenAtivoJuno() {
 
         try {
 
