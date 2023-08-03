@@ -4,6 +4,7 @@ import br.com.franca.ShirtVirtual.enums.StatusContaReceber;
 import br.com.franca.ShirtVirtual.exceptions.ExceptionShirtVirtual;
 import br.com.franca.ShirtVirtual.model.*;
 import br.com.franca.ShirtVirtual.repository.*;
+import br.com.franca.ShirtVirtual.service.ServiceJunoBoleto;
 import br.com.franca.ShirtVirtual.service.ServiceSendEmail;
 import br.com.franca.ShirtVirtual.service.VendaCompraLojaVirtualService;
 import br.com.franca.ShirtVirtual.utils.dto.*;
@@ -44,9 +45,10 @@ public class VendaCompraLojaVirtualController {
     private StatusRastreioRepository statusRastreioRepository;
     private ContaReceberRepository contaReceberRepository;
     private ContaReceberController contaReceberController;
+    private ServiceJunoBoleto serviceJunoBoleto;
 
     @Autowired
-    public VendaCompraLojaVirtualController(VendaCompraLojaVirtualRepository vendaCompraLojaVirtualRepository, VendaCompraLojaVirtualService vendaCompraLojaVirtualService, ServiceSendEmail serviceSendEmail, EnderecoRepository enderecoRepository, PessoaFisicaController pessoaFisicaController, PessoaJuridicaController pessoaJuridicaController, NotaFiscalVendaRepository notaFiscalVendaRepository, StatusRastreioRepository statusRastreioRepository, ContaReceberRepository contaReceberRepository, ContaReceberController contaReceberController) {
+    public VendaCompraLojaVirtualController(VendaCompraLojaVirtualRepository vendaCompraLojaVirtualRepository, VendaCompraLojaVirtualService vendaCompraLojaVirtualService, ServiceSendEmail serviceSendEmail, EnderecoRepository enderecoRepository, PessoaFisicaController pessoaFisicaController, PessoaJuridicaController pessoaJuridicaController, NotaFiscalVendaRepository notaFiscalVendaRepository, StatusRastreioRepository statusRastreioRepository, ContaReceberRepository contaReceberRepository, ContaReceberController contaReceberController, ServiceJunoBoleto serviceJunoBoleto) {
         this.vendaCompraLojaVirtualRepository = vendaCompraLojaVirtualRepository;
         this.vendaCompraLojaVirtualService = vendaCompraLojaVirtualService;
         this.serviceSendEmail = serviceSendEmail;
@@ -57,7 +59,34 @@ public class VendaCompraLojaVirtualController {
         this.statusRastreioRepository = statusRastreioRepository;
         this.contaReceberRepository = contaReceberRepository;
         this.contaReceberController = contaReceberController;
+        this.serviceJunoBoleto = serviceJunoBoleto;
     }
+
+
+    @ApiOperation("Gerar boleto pix -- JUNO")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK", response = AcessoController.class),
+            @ApiResponse(code = 403, message = "Requisição não autoziada"),
+            @ApiResponse(code = 404, message = "Consulta não encontrada")
+    })
+    @GetMapping("/gerarBoletoPixJuno")
+    public ResponseEntity<String> gerarBoletoPixJuno(@RequestBody @Valid ObjetoPostCarneJuno objetoPostCarneJuno) throws Exception{
+
+        return  new ResponseEntity<String>(serviceJunoBoleto.gerarCarneApiJuno(objetoPostCarneJuno), HttpStatus.OK);
+    }
+
+    @ApiOperation("cancelar boleto pix -- JUNO")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK", response = AcessoController.class),
+            @ApiResponse(code = 403, message = "Requisição não autoziada"),
+            @ApiResponse(code = 404, message = "Consulta não encontrada")
+    })
+    @GetMapping("/cancelarBoletoPixJuno")
+    public ResponseEntity<String> cancelarBoletoPixJuno(@RequestBody @Valid String code) throws Exception{
+
+        return  new ResponseEntity<String>(serviceJunoBoleto.cancelarBoleto(code), HttpStatus.OK);
+    }
+
 
     @ApiOperation("Listagem de todas as vendas cadastradas")
     @ApiResponses({
