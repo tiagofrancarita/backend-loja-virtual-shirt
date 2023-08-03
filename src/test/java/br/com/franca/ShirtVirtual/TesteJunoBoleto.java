@@ -27,4 +27,20 @@ public class TesteJunoBoleto extends TestCase {
 
         System.out.println(retorno);
     }
+
+    @Test
+    public void deleteWebHook() throws Exception {
+
+        serviceJunoBoleto.deleteWebHook("wbh_E71095B5BF65E8D2DB018EE8A89BACB8");
+
+    }
+
+
+
+    @Test
+    public void listaWebHook() throws Exception {
+
+        String retorno = serviceJunoBoleto.listaWebHook();
+        System.out.println(retorno);
+    }
 }
