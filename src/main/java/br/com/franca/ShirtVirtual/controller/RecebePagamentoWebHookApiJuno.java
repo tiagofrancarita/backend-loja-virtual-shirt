@@ -32,7 +32,6 @@ public class RecebePagamentoWebHookApiJuno implements Serializable {
             headers = "Content-Type=application/json;charset=UTF-8", method = RequestMethod.POST)
     private HttpStatus recebeNotificaopagamentojunoapiv2(@RequestBody DataNotificacaoApiJunotPagamento dataNotificacaoApiJunotPagamento) {
 
-
         for (AttibutesNotificaoPagaApiJuno data : dataNotificacaoApiJunotPagamento.getData()) {
 
             String codigoBoletoPix = data.getAttributes().getCharge().getCode();
@@ -53,7 +52,4 @@ public class RecebePagamentoWebHookApiJuno implements Serializable {
 
         return HttpStatus.OK;
     }
-
-
-
 }
