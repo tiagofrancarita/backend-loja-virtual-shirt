@@ -246,7 +246,5 @@ public class ServiceJunoBoleto implements Serializable {
         clientResponse.close();
 
         return resposta;
-
     }
-
 }
