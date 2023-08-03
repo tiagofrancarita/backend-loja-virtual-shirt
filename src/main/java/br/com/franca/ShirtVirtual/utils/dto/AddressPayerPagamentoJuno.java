@@ -69,5 +69,4 @@ public class AddressPayerPagamentoJuno implements Serializable {
     public void setNeighborhood(String neighborhood) {
         this.neighborhood = neighborhood;
     }
-
 }
