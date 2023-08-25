@@ -159,11 +159,9 @@ public class ServiceJunoBoleto implements Serializable {
     public String geraChaveBoletoPixJuno() throws Exception {
 
         AccessTokenJunoAPI accessTokenJunoAPI = this.obterTokenApiJuno();
-
         Client client = new HostIgnoringClient("https://api.juno.com.br/").hostIgnoringClient();
         WebResource webResource = client.resource("https://api.juno.com.br/pix/keys");
         //WebResource webResource = client.resource("https://api.juno.com.br/api-integration/pix/keys");
-
 
         ClientResponse clientResponse = webResource
                 .accept("application/json;charset=UTF-8")
@@ -187,9 +185,7 @@ public class ServiceJunoBoleto implements Serializable {
             String secretID = "xxxxxxxxxx";
 
             Client client = new HostIgnoringClient("https://api.juno.com.br/").hostIgnoringClient();
-
             WebResource webResource = client.resource("https://api.juno.com.br/authorization-server/oauth/token?grant_type=client_credentials");
-
             String basicChave = clienteID + ":" + secretID;
             String token_autenticao = DatatypeConverter.printBase64Binary(basicChave.getBytes());
 
@@ -206,7 +202,6 @@ public class ServiceJunoBoleto implements Serializable {
 
                 AccessTokenJunoAPI accessTokenJunoAPI2 = clientResponse.getEntity(AccessTokenJunoAPI.class);
                 accessTokenJunoAPI2.setToken_acesso(token_autenticao);
-
                 accessTokenJunoAPI2 = accesTokenJunoRepository.saveAndFlush(accessTokenJunoAPI2);
 
                 return accessTokenJunoAPI2;
@@ -231,7 +226,6 @@ public class ServiceJunoBoleto implements Serializable {
 
         Client client = new HostIgnoringClient("https://api.juno.com.br/").hostIgnoringClient();
         WebResource webResource = client.resource("https://api.juno.com.br/notifications/webhooks");
-
         String json = new ObjectMapper().writeValueAsString(criarWebHook);
 
         ClientResponse clientResponse = webResource
@@ -244,9 +238,41 @@ public class ServiceJunoBoleto implements Serializable {
 
         String resposta = clientResponse.getEntity(String.class);
         clientResponse.close();
-
         return resposta;
-
     }
 
+    public String listaWebHook() throws Exception {
+
+        AccessTokenJunoAPI accessTokenJunoAPI = this.obterTokenApiJuno();
+
+        Client client = new HostIgnoringClient("https://api.juno.com.br/").hostIgnoringClient();
+        WebResource webResource = client.resource("https://api.juno.com.br/notifications/webhooks");
+
+        ClientResponse clientResponse = webResource
+                .accept("application/json;charset=UTF-8")
+                .header("Content-Type", "application/json")
+                .header("X-API-Version", 2)
+                .header("X-Resource-Token", ApiTokenIntegracaoJuno.TOKEN_PRIVATE_JUNO)
+                .header("Authorization", "Bearer " + accessTokenJunoAPI.getAccess_token())
+                .get(ClientResponse.class);
+
+        String resposta = clientResponse.getEntity(String.class);
+        return resposta;
+    }
+
+    public void deleteWebHook(String idWebHook) throws Exception {
+
+        AccessTokenJunoAPI accessTokenJunoAPI = this.obterTokenApiJuno();
+
+        Client client = new HostIgnoringClient("https://api.juno.com.br/").hostIgnoringClient();
+        WebResource webResource = client.resource("https://api.juno.com.br/notifications/webhooks/" + idWebHook);
+
+        webResource
+                .accept("application/json;charset=UTF-8")
+                .header("Content-Type", "application/json")
+                .header("X-API-Version", 2)
+                .header("X-Resource-Token", ApiTokenIntegracaoJuno.TOKEN_PRIVATE_JUNO)
+                .header("Authorization", "Bearer " + accessTokenJunoAPI.getAccess_token())
+                .delete();
+    }
 }

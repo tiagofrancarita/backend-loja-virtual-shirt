@@ -66,6 +66,9 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter implements H
                 .antMatchers("/index","/ShirtMultiMarcas/swagger-ui/index.html").permitAll()
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
+                .antMatchers(HttpMethod.POST, "/requisicaojunoboleto/**", "/notificacaoapiv2").permitAll()
+                .antMatchers(HttpMethod.GET, "/requisicaojunoboleto/**", "/notificacaoapiv2").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()
                 .and().logout().logoutSuccessUrl("/index")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
@@ -75,10 +78,10 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter implements H
     }
       @Override
     public void configure(WebSecurity web) throws Exception {
-       /* web.ignoring().antMatchers(HttpMethod.POST,"/acessos/cadastrarAcesso")
-                .antMatchers(HttpMethod.DELETE,"/acessos/deletarAcesso")
-                .antMatchers(HttpMethod.GET,"/acessos/cadastrarAcesso")
-                .antMatchers(HttpMethod.GET,"/acessos/listarAcessos");*/
+          web.ignoring().
+                  antMatchers(HttpMethod.GET, "/requisicaojunoboleto/**", "/notificacaoapiv2")
+                  .antMatchers(HttpMethod.POST,"/requisicaojunoboleto/**", "/notificacaoapiv2");
+          /* Ingnorando URL no momento para nao autenticar */
     }
 }
 
