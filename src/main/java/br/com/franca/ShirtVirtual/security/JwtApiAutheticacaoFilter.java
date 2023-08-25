@@ -20,9 +20,8 @@ public class JwtApiAutheticacaoFilter extends GenericFilterBean {
 
         try {
 
-            Authentication authentication = new JWTTokenAutenticacaoService().
-            getAuthentication((HttpServletRequest) request, (HttpServletResponse) response);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+           Authentication authentication = new JWTTokenAutenticacaoService().getAuthentication((HttpServletRequest) request, (HttpServletResponse) response);
+           SecurityContextHolder.getContext().setAuthentication(authentication);
             chain.doFilter(request, response);
 
         } catch (Exception ex) {

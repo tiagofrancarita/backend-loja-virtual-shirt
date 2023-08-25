@@ -41,6 +41,7 @@ G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirt
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\service\FormaPagamentoService.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\ValidaCnpj.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\repository\MarcaProdutoRepository.java
+G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\ServletInitializer.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\dto\ConsultaCnpjDTO.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\dto\PayerNotificaoApiJunoPaga.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\NotaItemProdutoController.java
@@ -131,6 +132,7 @@ G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirt
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\utils\dto\Embedded.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\ApplicationContextLoad.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\RecebePagamentoWebHookApiJuno.java
+G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\PagamentoController.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\Acesso.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\model\FormaPagamento.java
 G:\Repositorios\backend-loja-virtual-shirt\src\main\java\br\com\franca\ShirtVirtual\controller\RelatoriosController.java
