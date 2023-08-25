@@ -27,5 +27,4 @@ public class CriarWebHook implements Serializable {
     public void setEventTypes(List<String> eventTypes) {
         this.eventTypes = eventTypes;
     }
-
 }
