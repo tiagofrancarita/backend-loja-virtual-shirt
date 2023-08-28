@@ -33,17 +33,17 @@
 <div class="container">
 
     <form style="padding-top: 20px; padding-bottom: 20px" id="formcheckout">
-        <input type="hidden" th:value="${venda.id}" id="idVendaCampo">
+        <input type="hidden"  id="idVendaCampo">
 
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="nome">Nome:</label>
-                <input th:value=${venda.pessoa.nome} type="text" class="form-control" readonly="readonly" id="nome" required="required" style="height: 40px;">
+                <input  type="text" class="form-control" readonly="readonly" id="nome" required="required" style="height: 40px;">
             </div>
 
             <div class="form-group col-md-6">
                 <label for="email">Email:</label>
-                <input th:value="${venda.pessoa.email}" type="text" class="form-control" readonly="readonly" id="email" required="required" style="height: 40px;">
+                <input  type="text" class="form-control" readonly="readonly" id="email" required="required" style="height: 40px;">
             </div>
         </div>
 
@@ -62,7 +62,7 @@
         <div class="form-row" id="divcpf">
             <div class="form-group col-md-12">
                 <label for="cpf">CPF do titular:</label>
-                <input th:value="${venda.pessoa.cpf}" type="text" placeholder="000.000.000-00" class="form-control" id="cpf" required="required" style="height: 40px;">
+                <input  type="text" placeholder="000.000.000-00" class="form-control" id="cpf" required="required" style="height: 40px;">
             </div>
         </div>
 
@@ -172,51 +172,16 @@
                 <input onclick="realizarPagamento();" type="button" class="btn btn-primary btn-lg" value="Realizar Pagamento" style="font-size: 23px;height: 50px; width: 100%">
             </div>
         </div>
-        
 
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <span id="valorParaCompra" style="width: 100%;height: 30px; font-size: 19px;" th:text="@{'TOTAL R$: ' + ${venda.valorTotal}}">TOTAL R$:</span>
-            </div>
-            <div class="form-group col-md-6">
-                <span id="valorParaDesc" style="width: 100%;height: 30px; font-size: 19px;" th:text="@{'DESC. R$: ' + ${venda.valorDesc}}">DESC. R$:</span>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <span id="valorFrete" style="width: 100%;height: 30px; font-size: 19px;" th:text="@{'FRETE R$: ' + ${venda.valorFrete}}">FRETE R$:</span>
-            </div>
-        </div>
-
-        <hr width="96%" style="color: #726868;border-top: 1px solid #726868;">
-
-        <div class="form-row">
-            <div class="form-group col-md-6" style="margin-top: 8px;">
-                <label>Itens adicionados</label>
-                <div th:each="p : ${venda.itemVendaLoja}">
-                    <span style="width: 100%; height: 15px; font-size: 11px;" th:text="@{${p.produto.nome} + ' - Qtd: ' + ${p.quantidade}}"></span>
-                </div>
-            </div>
-        </div>
 
     </form>
 </div>
 
-<script type="text/javascript">
+    <script type="text/javascript">
+        var checkout = new DirectCheckout('10951138DA2E18AA0275F43ACA03649EC406D9F5331D9F78CC4169A965B873AB35FFAEE08E46454E');
+    </script>
 
-    var checkout = new DirectCheckout('10951138DA2E18AA0275F43ACA03649EC406D9F5331D9F78CC4169A965B873AB35FFAEE08E46454E');
-
-    $(document).ready(function() {
-
-        $('#cpf').mask('000.000.000-00',{reverse: true});
-
-        $('#cep').mask('00000-000',{reverse: true});
-
-        $('#cvv').mask('000',{reverse: true});
-
-        $('#numerocartao').mask('0000.0000.0000.0000',{reverse: true});
-
+    <script>
         function limpa_formulário_cep() {
             // Limpa valores do formulário de cep.
             $("#rua").val("");
@@ -241,9 +206,9 @@
                 if(validacep.test(cep)) {
 
                     //Preenche os campos com "..." enquanto consulta webservice.
-                    $("#rua").val("...");
-                    $("#cidade").val("...");
-                    $("#estado").val("..");
+                    $("#rua").val("....");
+                    $("#cidade").val("....");
+                    $("#estado").val("....");
 
                     //Consulta o webservice viacep.com.br/
                     $.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
@@ -274,131 +239,6 @@
                 limpa_formulário_cep();
             }
         });
-    });
-
-    function realizarPagamento(){
-
-        var idVendaCampo = $('#idVendaCampo').val();
-        var numerocartao = $('#numerocartao').val();
-        var nomecartao = $('#nomecartao').val();
-        var cpf = $('#cpf').val();
-        var mesvalidade = $('#mesvalidade').val();
-        var anovalidade = $('#anovalidade').val();
-        var cvv = $('#cvv').val();
-        var qtdparcela = $('#qtdparcela').val();
-        var cep = $('#cep').val();
-        var rua = $('#rua').val();
-        var numero = $('#numero').val();
-        var estado = $('#estado').val();
-        var cidade = $('#cidade').val();
-
-
-        if(cidade.trim() == ''){
-            alert('Informe a Cidade de cobrança do cartão de crédito.');
-            return;
-        }
-
-
-        if(estado.trim() == ''){
-            alert('Informe o Estado de cobrança do cartão de crédito.');
-            return;
-        }
-
-        if(numero.trim() == ''){
-            alert('Informe a Número de cobrança do cartão de crédito.');
-            return;
-        }
-
-        if(rua.trim() == ''){
-            alert('Informe a RUA de cobrança do cartão de crédito.');
-            return;
-        }
-
-
-        if(cep.trim() == ''){
-            alert('Informe CEP de cobrança do cartão de crédito.');
-            return;
-        }
-
-
-        if(cvv.trim() == ''){
-            alert('Informe CVV do cartão de crédito.');
-            return;
-        }
-
-
-        if(mesvalidade.trim() == ''){
-            alert('Informe mês de válidade do cartão de crédito.');
-            return;
-        }
-
-        if(numerocartao.trim() == ''){
-            alert('Informe o número do cartão de crédito.');
-            return;
-        }
-
-        if(nomecartao.trim() == ''){
-            alert('Informe o nome como escrito no cartão de crédito.');
-            return;
-        }
-
-        if(cpf.trim() == ''){
-            alert('Informe cpf do responsável pelo cartão de crédito.');
-            return;
-        }
-
-
-        var cardData = {
-            cardNumber: numerocartao.replaceAll('.',""),
-            holderName: nomecartao,
-            securityCode: cvv,
-            expirationMonth: mesvalidade,
-            expirationYear: anovalidade
-        };
-
-
-        var isValidCardNumber = checkout.isValidCardNumber(cardData.cardNumber);
-
-        if (isValidCardNumber == false){
-            alert('Número do cartão é inválido');
-            return;
-        }
-
-
-        var isValidSecurityCode = checkout.isValidSecurityCode(cardData.cardNumber, cvv);
-
-        if (isValidSecurityCode == false){
-            alert('Códivo CVV de segurança é inválido.');
-            return;
-        }
-
-
-        var isValidExpireDate = checkout.isValidExpireDate(cardData.expirationMonth, cardData.expirationYear);
-
-        if (isValidExpireDate == false){
-            alert('Data de válidade é inválida');
-            return;
-        }
-
-
-        var isValidCardData = checkout.isValidCardData(cardData, function(error) {
-
-            if (error.toString().includes('Invalid holder name', error)){
-                alert('Seu nome informado não está igual ao escrito no cartão de crédito.');
-            }else{
-                alert('Mensagem de erro: ' + error.toString());
-            }
-
-            return;
-        });
-
-
-        console.info('isValidCardData' + isValidCardData);
-        console.info('isValidExpireDate' + isValidExpireDate);
-        console.info('isValidSecurityCode' + isValidSecurityCode);
-        console.info('isValidCardNumber' + isValidCardNumber);
-
-    }
-        </script>
+    </script>
     </body>
 </html>
