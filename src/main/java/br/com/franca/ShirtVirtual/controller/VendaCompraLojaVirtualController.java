@@ -7,6 +7,7 @@ import br.com.franca.ShirtVirtual.repository.*;
 import br.com.franca.ShirtVirtual.service.ServiceJunoBoleto;
 import br.com.franca.ShirtVirtual.service.ServiceSendEmail;
 import br.com.franca.ShirtVirtual.service.VendaCompraLojaVirtualService;
+import br.com.franca.ShirtVirtual.service.VendaService;
 import br.com.franca.ShirtVirtual.utils.dto.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,9 +47,10 @@ public class VendaCompraLojaVirtualController {
     private ContaReceberRepository contaReceberRepository;
     private ContaReceberController contaReceberController;
     private ServiceJunoBoleto serviceJunoBoleto;
+    private VendaService vendaService;
 
     @Autowired
-    public VendaCompraLojaVirtualController(VendaCompraLojaVirtualRepository vendaCompraLojaVirtualRepository, VendaCompraLojaVirtualService vendaCompraLojaVirtualService, ServiceSendEmail serviceSendEmail, EnderecoRepository enderecoRepository, PessoaFisicaController pessoaFisicaController, PessoaJuridicaController pessoaJuridicaController, NotaFiscalVendaRepository notaFiscalVendaRepository, StatusRastreioRepository statusRastreioRepository, ContaReceberRepository contaReceberRepository, ContaReceberController contaReceberController, ServiceJunoBoleto serviceJunoBoleto) {
+    public VendaCompraLojaVirtualController(VendaCompraLojaVirtualRepository vendaCompraLojaVirtualRepository, VendaCompraLojaVirtualService vendaCompraLojaVirtualService, ServiceSendEmail serviceSendEmail, EnderecoRepository enderecoRepository, PessoaFisicaController pessoaFisicaController, PessoaJuridicaController pessoaJuridicaController, NotaFiscalVendaRepository notaFiscalVendaRepository, StatusRastreioRepository statusRastreioRepository, ContaReceberRepository contaReceberRepository, ContaReceberController contaReceberController, ServiceJunoBoleto serviceJunoBoleto, VendaService vendaService) {
         this.vendaCompraLojaVirtualRepository = vendaCompraLojaVirtualRepository;
         this.vendaCompraLojaVirtualService = vendaCompraLojaVirtualService;
         this.serviceSendEmail = serviceSendEmail;
@@ -60,6 +62,7 @@ public class VendaCompraLojaVirtualController {
         this.contaReceberRepository = contaReceberRepository;
         this.contaReceberController = contaReceberController;
         this.serviceJunoBoleto = serviceJunoBoleto;
+        this.vendaService = vendaService;
     }
 
 
@@ -710,6 +713,34 @@ public class VendaCompraLojaVirtualController {
 
         vendaCompraLojaVirtualService.cancelarNotaFiscal(idVenda);
         return new ResponseEntity("Venda cancelada com sucesso",HttpStatus.OK);
+
+    }
+
+
+    @ApiOperation("Consulta venda por ID")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK", response = AcessoController.class),
+            @ApiResponse(code = 403, message = "Requisição não autoziada"),
+            @ApiResponse(code = 404, message = " não encontrado ")
+    })
+    @ResponseBody
+    @PutMapping(value = "/consultaVenda/{idVenda}")
+    public ResponseEntity<?> consultaVenda(@PathVariable("idVenda") Long idVenda) {
+
+        log.info("Inicio de consulta da venda por id...");
+
+        VendaCompraLojaVirtual compraLojaVirtual = vendaCompraLojaVirtualRepository.findByIdExclusao(idVenda);
+
+        if (compraLojaVirtual == null){
+            compraLojaVirtual = new VendaCompraLojaVirtual();
+        }
+
+        VendaCompraLojaVirtualDTO compraLojaVirtualDTO = vendaService.consultaVenda(compraLojaVirtual);
+
+        return new ResponseEntity<VendaCompraLojaVirtualDTO>(compraLojaVirtualDTO, HttpStatus.OK);
+
+
+
 
     }
 

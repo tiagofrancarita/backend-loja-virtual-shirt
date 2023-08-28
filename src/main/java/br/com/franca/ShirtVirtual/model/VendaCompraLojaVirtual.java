@@ -26,17 +26,17 @@ public class VendaCompraLojaVirtual implements Serializable {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull(message = "O cliente comprador deve ser informado na nota")
-    @ManyToOne(targetEntity = PessoaFisica.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = PessoaFisica.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
     private PessoaFisica pessoa;
 
     @NotNull(message = "O endereço de entrega deve ser informado na nota")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "endereco_entrega_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "endereco_entrega_fk"))
     private Endereco enderecoEntrega;
 
     @NotNull(message = "O endereço de entrega deve ser informado na nota")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "endereco_cobranca_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "endereco_cobranca_fk"))
     private Endereco enderecoCobranca;
 
@@ -49,17 +49,17 @@ public class VendaCompraLojaVirtual implements Serializable {
     private BigDecimal valorTotalDescontoVendaLoja = BigDecimal.valueOf(0.00);
 
     @NotNull(message = "Forma de pagamento deve ser informado na nota")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "forma_pagamento_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "forma_pagamento_fk"))
     private FormaPagamento formaPagamento;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull(message = "Numero nota fiscal de venda deve ser informado na nota")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "nota_fiscal_venda_id", nullable = true, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "nota_fiscal_venda_fk"))
     private NotaFiscalVenda notaFiscalVenda;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cupom_desconto_id", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "cupom_desconto_fk"))
     private CupomDesonto cupomDesonto;
 
@@ -84,7 +84,7 @@ public class VendaCompraLojaVirtual implements Serializable {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull(message = "A empresa deve ser informada na nota")
-    @ManyToOne(targetEntity = PessoaJuridica.class)
+    @ManyToOne(targetEntity = PessoaJuridica.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
     private PessoaJuridica empresa;
 
