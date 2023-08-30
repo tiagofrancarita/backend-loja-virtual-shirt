@@ -121,6 +121,8 @@ public abstract class Pessoa implements Serializable {
         this.empresa = empresa;
     }
 
+
+
     @Override
     public int hashCode() {
         final int prime = 31;

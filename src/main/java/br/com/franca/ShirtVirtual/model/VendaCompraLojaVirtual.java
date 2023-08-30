@@ -24,19 +24,18 @@ public class VendaCompraLojaVirtual implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_vd_cp_loja_virt")
     private Long id;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotNull(message = "O cliente comprador deve ser informado na nota")
-    @ManyToOne(targetEntity = PessoaFisica.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @NotNull(message = "A pessoa compradora deve ser informado")
+    @ManyToOne(targetEntity = PessoaFisica.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
     private PessoaFisica pessoa;
 
     @NotNull(message = "O endereço de entrega deve ser informado na nota")
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "endereco_entrega_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "endereco_entrega_fk"))
     private Endereco enderecoEntrega;
 
     @NotNull(message = "O endereço de entrega deve ser informado na nota")
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "endereco_cobranca_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "endereco_cobranca_fk"))
     private Endereco enderecoCobranca;
 
@@ -49,7 +48,7 @@ public class VendaCompraLojaVirtual implements Serializable {
     private BigDecimal valorTotalDescontoVendaLoja = BigDecimal.valueOf(0.00);
 
     @NotNull(message = "Forma de pagamento deve ser informado na nota")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "forma_pagamento_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "forma_pagamento_fk"))
     private FormaPagamento formaPagamento;
 
@@ -82,9 +81,9 @@ public class VendaCompraLojaVirtual implements Serializable {
     @Column(name = "data_entrega", nullable = false)
     private Date dtEntrega;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+
     @NotNull(message = "A empresa deve ser informada na nota")
-    @ManyToOne(targetEntity = PessoaJuridica.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = PessoaJuridica.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
     private PessoaJuridica empresa;
 
@@ -110,6 +109,7 @@ public class VendaCompraLojaVirtual implements Serializable {
     public String getUrlRastreio() {
         return urlRastreio;
     }
+
 
     public void setUrlRastreio(String urlRastreio) {
         this.urlRastreio = urlRastreio;
