@@ -33,4 +33,9 @@ public class PessoaFisica extends Pessoa {
     public void setDataNascimento(Date dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
+
+    @Override
+    public String getNome() {
+        return super.getNome();
+    }
 }

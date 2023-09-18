@@ -22,6 +22,7 @@ br\com\franca\ShirtVirtual\controller\ContaReceberController.class
 br\com\franca\ShirtVirtual\controller\VendaCompraLojaVirtualController.class
 br\com\franca\ShirtVirtual\controller\ContaPagarController.class
 br\com\franca\ShirtVirtual\service\IgnoreHostNameSSL.class
+br\com\franca\ShirtVirtual\service\VendaService.class
 br\com\franca\ShirtVirtual\service\ContaReceberService.class
 br\com\franca\ShirtVirtual\controller\NotaFiscalCompraController.class
 br\com\franca\ShirtVirtual\model\Endereco.class
@@ -56,6 +57,7 @@ br\com\franca\ShirtVirtual\model\PessoaFisica.class
 br\com\franca\ShirtVirtual\utils\dto\BillingDTO.class
 br\com\franca\ShirtVirtual\service\HostIgnoringClient.class
 br\com\franca\ShirtVirtual\ShirtVirtualApplication.class
+br\com\franca\ShirtVirtual\controller\PagamentoController.class
 br\com\franca\ShirtVirtual\service\HostIgnoringClient$1.class
 br\com\franca\ShirtVirtual\config\tokens\ApiTokenIntegracaoJuno.class
 br\com\franca\ShirtVirtual\enums\StatusVendaLojaVirtual.class
@@ -80,6 +82,7 @@ br\com\franca\ShirtVirtual\utils\dto\ToEnvioFreteDTO.class
 br\com\franca\ShirtVirtual\service\UserDetailsServiceImpl.class
 br\com\franca\ShirtVirtual\config\tokens\ApiTokenMelhorEnvio.class
 br\com\franca\ShirtVirtual\model\ImagemProduto.class
+br\com\franca\ShirtVirtual\ServletInitializer.class
 br\com\franca\ShirtVirtual\model\BoletoJuno.class
 br\com\franca\ShirtVirtual\utils\dto\FromDTO.class
 br\com\franca\ShirtVirtual\controller\CategoriaProdutoController.class
