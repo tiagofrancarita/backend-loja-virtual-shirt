@@ -13,6 +13,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
 import java.util.concurrent.Executor;
 
 
@@ -23,7 +27,7 @@ import java.util.concurrent.Executor;
 @ComponentScan(basePackages = {"br.*"})
 @EnableJpaRepositories(basePackages = {"br.com.franca.ShirtVirtual.repository"})
 @EnableTransactionManagement
-public class ShirtVirtualApplication implements AsyncConfigurer {
+public class ShirtVirtualApplication implements AsyncConfigurer, WebMvcConfigurer {
 
 	private static Logger logger = LoggerFactory.getLogger(ShirtVirtualApplication.class);
 
@@ -32,9 +36,17 @@ public class ShirtVirtualApplication implements AsyncConfigurer {
 		logger.info("Iniciando a loja virtual, aguarde.");
 		SpringApplication.run(ShirtVirtualApplication.class, args);
 		logger.info("Loja virtual iniciada com sucesso.");
-
 		//System.out.println(new BCryptPasswordEncoder().encode("123"));
+	}
 
+	@Bean
+	public ViewResolver viewResolver() {
+
+		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+		viewResolver.setPrefix("classpath:templates/");
+		viewResolver.setSuffix(".html");
+
+		return viewResolver;
 	}
 
 	@Override

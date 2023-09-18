@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.map"></script>
+
+    <script type="text/javascript" src="https://www.boletobancario.com/boletofacil/wro/direct-checkout.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+    <form style="padding-top: 20px; padding-bottom: 20px" id="formcheckout">
+        <input type="hidden"  id="idVendaCampo">
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="nome">Nome:</label>
+                <input type="text" class="form-control" readonly="readonly" id="nome" required="required" style="height: 40px;">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="email">Email:</label>
+                <input  type="text" class="form-control" readonly="readonly" id="email" required="required" style="height: 40px;">
+            </div>
+        </div>
+
+        <div class="form-row" id="linha1cartao">
+            <div class="form-group col-md-6">
+                <label for="numerocartao">Número do cartão:</label>
+                <input th:value=${venda.pessoa.nome} type="text" placeholder="0000.0000.0000.0000" class="form-control" id="numerocartao" required="required" style="height: 40px;">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="nomecartao">Nome como escrito no cartão:</label>
+                <input type="text" placeholder="João da Silva" class="form-control" id="nomecartao" required="required" style="height: 40px;">
+            </div>
+        </div>
+
+        <div class="form-row" id="divcpf">
+            <div class="form-group col-md-12">
+                <label for="cpf">CPF do titular:</label>
+                <input  type="text" placeholder="000.000.000-00" class="form-control" id="cpf" required="required" style="height: 40px;">
+            </div>
+        </div>
+
+        <div class="form-row" id="linha2cartao">
+            <div class="form-group col-md-4">
+                <label for="mesvalidade">Mês de validade:</label>
+                <select class="form-control" required="required" id="mesvalidade" style="height: 40px;">
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="anovalidade">Ano de validade:</label>
+                <select class="form-control" required="required" id="anovalidade" style="height: 40px;">
+                    <option value="2022">22</option>
+                    <option value="2023">23</option>
+                    <option value="2024">24</option>
+                    <option value="2025">25</option>
+                    <option value="2026">26</option>
+                    <option value="2027">27</option>
+                    <option value="2028">28</option>
+                    <option value="2029">29</option>
+                    <option value="2030">30</option>
+                    <option value="2031">31</option>
+                    <option value="2032">32</option>
+                    <option value="2033">33</option>
+                    <option value="2034">34</option>
+                    <option value="2035">35</option>
+                    <option value="2036">36</option>
+                    <option value="2037">37</option>
+                    <option value="2038">38</option>
+                    <option value="2039">39</option>
+                    <option value="2040">40</option>
+                </select>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="cvv">Código de segurança ou CVV:</label>
+                <input type="text" style="height: 40px;" placeholder="380" class="form-control" id="cvv" required="required">
+            </div>
+
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="qtdparcela">Selecione o número de parcela:</label>
+                <select class="form-control" required="required" id="qtdparcela" style="height: 40px;">
+                    <option value="1">1x</option>
+                    <option value="2">2x</option>
+                    <option value="3">3x</option>
+                    <option value="4">4x</option>
+                    <option value="5">5x</option>
+                    <option value="6">6x</option>
+                    <option value="7">7x</option>
+                    <option value="8">8x</option>
+                    <option value="9">9x</option>
+                    <option value="10">10x</option>
+                    <option value="11">11x</option>
+                    <option value="12">12x</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row" id="divendereco">
+            <div class="form-group col-md-4">
+                <label for="cep">CEP de cobrança:</label>
+                <input type="text" style="height: 40px;" placeholder="00000-000" class="form-control" id="cep" required="required">
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="rua">Rua:</label>
+                <input type="text" style="height: 40px;" class="form-control" id="rua" required="required">
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="numero">Número:</label>
+                <input type="text" style="height: 40px;" class="form-control" id="numero" required="required">
+            </div>
+        </div>
+
+        <div class="form-row" id="divendereco2">
+
+            <div class="form-group col-md-6">
+                <label for="estado">Estado:</label>
+                <input type="text" style="height: 40px;" placeholder="PR" class="form-control" id="estado" required="required">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="cidade">Cidade:</label>
+                <input type="text" style="height: 40px;" placeholder="Maringá" class="form-control" id="cidade" required="required">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <input onclick="realizarPagamento();" type="button" class="btn btn-primary btn-lg" value="Realizar Pagamento" style="font-size: 23px;height: 50px; width: 100%">
+            </div>
+        </div>
+
+
+    </form>
+</div>
+
+    <script type="text/javascript">
+        var checkout = new DirectCheckout('10951138DA2E18AA0275F43ACA03649EC406D9F5331D9F78CC4169A965B873AB35FFAEE08E46454E');
+    </script>
+
+    <script>
+        function limpa_formulário_cep() {
+            // Limpa valores do formulário de cep.
+            $("#rua").val("");
+            $("#numero").val("");
+            $("#cidade").val("");
+            $("#estado").val("");
+        }
+
+        //Quando o campo cep perde o foco.
+        $("#cep").blur(function() {
+
+            //Nova variável "cep" somente com dígitos.
+            var cep = $(this).val().replace(/\D/g, '');
+
+            //Verifica se campo cep possui valor informado.
+            if (cep != "") {
+
+                //Expressão regular para validar o CEP.
+                var validacep = /^[0-9]{8}$/;
+
+                //Valida o formato do CEP.
+                if(validacep.test(cep)) {
+
+                    //Preenche os campos com "..." enquanto consulta webservice.
+                    $("#rua").val("....");
+                    $("#cidade").val("....");
+                    $("#estado").val("....");
+
+                    //Consulta o webservice viacep.com.br/
+                    $.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
+
+                        //console.info(dados);
+
+                        if (!("erro" in dados)) {
+                            //Atualiza os campos com os valores da consulta.
+                            $("#rua").val(dados.logradouro);
+                            $("#cidade").val(dados.localidade);
+                            $("#estado").val(dados.uf);
+                        } //end if.
+                        else {
+                            //CEP pesquisado não foi encontrado.
+                            limpa_formulário_cep();
+                            alert("CEP não encontrado.");
+                        }
+                    });
+                } //end if.
+                else {
+                    //cep é inválido.
+                    limpa_formulário_cep();
+                    alert("Formato de CEP inválido.");
+                }
+            } //end if.
+            else {
+                //cep sem valor, limpa formulário.
+                limpa_formulário_cep();
+            }
+        });
+    </script>
+    </body>
+</html>
