@@ -5,6 +5,7 @@ import br.com.franca.ShirtVirtual.model.VendaCompraLojaVirtual;
 import br.com.franca.ShirtVirtual.repository.VendaCompraLojaVirtualRepository;
 import br.com.franca.ShirtVirtual.utils.dto.ItemVendaDTO;
 import br.com.franca.ShirtVirtual.utils.dto.VendaCompraLojaVirtualDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.jdbc.core.JdbcTemplate;
 import javax.persistence.EntityManager;
@@ -26,6 +27,11 @@ public class VendaService {
 
     private VendaCompraLojaVirtualRepository vd_Cp_Loja_virt_repository;
 
+    @Autowired
+    public VendaService(JdbcTemplate jdbcTemplate, VendaCompraLojaVirtualRepository vd_Cp_Loja_virt_repository) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.vd_Cp_Loja_virt_repository = vd_Cp_Loja_virt_repository;
+    }
 
     public void exclusaoTotalVendaBanco2(Long idVenda) {
         String sql = "begin; update vd_cp_loja_virt set excluido = true where id = " + idVenda +"; commit;";

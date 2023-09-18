@@ -73,9 +73,9 @@ public class VendaCompraLojaVirtualController {
             @ApiResponse(code = 404, message = "Consulta não encontrada")
     })
     @GetMapping("/gerarBoletoPixJuno")
-    public ResponseEntity<String> gerarBoletoPixJuno(@RequestBody @Valid ObjetoPostCarneJuno objetoPostCarneJuno) throws Exception{
+    public ResponseEntity<String> gerarBoletoPixJuno(@RequestBody @Valid ObjetoPostCarneJuno objetoPostCarneJuno) throws Exception {
 
-        return  new ResponseEntity<String>(serviceJunoBoleto.gerarCarneApiJuno(objetoPostCarneJuno), HttpStatus.OK);
+        return new ResponseEntity<String>(serviceJunoBoleto.gerarCarneApiJuno(objetoPostCarneJuno), HttpStatus.OK);
     }
 
     @ApiOperation("cancelar boleto pix -- JUNO")
@@ -85,9 +85,9 @@ public class VendaCompraLojaVirtualController {
             @ApiResponse(code = 404, message = "Consulta não encontrada")
     })
     @GetMapping("/cancelarBoletoPixJuno")
-    public ResponseEntity<String> cancelarBoletoPixJuno(@RequestBody @Valid String code) throws Exception{
+    public ResponseEntity<String> cancelarBoletoPixJuno(@RequestBody @Valid String code) throws Exception {
 
-        return  new ResponseEntity<String>(serviceJunoBoleto.cancelarBoleto(code), HttpStatus.OK);
+        return new ResponseEntity<String>(serviceJunoBoleto.cancelarBoleto(code), HttpStatus.OK);
     }
 
 
@@ -98,7 +98,7 @@ public class VendaCompraLojaVirtualController {
             @ApiResponse(code = 404, message = "Consulta não encontrada")
     })
     @GetMapping("/listarVendas")
-    public List<VendaCompraLojaVirtual> listarVendas(){
+    public List<VendaCompraLojaVirtual> listarVendas() {
 
         log.debug("Iniciando a listagem de acessos");
         log.info("Lista extraida com sucesso");
@@ -123,30 +123,28 @@ public class VendaCompraLojaVirtualController {
         PessoaFisica pessoaFisica = pessoaFisicaController.salvarPessoaFisica(vendaCompraLojaVirtual.getPessoa()).getBody();
         vendaCompraLojaVirtual.setPessoa(pessoaFisica);
 
-         vendaCompraLojaVirtual.getEnderecoEntrega().setPessoa(pessoaFisica);
-         vendaCompraLojaVirtual.getEnderecoEntrega().setEmpresa(vendaCompraLojaVirtual.getEmpresa());
-            Endereco enderecoEntrega = enderecoRepository.save(vendaCompraLojaVirtual.getEnderecoEntrega());
-            vendaCompraLojaVirtual.setEnderecoEntrega(enderecoEntrega);
+        vendaCompraLojaVirtual.getEnderecoEntrega().setPessoa(pessoaFisica);
+        vendaCompraLojaVirtual.getEnderecoEntrega().setEmpresa(vendaCompraLojaVirtual.getEmpresa());
+        Endereco enderecoEntrega = enderecoRepository.save(vendaCompraLojaVirtual.getEnderecoEntrega());
+        vendaCompraLojaVirtual.setEnderecoEntrega(enderecoEntrega);
 
         vendaCompraLojaVirtual.getEnderecoCobranca().setPessoa(pessoaFisica);
         vendaCompraLojaVirtual.getEnderecoCobranca().setEmpresa(vendaCompraLojaVirtual.getEmpresa());
-            Endereco enderecoCobranca = enderecoRepository.save(vendaCompraLojaVirtual.getEnderecoCobranca());
-            vendaCompraLojaVirtual.setEnderecoCobranca(enderecoCobranca);
+        Endereco enderecoCobranca = enderecoRepository.save(vendaCompraLojaVirtual.getEnderecoCobranca());
+        vendaCompraLojaVirtual.setEnderecoCobranca(enderecoCobranca);
 
         //Associa a nota fiscal a empresa
         vendaCompraLojaVirtual.getNotaFiscalVenda().setEmpresa(vendaCompraLojaVirtual.getEmpresa());
 
         //Associacao item produto a uma venda
-         for (int item = 0; item < vendaCompraLojaVirtual.getItemVendaLojas().size(); item++){
-             vendaCompraLojaVirtual.getItemVendaLojas().get(item).setEmpresa(vendaCompraLojaVirtual.getEmpresa());
-             vendaCompraLojaVirtual.getItemVendaLojas().get(item).setVendaCompraLojaVirtual(vendaCompraLojaVirtual);
-         }
+        for (int item = 0; item < vendaCompraLojaVirtual.getItemVendaLojas().size(); item++) {
+            vendaCompraLojaVirtual.getItemVendaLojas().get(item).setEmpresa(vendaCompraLojaVirtual.getEmpresa());
+            vendaCompraLojaVirtual.getItemVendaLojas().get(item).setVendaCompraLojaVirtual(vendaCompraLojaVirtual);
+        }
 
         //Salva primeiro os dados basicos  da venda
         vendaCompraLojaVirtual = vendaCompraLojaVirtualRepository.saveAndFlush(vendaCompraLojaVirtual);
         log.info("Dados basicos salvo");
-
-
 
 
         //associa a venda salva anteriormente no banco com a nota fiscal
@@ -202,7 +200,7 @@ public class VendaCompraLojaVirtualController {
 
         /*Email para o vendedor*/
         msgemail = new StringBuilder();
-        msgemail.append("Você realizou uma venda, nº " ).append(vendaCompraLojaVirtual.getId());
+        msgemail.append("Você realizou uma venda, nº ").append(vendaCompraLojaVirtual.getId());
         serviceSendEmail.enviaEmailHtml("Venda Realizada", msgemail.toString(), vendaCompraLojaVirtual.getEmpresa().getEmail());
 
         return new ResponseEntity<VendaCompraLojaVirtualDTO>(compraLojaVirtualDTO, HttpStatus.CREATED);
@@ -223,7 +221,7 @@ public class VendaCompraLojaVirtualController {
 
         VendaCompraLojaVirtual vendaCompraLojaVirtual = vendaCompraLojaVirtualRepository.BuscaVendaAtiva(idVenda);
 
-        if (vendaCompraLojaVirtual == null){
+        if (vendaCompraLojaVirtual == null) {
             vendaCompraLojaVirtual = new VendaCompraLojaVirtual();
         }
 
@@ -264,13 +262,13 @@ public class VendaCompraLojaVirtualController {
         log.info("Inicio da busca de contas a pagar por codigo pessoa");
         List<VendaCompraLojaVirtual> vendaCompraLojaVirtuals = vendaCompraLojaVirtualRepository.buscarVendaPorCliente(idCliente);
 
-        if (vendaCompraLojaVirtuals == null){
+        if (vendaCompraLojaVirtuals == null) {
             log.error("Erro ao buscar venda por cliente, id inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idCliente);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: " + idCliente);
 
         }
         log.info("Busca realizada com sucesso");
-        return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals,HttpStatus.OK);
+        return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals, HttpStatus.OK);
     }
 
     @ApiOperation("Buscar venda por forma de pagamanto")
@@ -286,13 +284,13 @@ public class VendaCompraLojaVirtualController {
         log.info("Inicio da busca de venda por forma de pagamento");
         List<VendaCompraLojaVirtual> vendaCompraLojaVirtuals = vendaCompraLojaVirtualRepository.buscarVendaPorFormaPagamento(idFormaPagamento);
 
-        if (vendaCompraLojaVirtuals == null){
+        if (vendaCompraLojaVirtuals == null) {
             log.error("Erro ao buscar venda por forma de pagamanto, id inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idFormaPagamento);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: " + idFormaPagamento);
 
         }
         log.info("Busca realizada com sucesso");
-        return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals,HttpStatus.OK);
+        return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals, HttpStatus.OK);
     }
 
     @ApiOperation("Buscar venda por id de nota fiscal")
@@ -308,13 +306,13 @@ public class VendaCompraLojaVirtualController {
         log.info("Inicio da busca de venda por forma de pagamento");
         List<VendaCompraLojaVirtual> vendaCompraLojaVirtuals = vendaCompraLojaVirtualRepository.buscarVendaPorNotaFiscalVenda(idNotaFiscalvenda);
 
-        if (vendaCompraLojaVirtuals == null){
+        if (vendaCompraLojaVirtuals == null) {
             log.error("Erro ao buscar venda por forma de pagamanto, id inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idNotaFiscalvenda);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: " + idNotaFiscalvenda);
 
         }
         log.info("Busca realizada com sucesso");
-        return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals,HttpStatus.OK);
+        return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals, HttpStatus.OK);
     }
 
     @ApiOperation("Buscar venda por id de nota fiscal")
@@ -330,13 +328,13 @@ public class VendaCompraLojaVirtualController {
         log.info("Inicio da busca de venda por forma de pagamento");
         List<VendaCompraLojaVirtual> vendaCompraLojaVirtuals = vendaCompraLojaVirtualRepository.buscarVendaPorEmpresa(idEmpresa);
 
-        if (vendaCompraLojaVirtuals == null){
+        if (vendaCompraLojaVirtuals == null) {
             log.error("Erro ao buscar venda por forma de pagamanto, id inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: "  +  idEmpresa);
+            throw new ExceptionShirtVirtual("O código informado não existe. " + " id: " + idEmpresa);
 
         }
         log.info("Busca realizada com sucesso");
-        return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals,HttpStatus.OK);
+        return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals, HttpStatus.OK);
     }
 
     @ApiOperation("Buscar venda por cpf cliente")
@@ -352,13 +350,13 @@ public class VendaCompraLojaVirtualController {
         log.info("Inicio da busca de venda por forma de pagamento");
         List<VendaCompraLojaVirtual> vendaCompraLojaVirtuals = vendaCompraLojaVirtualRepository.buscarVendaPorCpfCliente(cpfCliente.toUpperCase().trim());
 
-        if (vendaCompraLojaVirtuals == null){
+        if (vendaCompraLojaVirtuals == null) {
             log.error("Erro ao buscar venda por cpf, cpf inválido ou inexistente");
-            throw new ExceptionShirtVirtual("O cpf informado não existe. " + " id: "  +  cpfCliente);
+            throw new ExceptionShirtVirtual("O cpf informado não existe. " + " id: " + cpfCliente);
 
         }
         log.info("Busca realizada com sucesso");
-        return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals,HttpStatus.OK);
+        return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals, HttpStatus.OK);
     }
 
     @ApiOperation("Buscar venda por email cliente")
@@ -374,13 +372,13 @@ public class VendaCompraLojaVirtualController {
         log.info("Inicio da busca de venda por forma de pagamento");
         List<VendaCompraLojaVirtual> vendaCompraLojaVirtuals = vendaCompraLojaVirtualRepository.buscarVendaPorEmailCliente(emailCliente.toUpperCase().trim());
 
-        if (vendaCompraLojaVirtuals == null){
+        if (vendaCompraLojaVirtuals == null) {
             log.error("Erro ao buscar venda por email, email inválido ou inexistente");
-            throw new ExceptionShirtVirtual("Erro ao buscar venda por email, email inválido ou inexistente. " + " id: "  +  emailCliente);
+            throw new ExceptionShirtVirtual("Erro ao buscar venda por email, email inválido ou inexistente. " + " id: " + emailCliente);
 
         }
         log.info("Busca realizada com sucesso");
-        return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals,HttpStatus.OK);
+        return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals, HttpStatus.OK);
     }
 
     @ApiOperation("Buscar venda por email cliente")
@@ -396,13 +394,13 @@ public class VendaCompraLojaVirtualController {
         log.info("Inicio da busca de venda por forma de pagamento");
         List<VendaCompraLojaVirtual> vendaCompraLojaVirtuals = vendaCompraLojaVirtualRepository.buscarVendaPorNumeroNota(numeroNota.toUpperCase().trim());
 
-        if (vendaCompraLojaVirtuals == null){
+        if (vendaCompraLojaVirtuals == null) {
             log.error("Erro ao buscar venda por email, email inválido ou inexistente");
-            throw new ExceptionShirtVirtual("Erro ao buscar venda por email, email inválido ou inexistente. " + " id: "  +  numeroNota);
+            throw new ExceptionShirtVirtual("Erro ao buscar venda por email, email inválido ou inexistente. " + " id: " + numeroNota);
 
         }
         log.info("Busca realizada com sucesso");
-        return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals,HttpStatus.OK);
+        return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals, HttpStatus.OK);
     }
 
     @ApiOperation("Buscar venda por email cliente")
@@ -418,13 +416,13 @@ public class VendaCompraLojaVirtualController {
         log.info("Inicio da busca de venda por forma de pagamento");
         List<VendaCompraLojaVirtual> vendaCompraLojaVirtuals = vendaCompraLojaVirtualRepository.buscarVendaPorCnpjEmpresa(cnpjEmpresa.toUpperCase().trim());
 
-        if (vendaCompraLojaVirtuals == null){
+        if (vendaCompraLojaVirtuals == null) {
             log.error("Erro ao buscar venda por email, email inválido ou inexistente");
-            throw new ExceptionShirtVirtual("Erro ao buscar venda por email, email inválido ou inexistente. " + " id: "  +  cnpjEmpresa);
+            throw new ExceptionShirtVirtual("Erro ao buscar venda por email, email inválido ou inexistente. " + " id: " + cnpjEmpresa);
 
         }
         log.info("Busca realizada com sucesso");
-        return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals,HttpStatus.OK);
+        return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals, HttpStatus.OK);
     }
 
     @ApiOperation("Buscar venda por email cliente")
@@ -440,13 +438,13 @@ public class VendaCompraLojaVirtualController {
         log.info("Inicio da busca de venda por forma de pagamento");
         List<VendaCompraLojaVirtual> vendaCompraLojaVirtuals = vendaCompraLojaVirtualRepository.buscarVendaPorBairroEntrega(bairroEntrega.toUpperCase().trim());
 
-        if (vendaCompraLojaVirtuals == null){
+        if (vendaCompraLojaVirtuals == null) {
             log.error("Erro ao buscar venda por email, email inválido ou inexistente");
-            throw new ExceptionShirtVirtual("Erro ao buscar venda por email, email inválido ou inexistente. " + " id: "  +  bairroEntrega);
+            throw new ExceptionShirtVirtual("Erro ao buscar venda por email, email inválido ou inexistente. " + " id: " + bairroEntrega);
 
         }
         log.info("Busca realizada com sucesso");
-        return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals,HttpStatus.OK);
+        return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals, HttpStatus.OK);
     }
 
     @ApiOperation("Buscar venda por nome cliente")
@@ -462,14 +460,14 @@ public class VendaCompraLojaVirtualController {
         log.info("Inicio da busca de venda por forma de pagamento");
         List<VendaCompraLojaVirtual> vendaCompraLojaVirtuals = vendaCompraLojaVirtualRepository.buscaVendaPorNomeCliente(nomeCliente.toUpperCase().trim());
 
-        if (vendaCompraLojaVirtuals == null){
+        if (vendaCompraLojaVirtuals == null) {
             log.error("Erro ao buscar venda por nome, nome inválido ou inexistente");
-            throw new ExceptionShirtVirtual("Erro ao buscar venda por email, email inválido ou inexistente. " + " id: "  +  nomeCliente);
+            throw new ExceptionShirtVirtual("Erro ao buscar venda por email, email inválido ou inexistente. " + " id: " + nomeCliente);
 
 
         }
         log.info("Busca realizada com sucesso");
-        return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals,HttpStatus.OK);
+        return new ResponseEntity<List<VendaCompraLojaVirtual>>(vendaCompraLojaVirtuals, HttpStatus.OK);
     }
 
     @ApiOperation("Buscar venda por id produto")
@@ -541,7 +539,7 @@ public class VendaCompraLojaVirtualController {
         Date d1 = dataFormatada.parse(dataInicio);
         Date d2 = dataFormatada.parse(dataFim);
 
-         compraLojaVirtual = vendaCompraLojaVirtualRepository.buscarVendaPorData(d1,d2);
+        compraLojaVirtual = vendaCompraLojaVirtualRepository.buscarVendaPorData(d1, d2);
 
         if (compraLojaVirtual == null) {
             compraLojaVirtual = new ArrayList<VendaCompraLojaVirtual>();
@@ -595,25 +593,25 @@ public class VendaCompraLojaVirtualController {
 
         List<VendaCompraLojaVirtual> compraLojaVirtual = null;
 
-        if (tipoconsulta.equalsIgnoreCase("POR-ID-PRODUTO")){
+        if (tipoconsulta.equalsIgnoreCase("POR-ID-PRODUTO")) {
             compraLojaVirtual = vendaCompraLojaVirtualRepository.buscarVendaPorProduto(Long.parseLong(valor));
-        }else if (tipoconsulta.equalsIgnoreCase("POR-NOME-PRODUTO")){
+        } else if (tipoconsulta.equalsIgnoreCase("POR-NOME-PRODUTO")) {
             compraLojaVirtual = vendaCompraLojaVirtualRepository.buscarVendaPorNomeProduto(valor.toUpperCase().trim());
-        }else if (tipoconsulta.equalsIgnoreCase("POR-NOME-CLIENTE")) {
+        } else if (tipoconsulta.equalsIgnoreCase("POR-NOME-CLIENTE")) {
             compraLojaVirtual = vendaCompraLojaVirtualRepository.buscaVendaPorNomeCliente(valor.toUpperCase().trim());
-        }else if (tipoconsulta.equalsIgnoreCase("POR-ENDERECO-COBRANCA")) {
+        } else if (tipoconsulta.equalsIgnoreCase("POR-ENDERECO-COBRANCA")) {
             compraLojaVirtual = vendaCompraLojaVirtualRepository.buscaVendaPorNomeCliente(valor.toUpperCase().trim());
-        }else if (tipoconsulta.equalsIgnoreCase("POR-ENDERECO-ENTREGA")) {
+        } else if (tipoconsulta.equalsIgnoreCase("POR-ENDERECO-ENTREGA")) {
             compraLojaVirtual = vendaCompraLojaVirtualRepository.buscaVendaPorEnderecoCobranca(valor.toUpperCase().trim());
-        }else if (tipoconsulta.equalsIgnoreCase("POR-ENDERECO-COBRANCA")) {
+        } else if (tipoconsulta.equalsIgnoreCase("POR-ENDERECO-COBRANCA")) {
             compraLojaVirtual = vendaCompraLojaVirtualRepository.buscaVendaPorEnderecoEntrega(valor.toUpperCase().trim());
-        }else if (tipoconsulta.equalsIgnoreCase("POR-ESTADO-COBRANCA")) {
+        } else if (tipoconsulta.equalsIgnoreCase("POR-ESTADO-COBRANCA")) {
             compraLojaVirtual = vendaCompraLojaVirtualRepository.buscaVendaPorEstadoEntrega(valor.toUpperCase().trim());
-        }else if (tipoconsulta.equalsIgnoreCase("POR-ESTADO-COBRANCA")) {
+        } else if (tipoconsulta.equalsIgnoreCase("POR-ESTADO-COBRANCA")) {
             compraLojaVirtual = vendaCompraLojaVirtualRepository.buscaVendaPorEstadoCobranca(valor.toUpperCase().trim());
         }
 
-        if (compraLojaVirtual == null){
+        if (compraLojaVirtual == null) {
             compraLojaVirtual = new ArrayList<VendaCompraLojaVirtual>();
         }
 
@@ -661,11 +659,11 @@ public class VendaCompraLojaVirtualController {
     })
     @ResponseBody
     @DeleteMapping(value = "/deletarVendaCompraLojaVirtual")
-    public ResponseEntity <String> deletarAcesso(@RequestBody VendaCompraLojaVirtual vendaCompraLojaVirtual){
+    public ResponseEntity<String> deletarAcesso(@RequestBody VendaCompraLojaVirtual vendaCompraLojaVirtual) {
 
         vendaCompraLojaVirtualRepository.deleteById(vendaCompraLojaVirtual.getId());
 
-        return new ResponseEntity<String>("Acesso removido com sucesso",HttpStatus.OK);
+        return new ResponseEntity<String>("Acesso removido com sucesso", HttpStatus.OK);
     }
 
     @ApiOperation("Deletar venda por ID")
@@ -680,7 +678,7 @@ public class VendaCompraLojaVirtualController {
 
 
         vendaCompraLojaVirtualRepository.deleteById(idVenda);
-        return new ResponseEntity("Venda removido com sucesso",HttpStatus.OK);
+        return new ResponseEntity("Venda removido com sucesso", HttpStatus.OK);
 
     }
 
@@ -696,7 +694,7 @@ public class VendaCompraLojaVirtualController {
 
 
         vendaCompraLojaVirtualService.deletarVendaTotal(idVenda);
-        return new ResponseEntity("Venda removido com sucesso",HttpStatus.OK);
+        return new ResponseEntity("Venda removido com sucesso", HttpStatus.OK);
 
     }
 
@@ -712,7 +710,7 @@ public class VendaCompraLojaVirtualController {
 
 
         vendaCompraLojaVirtualService.cancelarNotaFiscal(idVenda);
-        return new ResponseEntity("Venda cancelada com sucesso",HttpStatus.OK);
+        return new ResponseEntity("Venda cancelada com sucesso", HttpStatus.OK);
 
     }
 
@@ -731,7 +729,7 @@ public class VendaCompraLojaVirtualController {
 
         VendaCompraLojaVirtual compraLojaVirtual = vendaCompraLojaVirtualRepository.findByIdExclusao(idVenda);
 
-        if (compraLojaVirtual == null){
+        if (compraLojaVirtual == null) {
             compraLojaVirtual = new VendaCompraLojaVirtual();
         }
 
@@ -740,8 +738,6 @@ public class VendaCompraLojaVirtualController {
         return new ResponseEntity<VendaCompraLojaVirtualDTO>(compraLojaVirtualDTO, HttpStatus.OK);
 
 
-
-
     }
-
 }
+

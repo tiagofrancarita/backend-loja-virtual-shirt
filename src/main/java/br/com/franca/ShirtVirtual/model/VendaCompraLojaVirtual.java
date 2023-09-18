@@ -25,7 +25,7 @@ public class VendaCompraLojaVirtual implements Serializable {
     private Long id;
 
     @NotNull(message = "A pessoa compradora deve ser informado")
-    @ManyToOne(targetEntity = PessoaFisica.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = PessoaFisica.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
     private PessoaFisica pessoa;
 
