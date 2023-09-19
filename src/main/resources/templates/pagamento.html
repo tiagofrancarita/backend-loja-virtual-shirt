@@ -39,19 +39,19 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="nome">Nome:</label>
-                <input type="text" class="form-control" readonly="readonly" id="nome" required="required" style="height: 40px;">
+                <input th:value=${venda.pessoa.nome} type="text" class="form-control" readonly="readonly" id="nome" required="required" style="height: 40px;">
             </div>
 
             <div class="form-group col-md-6">
                 <label for="email">Email:</label>
-                <input  type="text" class="form-control" readonly="readonly" id="email" required="required" style="height: 40px;">
+                <input th:value=${venda.pessoa.email} type="text" class="form-control" readonly="readonly" id="email" required="required" style="height: 40px;">
             </div>
         </div>
 
         <div class="form-row" id="linha1cartao">
             <div class="form-group col-md-6">
                 <label for="numerocartao">Número do cartão:</label>
-                <input th:value=${venda.pessoa.nome} type="text" placeholder="0000.0000.0000.0000" class="form-control" id="numerocartao" required="required" style="height: 40px;">
+                <input  type="text" placeholder="0000.0000.0000.0000" class="form-control" id="numerocartao" required="required" style="height: 40px;">
             </div>
 
             <div class="form-group col-md-6">
