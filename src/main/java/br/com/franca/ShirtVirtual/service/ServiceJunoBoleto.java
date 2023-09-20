@@ -181,8 +181,8 @@ public class ServiceJunoBoleto implements Serializable {
 
         if (accessTokenJunoAPI == null || (accessTokenJunoAPI != null && accessTokenJunoAPI.expirado()) ) {
 
-            String clienteID = "xxxxxx";
-            String secretID = "xxxxxxxxxx";
+            String clienteID = "vi7QZerW09C8JG1o";
+            String secretID = "$A_+&ksH}&+2<3VM]1MZqc,F_xif_-Dc";
 
             Client client = new HostIgnoringClient("https://api.juno.com.br/").hostIgnoringClient();
             WebResource webResource = client.resource("https://api.juno.com.br/authorization-server/oauth/token?grant_type=client_credentials");
