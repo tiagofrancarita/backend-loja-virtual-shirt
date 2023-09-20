@@ -104,7 +104,7 @@ public class PagamentoController implements Serializable {
         if (qtdparcela > 12 || qtdparcela <= 0) {
             return new ResponseEntity<String>("Quantidade de parcelar deve ser de  1 até 12.", HttpStatus.OK);
         }
-        
+
 
         if (vendaCompraLojaVirtual.getValorTotalVendaLoja().doubleValue() <= 0) {
             return new ResponseEntity<String>("Valor da venda não pode ser Zero(0).", HttpStatus.OK);
@@ -212,7 +212,7 @@ public class PagamentoController implements Serializable {
             return new ResponseEntity<String>("O registro financeiro não pode ser criado para pagamento", HttpStatus.OK);
         }
 
-        /**------------------------REALIZANDO PAGAMENTO POR CARTÃO-------------------------**/
+        /**------------------------ REALIZANDO PAGAMENTO POR CARTÃO -------------------------**/
 
         BoletoJuno boletoJunoQuitacao = boletosJuno.get(0);
 
