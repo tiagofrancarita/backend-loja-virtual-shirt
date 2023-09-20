@@ -256,7 +256,6 @@ public class PagamentoController implements Serializable {
                 serviceJunoBoleto.cancelarBoleto(boletoJuno.getCode());
             }
 
-
             return new ResponseEntity<String>(erroResponseApiJuno.listaErro(), HttpStatus.OK);
         }
 
@@ -302,12 +301,10 @@ public class PagamentoController implements Serializable {
             for (BoletoJuno boletoJuno : boletosJuno) {
                 boletoJunoRepository.quitarBoletoById(boletoJuno.getId());
             }
-
             vd_Cp_Loja_virt_repository.updateFinalizaVenda(vendaCompraLojaVirtual.getId());
 
             return new ResponseEntity<String>("sucesso", HttpStatus.OK);
         }
-
         return new ResponseEntity<String>("Nenhuma operação realizada!",HttpStatus.OK);
     }
 }
