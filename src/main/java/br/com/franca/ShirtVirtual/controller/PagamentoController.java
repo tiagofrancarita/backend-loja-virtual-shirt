@@ -216,7 +216,7 @@ public class PagamentoController implements Serializable {
 
         BoletoJuno boletoJunoQuitacao = boletosJuno.get(0);
 
-        
+
         PagamentoCartaoCredito pagamentoCartaoCredito = new PagamentoCartaoCredito();
         pagamentoCartaoCredito.setChargeId(boletoJunoQuitacao.getChargeICartao());
         pagamentoCartaoCredito.getCreditCardDetails().setCreditCardHash(cardHash);
@@ -256,6 +256,7 @@ public class PagamentoController implements Serializable {
                 serviceJunoBoleto.cancelarBoleto(boletoJuno.getCode());
             }
 
+            
             return new ResponseEntity<String>(erroResponseApiJuno.listaErro(), HttpStatus.OK);
         }
 
