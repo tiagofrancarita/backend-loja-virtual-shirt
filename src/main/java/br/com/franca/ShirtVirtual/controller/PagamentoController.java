@@ -256,7 +256,7 @@ public class PagamentoController implements Serializable {
                 serviceJunoBoleto.cancelarBoleto(boletoJuno.getCode());
             }
 
-            
+
             return new ResponseEntity<String>(erroResponseApiJuno.listaErro(), HttpStatus.OK);
         }
 
@@ -286,7 +286,7 @@ public class PagamentoController implements Serializable {
             return new ResponseEntity<String>("Pagamento não realizado por falha", HttpStatus.OK);
         }
         else  if (cartaoCredito.getStatus().equalsIgnoreCase("NOT_AUTHORIZED")) {
-            return new ResponseEntity<String>("Pagamento não autorizado pela instituição responsável pleo cartão de crédito, no caso, a emissora do seu cartão.", HttpStatus.OK);
+            return new ResponseEntity<String>("Pagamento não autorizado pela instituição financeira", HttpStatus.OK);
         }
         else  if (cartaoCredito.getStatus().equalsIgnoreCase("CUSTOMER_PAID_BACK")) {
             return new ResponseEntity<String>("Pagamento estornado a pedido do cliente.", HttpStatus.OK);
