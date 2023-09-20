@@ -18,6 +18,11 @@ public interface BoletoJunoRepository extends JpaRepository<BoletoJuno, Long> {
     @Query(nativeQuery = true, value = "update boleto_juno set quitado = true where code = ?1")
     public void quitarBoleto(String code);
 
+    @Transactional
+    @Modifying(flushAutomatically = true)
+    @Query(nativeQuery = true, value = "delete from boleto_juno where code = ?1")
+    public void deleteByCode(String code);
+
 
     @Transactional
     @Modifying(flushAutomatically = true)
