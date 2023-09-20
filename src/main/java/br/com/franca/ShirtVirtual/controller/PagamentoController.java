@@ -216,6 +216,7 @@ public class PagamentoController implements Serializable {
 
         BoletoJuno boletoJunoQuitacao = boletosJuno.get(0);
 
+        
         PagamentoCartaoCredito pagamentoCartaoCredito = new PagamentoCartaoCredito();
         pagamentoCartaoCredito.setChargeId(boletoJunoQuitacao.getChargeICartao());
         pagamentoCartaoCredito.getCreditCardDetails().setCreditCardHash(cardHash);
