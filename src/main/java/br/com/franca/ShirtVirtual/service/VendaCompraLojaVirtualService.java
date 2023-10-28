@@ -1,17 +1,28 @@
 package br.com.franca.ShirtVirtual.service;
 
+import br.com.franca.ShirtVirtual.repository.VendaCompraLojaVirtualRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @Service
 public class VendaCompraLojaVirtualService {
 
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
+
+    private VendaCompraLojaVirtualRepository vendaCompraLojaVirtualRepository;
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public VendaCompraLojaVirtualService(JdbcTemplate jdbcTemplate) {
+    public VendaCompraLojaVirtualService(EntityManager entityManager, VendaCompraLojaVirtualRepository vendaCompraLojaVirtualRepository, JdbcTemplate jdbcTemplate) {
+        this.entityManager = entityManager;
+        this.vendaCompraLojaVirtualRepository = vendaCompraLojaVirtualRepository;
         this.jdbcTemplate = jdbcTemplate;
     }
 

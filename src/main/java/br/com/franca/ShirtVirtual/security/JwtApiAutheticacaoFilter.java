@@ -14,8 +14,7 @@ import java.io.IOException;
 public class JwtApiAutheticacaoFilter extends GenericFilterBean {
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response,
-                         FilterChain chain)
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
         try {
@@ -27,13 +26,13 @@ public class JwtApiAutheticacaoFilter extends GenericFilterBean {
 
             /*Coloca o processo de autenticacao para o spring secutiry*/
             //SecurityContextHolder.getContext().setAuthentication(authentication);
+
             chain.doFilter(request, response);
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            response.getWriter().write("Ocorreu um erro no sistema, comunique imediatamente ao administrador ou suporte \n" + ex.getMessage() +
-                                            "\n" + ex.getClass() + "\n" + ex.getCause() + "\n");
-
+        }catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().write("Ocorreu um erro no sistema, avise o administrador: \n" + e.getMessage());
         }
+
     }
 }

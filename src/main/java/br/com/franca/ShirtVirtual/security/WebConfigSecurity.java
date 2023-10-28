@@ -22,8 +22,6 @@ import javax.servlet.http.HttpSessionListener;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebConfigSecurity extends WebSecurityConfigurerAdapter implements HttpSessionListener {
 
-    private UserDetailsServiceImpl userDetailsService;
-
     private static final String[] AUTH_WHITELIST = {
             "/Swagger UI v2",
             "/ShirtMultiMarcas/swagger-ui.html",
@@ -42,6 +40,8 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter implements H
             //http://localhost:8080/ShirtMultiMarcas/swagger-ui/index.html#/
 
     };
+
+    private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
     public WebConfigSecurity(UserDetailsServiceImpl userDetailsService) {

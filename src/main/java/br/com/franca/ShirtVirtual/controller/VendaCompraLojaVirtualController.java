@@ -1,5 +1,7 @@
 package br.com.franca.ShirtVirtual.controller;
 
+import br.com.franca.ShirtVirtual.config.tokens.ApiTokenAsass;
+import br.com.franca.ShirtVirtual.config.tokens.AsaasApiPagamentoStatus;
 import br.com.franca.ShirtVirtual.enums.StatusContaReceber;
 import br.com.franca.ShirtVirtual.exceptions.ExceptionShirtVirtual;
 import br.com.franca.ShirtVirtual.model.*;
@@ -29,6 +31,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+
 @Controller
 @RestController
 @RequestMapping("/VendaCompraLojaVirtual")
@@ -48,9 +51,11 @@ public class VendaCompraLojaVirtualController {
     private ContaReceberController contaReceberController;
     private ServiceJunoBoleto serviceJunoBoleto;
     private VendaService vendaService;
+    private AsaasApiPagamentoStatus asaasApiPagamentoStatus;
+    private ApiTokenAsass apiTokenAsass;
 
     @Autowired
-    public VendaCompraLojaVirtualController(VendaCompraLojaVirtualRepository vendaCompraLojaVirtualRepository, VendaCompraLojaVirtualService vendaCompraLojaVirtualService, ServiceSendEmail serviceSendEmail, EnderecoRepository enderecoRepository, PessoaFisicaController pessoaFisicaController, PessoaJuridicaController pessoaJuridicaController, NotaFiscalVendaRepository notaFiscalVendaRepository, StatusRastreioRepository statusRastreioRepository, ContaReceberRepository contaReceberRepository, ContaReceberController contaReceberController, ServiceJunoBoleto serviceJunoBoleto, VendaService vendaService) {
+    public VendaCompraLojaVirtualController(VendaCompraLojaVirtualRepository vendaCompraLojaVirtualRepository, VendaCompraLojaVirtualService vendaCompraLojaVirtualService, ServiceSendEmail serviceSendEmail, EnderecoRepository enderecoRepository, PessoaFisicaController pessoaFisicaController, PessoaJuridicaController pessoaJuridicaController, NotaFiscalVendaRepository notaFiscalVendaRepository, StatusRastreioRepository statusRastreioRepository, ContaReceberRepository contaReceberRepository, ContaReceberController contaReceberController, ServiceJunoBoleto serviceJunoBoleto, VendaService vendaService, AsaasApiPagamentoStatus asaasApiPagamentoStatus, ApiTokenAsass apiTokenAsass) {
         this.vendaCompraLojaVirtualRepository = vendaCompraLojaVirtualRepository;
         this.vendaCompraLojaVirtualService = vendaCompraLojaVirtualService;
         this.serviceSendEmail = serviceSendEmail;
@@ -63,6 +68,8 @@ public class VendaCompraLojaVirtualController {
         this.contaReceberController = contaReceberController;
         this.serviceJunoBoleto = serviceJunoBoleto;
         this.vendaService = vendaService;
+        this.asaasApiPagamentoStatus = asaasApiPagamentoStatus;
+        this.apiTokenAsass = apiTokenAsass;
     }
 
 
