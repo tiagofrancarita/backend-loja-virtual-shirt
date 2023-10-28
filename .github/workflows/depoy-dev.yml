@@ -5,8 +5,8 @@ name: Deploy-CICD
 
 on:
   pull_request:
-    branches:
-      - develop
+    branches: ['develop']
+
 jobs:
   build:
     runs-on: [ubuntu-latest]
@@ -24,7 +24,7 @@ jobs:
       - name: Login to DockerHub Registry
         run:  echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
       - name: Build docker image
-        run: docker build -t tiagofrancarita/backend-loja-virtual-shirt .
+        run: docker build -t tiagofrancarita/backend-loja-virtual-shirt -f Dockerfile .
       - name: Publish image to docker hub
         run: docker push tiagofrancarita/backend-loja-virtual-shirt:latest
 
