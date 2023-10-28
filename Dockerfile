@@ -1,5 +1,6 @@
 FROM eclipse-temurin:11-jdk-alpine
+RUN mkdir /app
+COPY target/ShirtVirtual.jar /app/ShirtVirtual.jar
 WORKDIR /app
-COPY target/ShirtVirtual.jar ShirtVirtual.jar
 EXPOSE 8080
 CMD ["java","-jar","springboot-example.jar"]
