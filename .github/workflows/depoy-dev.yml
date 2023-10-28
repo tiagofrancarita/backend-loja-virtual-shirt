@@ -24,9 +24,9 @@ jobs:
       - name: Login to DockerHub Registry
         run:  echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
       - name: Build docker image
-        run: docker build -t tiagofrancarita/backend-loja-virtual-shirt -f Dockerfile .
+        run: docker build -t tiagofrancadev/backend-loja-virtual-shirt .
       - name: Publish image to docker hub
-        run: docker push tiagofrancarita/backend-loja-virtual-shirt:latest
+        run: docker push tiagofrancadev/backend-loja-virtual-shirt:latest
 
   deploy:
     needs: build
