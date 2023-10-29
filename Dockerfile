@@ -1,5 +1,7 @@
 FROM eclipse-temurin:11-jdk-alpine
-WORKDIR /app
-COPY target/ShirtVirtual.jar ShirtVirtual.jar
+RUN apk add curl
+VOLUME /tmp
 EXPOSE 8080
-CMD ["java","-jar","ShirtVirtual.jar"]
+ADD target/ShirtVirtual.jar ShirtVirtual.jar
+ENTRYPOINT ["java","-jar","/ShirtVirtual.jar"]
+

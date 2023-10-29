@@ -37,4 +37,4 @@ jobs:
       - name: Delete old container
         run: docker rm -f backend-loja-virtual-shirt
       - name: Run docker container
-        run: docker run -d -p 8080:8080 --name springboot-example-container tiagofrancadev/backend-loja-virtual-shirt
+        run: docker run -d -p 8080:8080 --name backend-loja-virtual-shirt tiagofrancadev/backend-loja-virtual-shirt
