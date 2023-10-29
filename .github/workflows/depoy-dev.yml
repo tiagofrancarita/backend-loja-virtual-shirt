@@ -37,13 +37,4 @@ jobs:
       - name: Delete old container
         run: docker rm -f backend-loja-virtual-shirt-container
       - name: Run docker container
-        run: docker run -d -p 8080:8080 --name backend-loja-virtual-shirt-container tiagofrancadev/backend-loja-virtual-shirt
-
-
-
-
-
-
-
-
-
+        run: docker run -d -p 8080:8080 --name backend-loja-virtual-shirt-container tiagofrancadev/backend-loja-virtual-shirt:latest
