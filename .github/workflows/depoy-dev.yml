@@ -33,8 +33,9 @@ jobs:
     runs-on: [ec2-aws]
     steps:
       - name: Pull Image from docker hub
-        run: docker pull tiagofrancadev/backend-loja-virtual-shirt:latest
+        run: docker pull tiagofrancadev/backend-loja-virtual-shirt
       - name: Delete old container
-        run: docker rm -f backend-loja-virtual-shirt-container
+        run: docker rm -f springboot-example-container
       - name: Run docker container
-        run: docker run -d -p 8080:8080 --name backend-loja-virtual-shirt-container tiagofrancadev/backend-loja-virtual-shirt:latest
+        run: docker run -d -p 8080:8080 --name springboot-example-container tiagofrancadev/backend-loja-virtual-shirt
+
