@@ -26,7 +26,7 @@ jobs:
       - name: Build docker image
         run: docker build -t tiagofrancarita/backend-loja-virtual-shirt .
       - name: Publish image to docker hub
-        run: docker push tiagofrancarita/backend-loja-virtual-shirt:latest
+        run: docker push tiagofrancadev/backend-loja-virtual-shirt:latest
 
   deploy:
     needs: build
@@ -38,6 +38,9 @@ jobs:
         run: docker rm -f backend-loja-virtual-shirt-container
       - name: Run docker container
         run: docker run -d -p 8080:8080 --name backend-loja-virtual-shirt-container tiagofrancarita/backend-loja-virtual-shirt
+
+
+
 
 
 
