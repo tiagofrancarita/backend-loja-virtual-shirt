@@ -27,3 +27,14 @@ jobs:
         run: docker build -t tiagofrancadev/shirtvirtual .
       - name: Publish image to docker hub
         run: docker push tiagofrancadev/shirtvirtual:latest
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Pull Image from docker hub
+        run: docker pull tiagofrancadev/shirtvirtual:latest
+      - name: Delete old container
+        run: docker rm -f shirtvirtual-container
+      - name: Run docker container
+        run: docker run -d -p 8080:8080 --name shirtvirtual-container tiagofrancadev/shirtvirtual
+
