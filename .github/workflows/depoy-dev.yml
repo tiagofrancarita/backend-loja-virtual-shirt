@@ -36,5 +36,8 @@ jobs:
       - name: Delete old container
         run: docker rm -f shirtvirtual-container
       - name: Run docker container
-        run: docker run -d -p 8080:8080 --name shirtvirtual-container tiagofrancadev/shirtvirtual
+        run: docker run -d -p 8080:8080 -e DATABASE_URL_DEV=${{ secrets.DATABASE_URL_DEV }} -e DATABASE_USERNAME_DEV=${{ secrets.DATABASE_USERNAME_DEV }} -e DATABASE_PASSWORD_DEV='${{ secrets.DATABASE_PASSWORD_DEV }}' --name shirtvirtual-container tiagofrancadev/shirtvirtual
+
+
+
 
