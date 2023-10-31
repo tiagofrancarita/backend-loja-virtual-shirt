@@ -12,7 +12,7 @@
 
 	<groupId>br.com.franca</groupId>
 	<artifactId>ShirtVirtual</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>ShirtVirtual</name>
 	<description>Projeto para criação de uma loja virtual</description>
 	<packaging>jar</packaging>
