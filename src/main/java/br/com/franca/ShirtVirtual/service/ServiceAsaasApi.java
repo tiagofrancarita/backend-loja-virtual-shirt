@@ -15,14 +15,9 @@ public class ServiceAsaasApi implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private ApiTokenAsass apiTokenAsass;
-    private AsaasApiPagamentoStatus asaasApiPagamentoStatus;
 
-    @Autowired
-    public ServiceAsaasApi(ApiTokenAsass apiTokenAsass, AsaasApiPagamentoStatus asaasApiPagamentoStatus) {
-        this.apiTokenAsass = apiTokenAsass;
-        this.asaasApiPagamentoStatus = asaasApiPagamentoStatus;
-    }
+
+
 
     /**
      * Cria a chave da API Asass para o PIX;
