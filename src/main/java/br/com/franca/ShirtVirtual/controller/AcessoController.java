@@ -26,14 +26,12 @@ public class AcessoController {
     final String LISTAGEM_COM_SUCESSO = "Iniciando a listagem de acesso!";
     final String ERRO_DESCRICAO_CADASTRADA = "Já existe um acesso com essa descrição.!";
 
+    @Autowired
     private AcessoService acessoService;
-    private AcessoRepository acessoRepository;
 
     @Autowired
-    public AcessoController(AcessoService acessoService,AcessoRepository acessoRepository) {
-        this.acessoService = acessoService;
-        this.acessoRepository = acessoRepository;
-    }
+    private AcessoRepository acessoRepository;
+
 
     @ApiOperation("Listagem de todos os acessos cadastrados")
     @ApiResponses({

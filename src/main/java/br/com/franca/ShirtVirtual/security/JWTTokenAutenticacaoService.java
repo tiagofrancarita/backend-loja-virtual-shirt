@@ -98,4 +98,6 @@ public class JWTTokenAutenticacaoService {
             response.addHeader("Access-Control-Allow-Methods", "*");
         }
     }
+
+
 }
