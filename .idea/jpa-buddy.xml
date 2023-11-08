@@ -3,5 +3,6 @@
   <component name="JpaBuddyIdeaProjectConfig">
     <option name="flywayDirectory" value="db/migration" />
     <option name="defaultUnitInitialized" value="true" />
+    <option name="renamerInitialized" value="true" />
   </component>
 </project>
