@@ -14,19 +14,21 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.util.concurrent.Executor;
 
 
-@SpringBootApplication(scanBasePackages = {"br.com.franca.ShirtVirtual.controller"})
+@SpringBootApplication()
 @EnableScheduling
 @EnableAsync
 @EntityScan(basePackages = "br.com.franca.ShirtVirtual.model")
 @ComponentScan(basePackages = {"br.*"})
 @EnableJpaRepositories(basePackages = {"br.com.franca.ShirtVirtual.repository"})
 @EnableTransactionManagement
+@EnableWebMvc
 public class ShirtVirtualApplication implements AsyncConfigurer, WebMvcConfigurer {
 
 	private static Logger logger = LoggerFactory.getLogger(ShirtVirtualApplication.class);

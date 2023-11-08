@@ -1,5 +1,7 @@
 package br.com.franca.ShirtVirtual.controller;
 
+import br.com.franca.ShirtVirtual.config.tokens.ApiTokenAsass;
+import br.com.franca.ShirtVirtual.config.tokens.AsaasApiPagamentoStatus;
 import br.com.franca.ShirtVirtual.enums.StatusContaReceber;
 import br.com.franca.ShirtVirtual.exceptions.ExceptionShirtVirtual;
 import br.com.franca.ShirtVirtual.model.*;
@@ -29,6 +31,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+
 @Controller
 @RestController
 @RequestMapping("/VendaCompraLojaVirtual")
@@ -36,34 +39,44 @@ import java.util.List;
 @Slf4j
 public class VendaCompraLojaVirtualController {
 
+    @Autowired
     private VendaCompraLojaVirtualRepository vendaCompraLojaVirtualRepository;
-    private VendaCompraLojaVirtualService vendaCompraLojaVirtualService;
-    private ServiceSendEmail serviceSendEmail;
-    private EnderecoRepository enderecoRepository;
-    private PessoaFisicaController pessoaFisicaController;
-    private PessoaJuridicaController pessoaJuridicaController;
-    private NotaFiscalVendaRepository notaFiscalVendaRepository;
-    private StatusRastreioRepository statusRastreioRepository;
-    private ContaReceberRepository contaReceberRepository;
-    private ContaReceberController contaReceberController;
-    private ServiceJunoBoleto serviceJunoBoleto;
-    private VendaService vendaService;
 
     @Autowired
-    public VendaCompraLojaVirtualController(VendaCompraLojaVirtualRepository vendaCompraLojaVirtualRepository, VendaCompraLojaVirtualService vendaCompraLojaVirtualService, ServiceSendEmail serviceSendEmail, EnderecoRepository enderecoRepository, PessoaFisicaController pessoaFisicaController, PessoaJuridicaController pessoaJuridicaController, NotaFiscalVendaRepository notaFiscalVendaRepository, StatusRastreioRepository statusRastreioRepository, ContaReceberRepository contaReceberRepository, ContaReceberController contaReceberController, ServiceJunoBoleto serviceJunoBoleto, VendaService vendaService) {
-        this.vendaCompraLojaVirtualRepository = vendaCompraLojaVirtualRepository;
-        this.vendaCompraLojaVirtualService = vendaCompraLojaVirtualService;
-        this.serviceSendEmail = serviceSendEmail;
-        this.enderecoRepository = enderecoRepository;
-        this.pessoaFisicaController = pessoaFisicaController;
-        this.pessoaJuridicaController = pessoaJuridicaController;
-        this.notaFiscalVendaRepository = notaFiscalVendaRepository;
-        this.statusRastreioRepository = statusRastreioRepository;
-        this.contaReceberRepository = contaReceberRepository;
-        this.contaReceberController = contaReceberController;
-        this.serviceJunoBoleto = serviceJunoBoleto;
-        this.vendaService = vendaService;
-    }
+    private VendaCompraLojaVirtualService vendaCompraLojaVirtualService;
+
+    @Autowired
+    private ServiceSendEmail serviceSendEmail;
+
+    @Autowired
+    private EnderecoRepository enderecoRepository;
+
+    @Autowired
+    private PessoaFisicaController pessoaFisicaController;
+
+    @Autowired
+    private PessoaJuridicaController pessoaJuridicaController;
+
+    @Autowired
+    private NotaFiscalVendaRepository notaFiscalVendaRepository;
+
+    @Autowired
+    private StatusRastreioRepository statusRastreioRepository;
+
+    @Autowired
+    private ContaReceberRepository contaReceberRepository;
+
+    @Autowired
+    private ContaReceberController contaReceberController;
+
+    @Autowired
+    private ServiceJunoBoleto serviceJunoBoleto;
+
+    @Autowired
+    private VendaService vendaService;
+
+
+
 
 
     @ApiOperation("Gerar boleto pix -- JUNO")
