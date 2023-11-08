@@ -85,5 +85,3 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter implements H
           /* Ingnorando URL no momento para nao autenticar */
     }
 }
-
-
