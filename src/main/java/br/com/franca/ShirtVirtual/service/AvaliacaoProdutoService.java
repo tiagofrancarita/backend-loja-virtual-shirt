@@ -4,7 +4,6 @@ import br.com.franca.ShirtVirtual.exceptions.ExceptionShirtVirtual;
 import br.com.franca.ShirtVirtual.model.AvaliacaoProduto;
 import br.com.franca.ShirtVirtual.repository.AvaliacaoProdutoRepository;
 import br.com.franca.ShirtVirtual.utils.dto.AvaliacaoProdutoDTO;
-import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@Slf4j
 public class AvaliacaoProdutoService {
 
     private final AvaliacaoProdutoRepository avaliacaoProdutoRepository;
@@ -39,7 +37,6 @@ public class AvaliacaoProdutoService {
         List<AvaliacaoProduto> avaliacaoProdutoDTOS = avaliacaoProdutoRepository.buscarAvaliacaoProdutoPorDescricao(desc.toUpperCase().trim());
 
         if (avaliacaoProdutoDTOS == null){
-            log.error("Erro ao buscar produto por nome, o nome informado não existe ou é inválido");
             throw new ExceptionShirtVirtual("O código informado não existe. " + " nome: "  +  desc);
         }
 

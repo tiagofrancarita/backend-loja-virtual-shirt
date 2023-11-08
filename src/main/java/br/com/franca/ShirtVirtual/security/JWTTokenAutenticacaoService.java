@@ -30,7 +30,7 @@ public class JWTTokenAutenticacaoService {
     private static final String TOKEN_PREFIX = "Bearer";
     private static final String HEADER_STRING = "Authorization";
 
-    public void addAuthenticator(HttpServletResponse response, String username) throws Exception {
+    public void addAuthentication(HttpServletResponse response, String username) throws Exception {
 
         String JWT = Jwts.builder()
                 .setSubject(username)
