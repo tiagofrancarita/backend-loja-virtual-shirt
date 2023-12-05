@@ -52,8 +52,8 @@ public class ServiceJunoBoleto implements Serializable {
      */
     public String criarChavePixAsaas() throws Exception {
 
-        Client client = new HostIgnoringClient(AsaasApiPagamentoStatus.URL_API_ASAAS).hostIgnoringClient();
-        WebResource webResource = client.resource(AsaasApiPagamentoStatus.URL_API_ASAAS + "pix/addressKeys");
+        Client client = new HostIgnoringClient(AsaasApiPagamentoStatus.URL_API_ASAAS_SANDBOX).hostIgnoringClient();
+        WebResource webResource = client.resource(AsaasApiPagamentoStatus.URL_API_ASAAS_SANDBOX + "pix/addressKeys");
 
         ClientResponse clientResponse = webResource.accept("application/json;charset=UTF-8")
                 .header("Content-Type", "application/json")
@@ -312,4 +312,7 @@ public class ServiceJunoBoleto implements Serializable {
 
         return null;
     }
+
+
+
 }
