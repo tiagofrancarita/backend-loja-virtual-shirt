@@ -8,16 +8,19 @@ import br.com.franca.ShirtVirtual.model.VendaCompraLojaVirtual;
 import br.com.franca.ShirtVirtual.repository.AccesTokenJunoRepository;
 import br.com.franca.ShirtVirtual.repository.BoletoJunoRepository;
 import br.com.franca.ShirtVirtual.repository.VendaCompraLojaVirtualRepository;
+import br.com.franca.ShirtVirtual.utils.GeradorCpfValido;
+import br.com.franca.ShirtVirtual.utils.ValidaCpf;
 import br.com.franca.ShirtVirtual.utils.dto.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.DatatypeConverter;
 import java.io.Serializable;
@@ -25,6 +28,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 
@@ -37,13 +41,77 @@ public class ServiceJunoBoleto implements Serializable {
     private AccesTokenJunoRepository accesTokenJunoRepository;
     private VendaCompraLojaVirtualRepository vd_Cp_Loja_virt_repository;
     private BoletoJunoRepository boletoJunoRepository;
+    private GeradorCpfValido geradorCpfValido;
 
     @Autowired
-    public ServiceJunoBoleto(AccessTokenJunoService accessTokenJunoService, AccesTokenJunoRepository accesTokenJunoRepository, VendaCompraLojaVirtualRepository vd_Cp_Loja_virt_repository, BoletoJunoRepository boletoJunoRepository) {
+    public ServiceJunoBoleto(AccessTokenJunoService accessTokenJunoService, AccesTokenJunoRepository accesTokenJunoRepository, VendaCompraLojaVirtualRepository vd_Cp_Loja_virt_repository, BoletoJunoRepository boletoJunoRepository, GeradorCpfValido geradorCpfValido) {
         this.accessTokenJunoService = accessTokenJunoService;
         this.accesTokenJunoRepository = accesTokenJunoRepository;
         this.vd_Cp_Loja_virt_repository = vd_Cp_Loja_virt_repository;
         this.boletoJunoRepository = boletoJunoRepository;
+        this.geradorCpfValido = geradorCpfValido;
+    }
+
+    /**
+     * Retorna id do customer da API Asass;
+     * @return id
+     */
+    public String  buscaClientePessoaApiAsaas(ObjetoPostCarneJuno objetoPostCarneJuno) throws Exception {
+
+        String customer_id ="";
+
+        // ------------------------------ INICIO - Cria o cliente na API Asass ------------------------------
+
+        Client client = new HostIgnoringClient(AsaasApiPagamentoStatus.URL_API_ASAAS_SANDBOX).hostIgnoringClient();
+        WebResource webResource = client.resource(AsaasApiPagamentoStatus.URL_API_ASAAS_SANDBOX + "customers?email=" + objetoPostCarneJuno.getEmail());
+
+        ClientResponse clientResponse = webResource.accept("application/json;charset=UTF-8")
+                .header("Content-Type", "application/json")
+                .header("access_token", AsaasApiPagamentoStatus.API_KEY)
+                .get(ClientResponse.class);
+
+        LinkedHashMap<String, Object>  parser = new JSONParser(clientResponse.getEntity(String.class)).parseObject();
+        clientResponse.close();
+        Integer totalClientes = Integer.parseInt(parser.get("totalCount").toString());
+
+        if (totalClientes <= 0) { /*Não existe cliente na API Asass*/
+
+            ClienteAsaasApiPagamento clienteAsaasApiPagamento = new ClienteAsaasApiPagamento();
+
+            if (!ValidaCpf.isCPF(objetoPostCarneJuno.getPayerCpfCnpj())){
+                clienteAsaasApiPagamento.setCpfCnpj(geradorCpfValido.cpf(false));
+            }else {
+                clienteAsaasApiPagamento.setCpfCnpj(objetoPostCarneJuno.getPayerCpfCnpj());
+            }
+            clienteAsaasApiPagamento.setName(objetoPostCarneJuno.getPayerName());
+            clienteAsaasApiPagamento.setEmail(objetoPostCarneJuno.getEmail());
+            clienteAsaasApiPagamento.setPhone(objetoPostCarneJuno.getPayerPhone());
+
+            Client clientNovoCadastroAsas = new HostIgnoringClient(AsaasApiPagamentoStatus.URL_API_ASAAS_SANDBOX).hostIgnoringClient();
+            WebResource webResourceNovoCadastroAsas = clientNovoCadastroAsas.resource(AsaasApiPagamentoStatus.URL_API_ASAAS_SANDBOX + "customers");
+
+            ClientResponse clientResponseNovoCadastroAsas = webResourceNovoCadastroAsas.accept("application/json;charset=UTF-8")
+                    .header("Content-Type", "application/json")
+                    .header("access_token", AsaasApiPagamentoStatus.API_KEY)
+                    .post(ClientResponse.class, new ObjectMapper().writeValueAsString(clienteAsaasApiPagamento));
+
+                LinkedHashMap<String, Object>  parserNovoCadastroAsas = new JSONParser(clientResponseNovoCadastroAsas.getEntity(String.class)).parseObject();
+                clientResponseNovoCadastroAsas.close();
+                customer_id = parserNovoCadastroAsas.get("id").toString();
+
+        } else { /*Existe cliente na API Asass*/
+
+           List<Object> data = (List<Object>) parser.get("data");
+           customer_id =  new Gson().toJsonTree(data.get(0)).getAsJsonObject().get("id").toString().replaceAll("\"", "");  /*Pega o id do cliente*/
+
+
+        }
+
+        System.out.println("ID do cliente na API Asass: " + customer_id);
+        return customer_id;
+
+        // ------------------------------ FIM - Cria o cliente na API Asass ------------------------------
+
     }
 
     /**
@@ -52,8 +120,8 @@ public class ServiceJunoBoleto implements Serializable {
      */
     public String criarChavePixAsaas() throws Exception {
 
-        Client client = new HostIgnoringClient(AsaasApiPagamentoStatus.URL_API_ASAAS).hostIgnoringClient();
-        WebResource webResource = client.resource(AsaasApiPagamentoStatus.URL_API_ASAAS + "pix/addressKeys");
+        Client client = new HostIgnoringClient(AsaasApiPagamentoStatus.URL_API_ASAAS_SANDBOX).hostIgnoringClient();
+        WebResource webResource = client.resource(AsaasApiPagamentoStatus.URL_API_ASAAS_SANDBOX + "pix/addressKeys");
 
         ClientResponse clientResponse = webResource.accept("application/json;charset=UTF-8")
                 .header("Content-Type", "application/json")
@@ -304,11 +372,6 @@ public class ServiceJunoBoleto implements Serializable {
     }
 
     public String gerarCarneApiAsaas(ObjetoPostCarneJuno dados) {
-
-        return null;
-    }
-
-    public String buscaClientePessoaApiAsaas(ObjetoPostCarneJuno dados) {
 
         return null;
     }
