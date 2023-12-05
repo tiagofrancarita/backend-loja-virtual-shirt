@@ -15,10 +15,6 @@ public class ServiceAsaasApi implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
-
-
-
     /**
      * Cria a chave da API Asass para o PIX;
      * @return Chave
@@ -27,20 +23,5 @@ public class ServiceAsaasApi implements Serializable {
      * Cria a chave da API Asass para o PIX;
      * @return Chave
      */
-    public String criarChavePixAsaas() throws Exception {
-
-        Client client = new HostIgnoringClient(AsaasApiPagamentoStatus.URL_API_ASAAS).hostIgnoringClient();
-        WebResource webResource = client.resource(AsaasApiPagamentoStatus.URL_API_ASAAS + "pix/addressKeys");
-
-        ClientResponse clientResponse = webResource.accept("application/json;charset=UTF-8")
-                .header("Content-Type", "application/json")
-                .header("access_token", AsaasApiPagamentoStatus.API_KEY)
-                .post(ClientResponse.class, "{\"type\":\"EVP\"}");
-
-        String strinRetorno = clientResponse.getEntity(String.class);
-        clientResponse.close();
-        return strinRetorno;
-
-    }
 
 }
