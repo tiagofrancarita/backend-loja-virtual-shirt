@@ -8,10 +8,13 @@ import br.com.franca.ShirtVirtual.model.VendaCompraLojaVirtual;
 import br.com.franca.ShirtVirtual.repository.AccesTokenJunoRepository;
 import br.com.franca.ShirtVirtual.repository.BoletoJunoRepository;
 import br.com.franca.ShirtVirtual.repository.VendaCompraLojaVirtualRepository;
+import br.com.franca.ShirtVirtual.utils.GeradorCpfValido;
+import br.com.franca.ShirtVirtual.utils.ValidaCpf;
 import br.com.franca.ShirtVirtual.utils.dto.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -38,13 +41,15 @@ public class ServiceJunoBoleto implements Serializable {
     private AccesTokenJunoRepository accesTokenJunoRepository;
     private VendaCompraLojaVirtualRepository vd_Cp_Loja_virt_repository;
     private BoletoJunoRepository boletoJunoRepository;
+    private GeradorCpfValido geradorCpfValido;
 
     @Autowired
-    public ServiceJunoBoleto(AccessTokenJunoService accessTokenJunoService, AccesTokenJunoRepository accesTokenJunoRepository, VendaCompraLojaVirtualRepository vd_Cp_Loja_virt_repository, BoletoJunoRepository boletoJunoRepository) {
+    public ServiceJunoBoleto(AccessTokenJunoService accessTokenJunoService, AccesTokenJunoRepository accesTokenJunoRepository, VendaCompraLojaVirtualRepository vd_Cp_Loja_virt_repository, BoletoJunoRepository boletoJunoRepository, GeradorCpfValido geradorCpfValido) {
         this.accessTokenJunoService = accessTokenJunoService;
         this.accesTokenJunoRepository = accesTokenJunoRepository;
         this.vd_Cp_Loja_virt_repository = vd_Cp_Loja_virt_repository;
         this.boletoJunoRepository = boletoJunoRepository;
+        this.geradorCpfValido = geradorCpfValido;
     }
 
     /**
@@ -67,23 +72,45 @@ public class ServiceJunoBoleto implements Serializable {
 
         LinkedHashMap<String, Object>  parser = new JSONParser(clientResponse.getEntity(String.class)).parseObject();
         clientResponse.close();
-        Integer totalClientes = Integer.parseInt(parser.get("totalResults").toString());
+        Integer totalClientes = Integer.parseInt(parser.get("totalCount").toString());
 
         if (totalClientes <= 0) { /*Não existe cliente na API Asass*/
 
+            ClienteAsaasApiPagamento clienteAsaasApiPagamento = new ClienteAsaasApiPagamento();
 
-        }else { /*Existe cliente na API Asass*/
-
-            List<LinkedHashMap<String, Object>> clientes = (List<LinkedHashMap<String, Object>>) parser.get("data");
-
-            for (LinkedHashMap<String, Object> cliente : clientes) {
-                customer_id = cliente.get("id").toString();
+            if (!ValidaCpf.isCPF(objetoPostCarneJuno.getPayerCpfCnpj())){
+                clienteAsaasApiPagamento.setCpfCnpj(geradorCpfValido.cpf(false));
+            }else {
+                clienteAsaasApiPagamento.setCpfCnpj(objetoPostCarneJuno.getPayerCpfCnpj());
             }
+            clienteAsaasApiPagamento.setName(objetoPostCarneJuno.getPayerName());
+            clienteAsaasApiPagamento.setEmail(objetoPostCarneJuno.getEmail());
+            clienteAsaasApiPagamento.setPhone(objetoPostCarneJuno.getPayerPhone());
+
+            Client clientNovoCadastroAsas = new HostIgnoringClient(AsaasApiPagamentoStatus.URL_API_ASAAS_SANDBOX).hostIgnoringClient();
+            WebResource webResourceNovoCadastroAsas = clientNovoCadastroAsas.resource(AsaasApiPagamentoStatus.URL_API_ASAAS_SANDBOX + "customers");
+
+            ClientResponse clientResponseNovoCadastroAsas = webResourceNovoCadastroAsas.accept("application/json;charset=UTF-8")
+                    .header("Content-Type", "application/json")
+                    .header("access_token", AsaasApiPagamentoStatus.API_KEY)
+                    .post(ClientResponse.class, new ObjectMapper().writeValueAsString(clienteAsaasApiPagamento));
+
+                LinkedHashMap<String, Object>  parserNovoCadastroAsas = new JSONParser(clientResponseNovoCadastroAsas.getEntity(String.class)).parseObject();
+                clientResponseNovoCadastroAsas.close();
+                customer_id = parserNovoCadastroAsas.get("id").toString();
+
+        } else { /*Existe cliente na API Asass*/
+
+           List<Object> data = (List<Object>) parser.get("data");
+           customer_id =  new Gson().toJsonTree(data.get(0)).getAsJsonObject().get("id").toString().replaceAll("\"", "");  /*Pega o id do cliente*/
+
 
         }
 
-
+        System.out.println("ID do cliente na API Asass: " + customer_id);
         return customer_id;
+
+        // ------------------------------ FIM - Cria o cliente na API Asass ------------------------------
 
     }
 
