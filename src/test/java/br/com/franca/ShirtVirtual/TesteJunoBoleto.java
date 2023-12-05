@@ -41,4 +41,18 @@ public class TesteJunoBoleto extends TestCase {
 
         System.out.println("Chave Asass API" + chaveAPi);
     }
+
+    @Test
+    public void testeBuscaCliente() throws Exception {
+
+        ObjetoPostCarneJuno dados = new ObjetoPostCarneJuno();
+        dados.setEmail("tiagofranca.rita@gmail.com");
+        dados.setPayerName("Tiago França");
+        dados.setPayerCpfCnpj("05916564937");
+        dados.setPayerPhone("45999795800");
+
+        String chaveAPi = serviceJunoBoleto.buscaClientePessoaApiAsaas(dados);
+
+
+    }
 }

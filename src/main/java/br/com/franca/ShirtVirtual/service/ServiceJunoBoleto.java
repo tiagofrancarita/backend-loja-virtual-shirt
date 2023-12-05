@@ -15,9 +15,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.DatatypeConverter;
 import java.io.Serializable;
@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 
@@ -44,6 +45,46 @@ public class ServiceJunoBoleto implements Serializable {
         this.accesTokenJunoRepository = accesTokenJunoRepository;
         this.vd_Cp_Loja_virt_repository = vd_Cp_Loja_virt_repository;
         this.boletoJunoRepository = boletoJunoRepository;
+    }
+
+    /**
+     * Retorna id do customer da API Asass;
+     * @return id
+     */
+    public String  buscaClientePessoaApiAsaas(ObjetoPostCarneJuno objetoPostCarneJuno) throws Exception {
+
+        String customer_id ="";
+
+        // ------------------------------ INICIO - Cria o cliente na API Asass ------------------------------
+
+        Client client = new HostIgnoringClient(AsaasApiPagamentoStatus.URL_API_ASAAS_SANDBOX).hostIgnoringClient();
+        WebResource webResource = client.resource(AsaasApiPagamentoStatus.URL_API_ASAAS_SANDBOX + "customers?email=" + objetoPostCarneJuno.getEmail());
+
+        ClientResponse clientResponse = webResource.accept("application/json;charset=UTF-8")
+                .header("Content-Type", "application/json")
+                .header("access_token", AsaasApiPagamentoStatus.API_KEY)
+                .get(ClientResponse.class);
+
+        LinkedHashMap<String, Object>  parser = new JSONParser(clientResponse.getEntity(String.class)).parseObject();
+        clientResponse.close();
+        Integer totalClientes = Integer.parseInt(parser.get("totalResults").toString());
+
+        if (totalClientes <= 0) { /*Não existe cliente na API Asass*/
+
+
+        }else { /*Existe cliente na API Asass*/
+
+            List<LinkedHashMap<String, Object>> clientes = (List<LinkedHashMap<String, Object>>) parser.get("data");
+
+            for (LinkedHashMap<String, Object> cliente : clientes) {
+                customer_id = cliente.get("id").toString();
+            }
+
+        }
+
+
+        return customer_id;
+
     }
 
     /**
@@ -307,12 +348,4 @@ public class ServiceJunoBoleto implements Serializable {
 
         return null;
     }
-
-    public String buscaClientePessoaApiAsaas(ObjetoPostCarneJuno dados) {
-
-        return null;
-    }
-
-
-
 }
