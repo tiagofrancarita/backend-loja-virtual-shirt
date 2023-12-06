@@ -292,9 +292,21 @@ public class ServiceJunoBoleto implements Serializable {
         // PIX BOLETO ou UNDEFINED
         cobrancaApiAsaasDTO.setBillingType("UNDEFINED");
 
+        String jsonGerarCarneApiAsaas = new ObjectMapper().writeValueAsString(cobrancaApiAsaasDTO);
 
+        Client clientGerarCarneApiAsaas = new HostIgnoringClient(AsaasApiPagamentoStatus.URL_API_ASAAS_SANDBOX).hostIgnoringClient();
+        WebResource webResourceGerarCarneApiAsaas = clientGerarCarneApiAsaas.resource(AsaasApiPagamentoStatus.URL_API_ASAAS_SANDBOX + "payments");
 
-        return " ";
+        ClientResponse clientResponseGerarCarneApiAsaas = webResourceGerarCarneApiAsaas
+                .accept("application/json;charset=UTF-8")
+                .header("Content-Type", "application/json")
+                .header("access_token", AsaasApiPagamentoStatus.API_KEY)
+                .post(ClientResponse.class, jsonGerarCarneApiAsaas);
+
+        String stringRetornoGerarCarneApiAsaas = clientResponseGerarCarneApiAsaas.getEntity(String.class);
+        clientResponseGerarCarneApiAsaas.close();
+
+        return stringRetornoGerarCarneApiAsaas;
     }
 
 

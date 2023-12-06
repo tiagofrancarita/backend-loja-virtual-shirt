@@ -19,6 +19,23 @@ public class TesteJunoBoleto extends TestCase {
     private ServiceJunoBoleto serviceJunoBoleto;
 
     @Test
+    public void testGeraCarneApiAsaas() throws Exception {
+
+        ObjetoPostCarneJuno dados = new ObjetoPostCarneJuno();
+        dados.setEmail("alex.fernando.egidio@gmail.com");
+        dados.setPayerName("alex fernando egidio");
+        dados.setPayerCpfCnpj("05916564937");
+        dados.setPayerPhone("45999795800");
+        dados.setIdVenda(34L);
+
+        String retorno = serviceJunoBoleto.gerarCarneApiAsaas(dados);
+
+        System.out.println(retorno);
+
+
+    }
+
+    @Test
     public void testgerarCarneApiAsaas() throws Exception {
 
         ObjetoPostCarneJuno dados = new ObjetoPostCarneJuno();
