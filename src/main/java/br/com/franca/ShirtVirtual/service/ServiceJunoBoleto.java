@@ -347,10 +347,12 @@ public class ServiceJunoBoleto implements Serializable {
             boletoJuno.setIdChrBoleto(data.getId());
             boletoJuno.setInstallmentLink(data.getInvoiceUrl());
             boletoJuno.setRecorrencia(recorrencia);
-            //boletoJuno.setIdPix(c.getPix().getId());
-            //ObjetoQrCodePixAsaasDTO codePixAsaas = this.buscarQrCodeCodigoPix(data.getId());
-            //boletoJuno.setPayloadInBase64(codePixAsaas.getPayload());
-            //boletoJuno.setImageInBase64(codePixAsaas.getEncodedImage());
+            //boletoJuno.setIdPix(codePixAsaas.toString());
+
+            ObjetoQrCodePixAsaasDTO codePixAsaas = this.buscarQrCodeCodigoPix(data.getId());
+
+            boletoJuno.setPayloadInBase64(codePixAsaas.getPayload());
+            boletoJuno.setImageInBase64(codePixAsaas.getEncodedImage());
 
             boletoJunos.add(boletoJuno);
             recorrencia ++;
@@ -363,8 +365,8 @@ public class ServiceJunoBoleto implements Serializable {
 
     public ObjetoQrCodePixAsaasDTO buscarQrCodeCodigoPix(String idCobranca) throws Exception {
 
-        Client client = new HostIgnoringClient(AsaasApiPagamentoStatus.URL_API_ASAAS).hostIgnoringClient();
-        WebResource webResource = client.resource(AsaasApiPagamentoStatus.URL_API_ASAAS + "payments/"+idCobranca +"/pixQrCode");
+        Client client = new HostIgnoringClient(AsaasApiPagamentoStatus.URL_API_ASAAS_SANDBOX).hostIgnoringClient();
+        WebResource webResource = client.resource(AsaasApiPagamentoStatus.URL_API_ASAAS_SANDBOX + "payments/"+idCobranca +"/pixQrCode");
 
         ClientResponse clientResponse = webResource
                 .accept("application/json;charset=UTF-8")
