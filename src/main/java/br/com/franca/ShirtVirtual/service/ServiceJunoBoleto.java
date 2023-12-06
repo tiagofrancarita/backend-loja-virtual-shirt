@@ -36,6 +36,7 @@ import java.util.List;
 public class ServiceJunoBoleto implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ServiceJunoBoleto.class);
 
     private AccessTokenJunoService accessTokenJunoService;
     private AccesTokenJunoRepository accesTokenJunoRepository;
@@ -306,7 +307,81 @@ public class ServiceJunoBoleto implements Serializable {
         String stringRetornoGerarCarneApiAsaas = clientResponseGerarCarneApiAsaas.getEntity(String.class);
         clientResponseGerarCarneApiAsaas.close();
 
-        return stringRetornoGerarCarneApiAsaas;
+        // Buscando parcelas geradas
+        log.info("Inicio de busca de parcelas geradas");
+        LinkedHashMap<String, Object> parserBuscarParcelasGeradas = new JSONParser(stringRetornoGerarCarneApiAsaas).parseObject();
+        String installment = parserBuscarParcelasGeradas.get("installment").toString();
+
+        Client clientBuscarParcelasGeradas = new HostIgnoringClient(AsaasApiPagamentoStatus.URL_API_ASAAS_SANDBOX).hostIgnoringClient();
+        WebResource webResourceBuscarParcelasGeradas = clientBuscarParcelasGeradas.resource(AsaasApiPagamentoStatus.URL_API_ASAAS_SANDBOX + "payments?installment=" + installment);
+
+        ClientResponse clientResponseBuscarParcelasGeradas = webResourceBuscarParcelasGeradas
+                .accept("application/json;charset=UTF-8")
+                .header("Content-Type", "application/json")
+                .header("access_token", AsaasApiPagamentoStatus.API_KEY)
+                .get(ClientResponse.class);
+
+        String retornoCobrancas = clientResponseBuscarParcelasGeradas.getEntity(String.class);
+
+        log.info("fim de busca de parcelas geradas");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT); /*Converte relacionamento um para muitos dentro de json*/
+        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES); /*Converte relacionamento um para muitos dentro de json*/
+
+        CobrancaGeradaAsassApi listaCobrancaGeradaAsassApi = objectMapper
+                .readValue(retornoCobrancas, new TypeReference<CobrancaGeradaAsassApi>() {});
+
+        List<BoletoJuno> boletoJunos = new ArrayList<BoletoJuno>();
+        int recorrencia = 1;
+        for (CobrancaGeradaAssasData data : listaCobrancaGeradaAsassApi.getData()) {
+
+            BoletoJuno boletoJuno = new BoletoJuno();
+            boletoJuno.setEmpresa(vendaCompraLojaVirtual.getEmpresa());
+            boletoJuno.setVendaCompraLojaVirtual(vendaCompraLojaVirtual);
+            boletoJuno.setCode(data.getId());
+            boletoJuno.setLink(data.getInvoiceUrl());
+            boletoJuno.setDataVencimento(new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("yyyy-MM-dd").parse(data.getDueDate())));
+            boletoJuno.setCheckoutUrl(data.getInvoiceUrl());
+            boletoJuno.setValor(new BigDecimal(data.getValue()));
+            boletoJuno.setIdChrBoleto(data.getId());
+            boletoJuno.setInstallmentLink(data.getInvoiceUrl());
+            boletoJuno.setRecorrencia(recorrencia);
+            //boletoJuno.setIdPix(c.getPix().getId());
+            //ObjetoQrCodePixAsaasDTO codePixAsaas = this.buscarQrCodeCodigoPix(data.getId());
+            //boletoJuno.setPayloadInBase64(codePixAsaas.getPayload());
+            //boletoJuno.setImageInBase64(codePixAsaas.getEncodedImage());
+
+            boletoJunos.add(boletoJuno);
+            recorrencia ++;
+        }
+
+        boletoJunoRepository.saveAllAndFlush(boletoJunos);
+
+        return boletoJunos.get(0).getCheckoutUrl();
+    }
+
+    public ObjetoQrCodePixAsaasDTO buscarQrCodeCodigoPix(String idCobranca) throws Exception {
+
+        Client client = new HostIgnoringClient(AsaasApiPagamentoStatus.URL_API_ASAAS).hostIgnoringClient();
+        WebResource webResource = client.resource(AsaasApiPagamentoStatus.URL_API_ASAAS + "payments/"+idCobranca +"/pixQrCode");
+
+        ClientResponse clientResponse = webResource
+                .accept("application/json;charset=UTF-8")
+                .header("Content-Type", "application/json")
+                .header("access_token", AsaasApiPagamentoStatus.API_KEY)
+                .get(ClientResponse.class);
+
+        String stringRetorno = clientResponse.getEntity(String.class);
+        clientResponse.close();
+
+        ObjetoQrCodePixAsaasDTO codePixAsaas = new ObjetoQrCodePixAsaasDTO();
+
+        LinkedHashMap<String, Object> parser = new JSONParser(stringRetorno).parseObject();
+        codePixAsaas.setEncodedImage(parser.get("encodedImage").toString());
+        codePixAsaas.setPayload(parser.get("payload").toString());
+
+        return codePixAsaas;
     }
 
 
