@@ -273,6 +273,30 @@ public class ServiceJunoBoleto implements Serializable {
         }
     }
 
+    public String gerarCarneApiAsaas(ObjetoPostCarneJuno objetoPostCarneJuno) throws Exception {
+
+        VendaCompraLojaVirtual vendaCompraLojaVirtual = vd_Cp_Loja_virt_repository.findById(objetoPostCarneJuno.getIdVenda()).get();
+
+        CobrancaApiAsaasDTO cobrancaApiAsaasDTO = new CobrancaApiAsaasDTO();
+        cobrancaApiAsaasDTO.setCustomer(this.buscaClientePessoaApiAsaas(objetoPostCarneJuno));
+        cobrancaApiAsaasDTO.setDescription("Pix ou boleto gerado para a cobrança da venda " + vendaCompraLojaVirtual.getId());
+        cobrancaApiAsaasDTO.setInstallmentValue(vendaCompraLojaVirtual.getValorTotalVendaLoja().floatValue());
+        cobrancaApiAsaasDTO.setInstallmentCount(1);
+
+        Calendar dataVencimento = Calendar.getInstance();
+        dataVencimento.add(Calendar.DAY_OF_MONTH, 7);
+        cobrancaApiAsaasDTO.setDueDate(new SimpleDateFormat("yyyy-MM-dd").format(dataVencimento.getTime()));
+        cobrancaApiAsaasDTO.getInterest().setValue(1F);
+        cobrancaApiAsaasDTO.getFine().setValue(1F);
+
+        // PIX BOLETO ou UNDEFINED
+        cobrancaApiAsaasDTO.setBillingType("UNDEFINED");
+
+
+
+        return " ";
+    }
+
 
     /*
      * Método que gera o PIX  e Boleto com a API da Juno/Ebanx
@@ -369,10 +393,5 @@ public class ServiceJunoBoleto implements Serializable {
             return "Não exite chave de acesso para a API";
         }
 
-    }
-
-    public String gerarCarneApiAsaas(ObjetoPostCarneJuno dados) {
-
-        return null;
     }
 }
