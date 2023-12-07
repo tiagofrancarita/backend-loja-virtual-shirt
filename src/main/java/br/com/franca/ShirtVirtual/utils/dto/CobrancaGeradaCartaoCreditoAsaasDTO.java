@@ -1,42 +1,30 @@
 package br.com.franca.ShirtVirtual.utils.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-/**
- * Classe principal para gerar a cobrança no Asaas
- * <p>
- *     <br>
- * @Author França
- * Created by França on 25/09/2018.
- */
-
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class CobrancaGeradaAssasData {
-
+public class CobrancaGeradaCartaoCreditoAsaasDTO {
     private String object;
     private String id;
     private String dateCreated;
     private String customer;
+    private String installment = null;
     private String paymentLink = null;
-    private String dueDate;
     private float value;
     private float netValue;
-    private String billingType;
-    private String pixTransaction;
-    private String status;
-    private String description = null;
-    private String installment = null;
     private String originalValue = null;
-    private String externalReference = null;
     private float interestValue;
+    private String description = null;
+    private String billingType;
     private String confirmedDate;
+    private String pixTransaction;
     private String pixQrCodeId;
+    private String status;
+    private String dueDate;
     private String originalDueDate;
     private String paymentDate;
     private String clientPaymentDate;
     private String installmentNumber = null;
     private String invoiceUrl;
     private String invoiceNumber;
+    private String externalReference = null;
     private boolean deleted;
     private boolean anticipated;
     private boolean anticipable;
@@ -49,10 +37,15 @@ public class CobrancaGeradaAssasData {
     private String lastBankSlipViewedDate = null;
     private Boolean postalService = false;
 
-    private CobrancaoGeradaSaasDiscountDTO discont = new CobrancaoGeradaSaasDiscountDTO();
-    private CobrancaoGeradaSaasFineDTO fine = new CobrancaoGeradaSaasFineDTO();
-    private CobrancaoGeradaSaasInterestDTO interest = new CobrancaoGeradaSaasInterestDTO();
+    private RespostaPagamentoCreditCardDTO creditCard = new RespostaPagamentoCreditCardDTO();
 
+    public RespostaPagamentoCreditCardDTO getCreditCard() {
+        return creditCard;
+    }
+
+    public void setCreditCard(RespostaPagamentoCreditCardDTO creditCard) {
+        this.creditCard = creditCard;
+    }
 
     public String getObject() {
         return object;
@@ -86,20 +79,20 @@ public class CobrancaGeradaAssasData {
         this.customer = customer;
     }
 
+    public String getInstallment() {
+        return installment;
+    }
+
+    public void setInstallment(String installment) {
+        this.installment = installment;
+    }
+
     public String getPaymentLink() {
         return paymentLink;
     }
 
     public void setPaymentLink(String paymentLink) {
         this.paymentLink = paymentLink;
-    }
-
-    public String getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(String dueDate) {
-        this.dueDate = dueDate;
     }
 
     public float getValue() {
@@ -118,60 +111,12 @@ public class CobrancaGeradaAssasData {
         this.netValue = netValue;
     }
 
-    public String getBillingType() {
-        return billingType;
-    }
-
-    public void setBillingType(String billingType) {
-        this.billingType = billingType;
-    }
-
-    public String getPixTransaction() {
-        return pixTransaction;
-    }
-
-    public void setPixTransaction(String pixTransaction) {
-        this.pixTransaction = pixTransaction;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getInstallment() {
-        return installment;
-    }
-
-    public void setInstallment(String installment) {
-        this.installment = installment;
-    }
-
     public String getOriginalValue() {
         return originalValue;
     }
 
     public void setOriginalValue(String originalValue) {
         this.originalValue = originalValue;
-    }
-
-    public String getExternalReference() {
-        return externalReference;
-    }
-
-    public void setExternalReference(String externalReference) {
-        this.externalReference = externalReference;
     }
 
     public float getInterestValue() {
@@ -182,6 +127,22 @@ public class CobrancaGeradaAssasData {
         this.interestValue = interestValue;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getBillingType() {
+        return billingType;
+    }
+
+    public void setBillingType(String billingType) {
+        this.billingType = billingType;
+    }
+
     public String getConfirmedDate() {
         return confirmedDate;
     }
@@ -190,12 +151,36 @@ public class CobrancaGeradaAssasData {
         this.confirmedDate = confirmedDate;
     }
 
+    public String getPixTransaction() {
+        return pixTransaction;
+    }
+
+    public void setPixTransaction(String pixTransaction) {
+        this.pixTransaction = pixTransaction;
+    }
+
     public String getPixQrCodeId() {
         return pixQrCodeId;
     }
 
     public void setPixQrCodeId(String pixQrCodeId) {
         this.pixQrCodeId = pixQrCodeId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
 
     public String getOriginalDueDate() {
@@ -244,6 +229,14 @@ public class CobrancaGeradaAssasData {
 
     public void setInvoiceNumber(String invoiceNumber) {
         this.invoiceNumber = invoiceNumber;
+    }
+
+    public String getExternalReference() {
+        return externalReference;
+    }
+
+    public void setExternalReference(String externalReference) {
+        this.externalReference = externalReference;
     }
 
     public boolean isDeleted() {
@@ -334,27 +327,4 @@ public class CobrancaGeradaAssasData {
         this.postalService = postalService;
     }
 
-    public CobrancaoGeradaSaasDiscountDTO getDiscont() {
-        return discont;
-    }
-
-    public void setDiscont(CobrancaoGeradaSaasDiscountDTO discont) {
-        this.discont = discont;
-    }
-
-    public CobrancaoGeradaSaasFineDTO getFine() {
-        return fine;
-    }
-
-    public void setFine(CobrancaoGeradaSaasFineDTO fine) {
-        this.fine = fine;
-    }
-
-    public CobrancaoGeradaSaasInterestDTO getInterest() {
-        return interest;
-    }
-
-    public void setInterest(CobrancaoGeradaSaasInterestDTO interest) {
-        this.interest = interest;
-    }
 }
