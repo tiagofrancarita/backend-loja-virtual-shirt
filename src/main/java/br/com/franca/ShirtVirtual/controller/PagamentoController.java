@@ -168,6 +168,45 @@ public class PagamentoController implements Serializable {
 
         cobrancaApiAsaasCartaoDTO.setCreditCardHolderInfo(cartaoCreditoAsaasHolderInfoDTO);
 
+        String jsonFinalizaCompraCartaoCredito = new ObjectMapper( ).writeValueAsString(cobrancaApiAsaasCartaoDTO);
+
+        logger.info("--------Iniciando chamada de API para finalizar compra por cartão de credito-----------");
+
+        Client clientFinalizaCompraCartaoCredito = new HostIgnoringClient(AsaasApiPagamentoStatus.URL_API_ASAAS_SANDBOX).hostIgnoringClient();
+        WebResource webResourceFinalizaCompraCartaoCredito = clientFinalizaCompraCartaoCredito.resource(AsaasApiPagamentoStatus.URL_API_ASAAS_SANDBOX + "payments");
+
+        ClientResponse clientResponseFinalizaCompraCartaoCredito = webResourceFinalizaCompraCartaoCredito
+                .accept("application/json;charset=UTF-8")
+                .header("Content-Type", "application/json;charset=UTF-8")
+                .header("access_token", AsaasApiPagamentoStatus.API_KEY)
+                .post(ClientResponse.class, jsonFinalizaCompraCartaoCredito);
+
+        String stringRetornoFinalizaCompraCartaoCredito = clientResponseFinalizaCompraCartaoCredito.getEntity(String.class);
+        int statusFinalizaCompraCartaoCredito = clientResponseFinalizaCompraCartaoCredito.getStatus();
+        clientResponseFinalizaCompraCartaoCredito.close();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT);
+        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+
+        if (statusFinalizaCompraCartaoCredito != 200) {
+
+            for (BoletoJuno boletoJuno : cobrancas) {
+                boletoJunoRepository.deleteById(boletoJuno.getId());
+                boletoJunoRepository.flush();
+            }
+
+            ErroResponseApiAsaasDTO erroResponseApiAsaasDTO = objectMapper.readValue(stringRetornoFinalizaCompraCartaoCredito, new TypeReference<ErroResponseApiAsaasDTO>() {});
+
+            logger.error("--------Erro ao finalizar compra por cartão de credito-----------");
+            logger.error("--------Erro ao efetuar cobrança-----------");
+            logger.error("--------Retorno API-----------: " + stringRetornoFinalizaCompraCartaoCredito);
+            return new ResponseEntity<String>("Erro ao efetuar cobrança" + erroResponseApiAsaasDTO.listaErros() , HttpStatus.NOT_ACCEPTABLE);
+        }
+        logger.info("--------Finalização de compra por cartão de credito realizada com sucesso-----------");
+        logger.info("--------Retorno API-----------: " + stringRetornoFinalizaCompraCartaoCredito);
+
+        CobrancaApiAsaasCartaoDTO
 
         return new ResponseEntity<String>("sucesso", HttpStatus.OK);
     }
