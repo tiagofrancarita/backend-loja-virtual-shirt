@@ -1,6 +1,7 @@
 package br.com.franca.ShirtVirtual.controller;
 
 import br.com.franca.ShirtVirtual.config.tokens.ApiTokenIntegracaoJuno;
+import br.com.franca.ShirtVirtual.config.tokens.AsaasApiPagamentoStatus;
 import br.com.franca.ShirtVirtual.model.AccessTokenJunoAPI;
 import br.com.franca.ShirtVirtual.model.BoletoJuno;
 import br.com.franca.ShirtVirtual.model.VendaCompraLojaVirtual;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +57,8 @@ public class PagamentoController implements Serializable {
     @Autowired
     private BoletoJunoRepository boletoJunoRepository;
 
+    private Logger logger = LoggerFactory.getLogger(PagamentoController.class);
+
     @RequestMapping(method = RequestMethod.GET, value = "**/pagamento/{idVendaCompra}")
     public ModelAndView pagamento(@PathVariable(value = "idVendaCompra", required = false) String idVendaCompra) {
 
@@ -81,24 +86,58 @@ public class PagamentoController implements Serializable {
                 findById(idVendaCampo).orElse(null);
 
         if (vendaCompraLojaVirtual == null) {
+            logger.error("--------Codigo de venda não existe-----------");
             return new ResponseEntity<String>("Código da venda não existe!", HttpStatus.OK);
+
         }
 
         String cpfLimpo =  cpf.replaceAll("\\.", "").replaceAll("\\-", "");
 
         if (!ValidaCpf.isCPF(cpfLimpo)) {
+            logger.error("--------CPF inválido-----------");
             return new ResponseEntity<String>("CPF informado é inválido.", HttpStatus.OK);
         }
 
 
         if (qtdparcela > 12 || qtdparcela <= 0) {
+            logger.error("--------Quantidade de parcelas infromada é inválida, favor informar parcelas entre 1 e 12-----------");
             return new ResponseEntity<String>("Quantidade de parcelar deve ser de  1 até 12.", HttpStatus.OK);
         }
 
 
         if (vendaCompraLojaVirtual.getValorTotalVendaLoja().doubleValue() <= 0) {
+            logger.error("-------- Valor da venda não pode ser zero. -----------");
             return new ResponseEntity<String>("Valor da venda não pode ser Zero(0).", HttpStatus.OK);
         }
+
+        List<BoletoJuno> cobrancas = boletoJunoRepository.cobrancaVendaCompra(idVendaCampo);
+
+        for (BoletoJuno boletoJuno : cobrancas) {
+            boletoJunoRepository.deleteById(boletoJuno.getId());
+            boletoJunoRepository.flush();
+            logger.info("--------Cobrança excluida com sucesso-----------");
+
+
+        }
+
+        logger.info("--------Iniciando geração de cobrança pagamento por cartão de crédito-----------");
+
+        ObjetoPostCarneJuno objetoPostCarneJuno = new ObjetoPostCarneJuno();
+        objetoPostCarneJuno.setPayerCpfCnpj(cpfLimpo);
+        objetoPostCarneJuno.setPayerName(holderName);
+        objetoPostCarneJuno.setPayerPhone(vendaCompraLojaVirtual.getPessoa().getTelefone());
+
+        CobrancaApiAsaasCartaoDTO cobrancaApiAsaasCartaoDTO = new CobrancaApiAsaasCartaoDTO();
+        cobrancaApiAsaasCartaoDTO.setCustomer(serviceJunoBoleto.buscaClientePessoaApiAsaas(objetoPostCarneJuno));
+        cobrancaApiAsaasCartaoDTO.setBillingType(AsaasApiPagamentoStatus.CREDIT_CARD);
+        cobrancaApiAsaasCartaoDTO.setDescription("Pagamento da venda: " + vendaCompraLojaVirtual.getId() + " para o cliente: " + vendaCompraLojaVirtual.getPessoa().getNome() + "Forma de pagamento" + AsaasApiPagamentoStatus.CREDIT_CARD);
+
+
+
+
+
+
+
 
 
 
