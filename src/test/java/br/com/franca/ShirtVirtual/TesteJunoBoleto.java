@@ -1,5 +1,6 @@
 package br.com.franca.ShirtVirtual;
 
+import br.com.franca.ShirtVirtual.controller.PagamentoController;
 import br.com.franca.ShirtVirtual.service.ServiceJunoBoleto;
 import br.com.franca.ShirtVirtual.utils.dto.CriarWebHook;
 import br.com.franca.ShirtVirtual.utils.dto.ObjetoPostCarneJuno;
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 
 
 import junit.framework.TestCase;
+import org.springframework.web.context.WebApplicationContext;
 
 @Profile("dev")
 @SpringBootTest(classes = ShirtVirtualApplication.class)
@@ -18,7 +20,21 @@ public class TesteJunoBoleto extends TestCase {
     @Autowired
     private ServiceJunoBoleto serviceJunoBoleto;
 
+    @Autowired
+    private PagamentoController pagamentoController;
 
+    @Autowired
+    private WebApplicationContext wac;
+
+
+    @org.junit.Test
+    public void testfinalizarCompraCartaoAsaas() throws Exception {
+
+        pagamentoController.finalizarCompraCartaoAsaas("5292465982742455", "marcelo h almeida",
+                "805", "06", "2024", 34L, "11807566730",
+                2, "87025758", "Pioneiro antonio de ganello",
+                "365", "PR", "Maringá");
+    }
 
     @Test
     public void testGeraCarneApiAsaas() throws Exception {
@@ -32,7 +48,6 @@ public class TesteJunoBoleto extends TestCase {
 
         String retorno = serviceJunoBoleto.gerarCarneApiAsaas(dados);
         System.out.println(retorno);
-
 
     }
 

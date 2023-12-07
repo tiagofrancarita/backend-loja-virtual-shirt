@@ -1,5 +1,6 @@
 package br.com.franca.ShirtVirtual.model;
 
+import br.com.franca.ShirtVirtual.enums.StatusVendaLojaVirtual;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -46,6 +47,11 @@ public class VendaCompraLojaVirtual implements Serializable {
     @NotNull(message = "O valor total de desconto deve ser informado na nota")
     @Column(name = "valor_total_desconto_venda_loja", nullable = false)
     private BigDecimal valorTotalDescontoVendaLoja = BigDecimal.valueOf(0.00);
+
+    @NotNull(message = "Status da venda ou compra deve ser informado")
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private StatusVendaLojaVirtual statusVendaLojaVirtual;
 
     @NotNull(message = "Forma de pagamento deve ser informado na nota")
     @ManyToOne(fetch = FetchType.EAGER)
