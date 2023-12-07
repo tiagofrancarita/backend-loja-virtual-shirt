@@ -4,6 +4,7 @@ import br.com.franca.ShirtVirtual.config.tokens.ApiTokenIntegracaoJuno;
 import br.com.franca.ShirtVirtual.config.tokens.AsaasApiPagamentoStatus;
 import br.com.franca.ShirtVirtual.model.AccessTokenJunoAPI;
 import br.com.franca.ShirtVirtual.model.BoletoJuno;
+import br.com.franca.ShirtVirtual.model.PessoaFisica;
 import br.com.franca.ShirtVirtual.model.VendaCompraLojaVirtual;
 import br.com.franca.ShirtVirtual.repository.BoletoJunoRepository;
 import br.com.franca.ShirtVirtual.repository.VendaCompraLojaVirtualRepository;
@@ -132,13 +133,40 @@ public class PagamentoController implements Serializable {
         cobrancaApiAsaasCartaoDTO.setBillingType(AsaasApiPagamentoStatus.CREDIT_CARD);
         cobrancaApiAsaasCartaoDTO.setDescription("Pagamento da venda: " + vendaCompraLojaVirtual.getId() + " para o cliente: " + vendaCompraLojaVirtual.getPessoa().getNome() + "Forma de pagamento" + AsaasApiPagamentoStatus.CREDIT_CARD);
 
+        if (qtdparcela == 1) {
+            cobrancaApiAsaasCartaoDTO.setInstallmentValue(vendaCompraLojaVirtual.getValorTotalVendaLoja().floatValue());
+        }else {
+            BigDecimal valorParcela = vendaCompraLojaVirtual.getValorTotalVendaLoja()
+                    .divide(BigDecimal.valueOf(qtdparcela), RoundingMode.DOWN).setScale(2, RoundingMode.DOWN);
+            cobrancaApiAsaasCartaoDTO.setInstallmentValue(valorParcela.floatValue());
+        }
 
+        cobrancaApiAsaasCartaoDTO.setInstallmentCount(qtdparcela);
+        cobrancaApiAsaasCartaoDTO.setDueDate(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
 
+        logger.info("--------Iniciando input de dados de cartão de credito-----------");
 
+        CartaoCreditoApiAsaasDTO cartaoCreditoApiAsaasDTO = new CartaoCreditoApiAsaasDTO();
+        cartaoCreditoApiAsaasDTO.setCcv(securityCode);
+        cartaoCreditoApiAsaasDTO.setExpiryMonth(expirationMonth);
+        cartaoCreditoApiAsaasDTO.setExpiryYear(expirationYear);
+        cartaoCreditoApiAsaasDTO.setHolderName(holderName);
+        cartaoCreditoApiAsaasDTO.setNumber(cardNumber);
 
+        cobrancaApiAsaasCartaoDTO.setCreditCard(cartaoCreditoApiAsaasDTO);
 
+        CartaoCreditoAsaasHolderInfoDTO cartaoCreditoAsaasHolderInfoDTO = new CartaoCreditoAsaasHolderInfoDTO();
+        PessoaFisica pessoaFisica = vendaCompraLojaVirtual.getPessoa();
+        cartaoCreditoAsaasHolderInfoDTO.setName(pessoaFisica.getNome());
+        cartaoCreditoAsaasHolderInfoDTO.setCpfCnpj(pessoaFisica.getCpf());
+        cartaoCreditoAsaasHolderInfoDTO.setPostalCode(cep);
+        cartaoCreditoAsaasHolderInfoDTO.setAddressNumber(numero);
+        cartaoCreditoAsaasHolderInfoDTO.setAddressComplement(rua);
+        cartaoCreditoAsaasHolderInfoDTO.setMobilePhone(vendaCompraLojaVirtual.getPessoa().getTelefone());
+        cartaoCreditoAsaasHolderInfoDTO.setEmail(vendaCompraLojaVirtual.getPessoa().getEmail());
+        cartaoCreditoAsaasHolderInfoDTO.setPhone(vendaCompraLojaVirtual.getPessoa().getTelefone());
 
-
+        cobrancaApiAsaasCartaoDTO.setCreditCardHolderInfo(cartaoCreditoAsaasHolderInfoDTO);
 
 
         return new ResponseEntity<String>("sucesso", HttpStatus.OK);
