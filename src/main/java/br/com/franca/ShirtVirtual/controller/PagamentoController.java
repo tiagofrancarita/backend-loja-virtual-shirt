@@ -106,7 +106,7 @@ public class PagamentoController implements Serializable {
     }
 
 
-    @RequestMapping(method = RequestMethod.POST, value = "**/finalizarCompraCartao")
+    @RequestMapping(method = RequestMethod.POST, value = "/finalizarCompraCartao")
     public ResponseEntity<String> finalizarCompraCartaoJuno(
             @RequestParam("cardHash") String cardHash,
             @RequestParam("cardNumber") String cardNumber,
