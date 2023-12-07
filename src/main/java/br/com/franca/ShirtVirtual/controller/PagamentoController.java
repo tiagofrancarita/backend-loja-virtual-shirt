@@ -13,7 +13,6 @@ import br.com.franca.ShirtVirtual.service.ServiceJunoBoleto;
 import br.com.franca.ShirtVirtual.service.VendaService;
 import br.com.franca.ShirtVirtual.utils.ValidaCpf;
 import br.com.franca.ShirtVirtual.utils.dto.*;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -21,7 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
+import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -92,7 +90,7 @@ public class PagamentoController implements Serializable {
 
         }
 
-        String cpfLimpo =  cpf.replaceAll("\\.", "").replaceAll("\\-", "");
+        String cpfLimpo = cpf.replaceAll("\\.", "").replaceAll("\\-", "");
 
         if (!ValidaCpf.isCPF(cpfLimpo)) {
             logger.error("--------CPF inválido-----------");
@@ -135,7 +133,7 @@ public class PagamentoController implements Serializable {
 
         if (qtdparcela == 1) {
             cobrancaApiAsaasCartaoDTO.setInstallmentValue(vendaCompraLojaVirtual.getValorTotalVendaLoja().floatValue());
-        }else {
+        } else {
             BigDecimal valorParcela = vendaCompraLojaVirtual.getValorTotalVendaLoja()
                     .divide(BigDecimal.valueOf(qtdparcela), RoundingMode.DOWN).setScale(2, RoundingMode.DOWN);
             cobrancaApiAsaasCartaoDTO.setInstallmentValue(valorParcela.floatValue());
@@ -168,7 +166,7 @@ public class PagamentoController implements Serializable {
 
         cobrancaApiAsaasCartaoDTO.setCreditCardHolderInfo(cartaoCreditoAsaasHolderInfoDTO);
 
-        String jsonFinalizaCompraCartaoCredito = new ObjectMapper( ).writeValueAsString(cobrancaApiAsaasCartaoDTO);
+        String jsonFinalizaCompraCartaoCredito = new ObjectMapper().writeValueAsString(cobrancaApiAsaasCartaoDTO);
 
         logger.info("--------Iniciando chamada de API para finalizar compra por cartão de credito-----------");
 
@@ -196,19 +194,73 @@ public class PagamentoController implements Serializable {
                 boletoJunoRepository.flush();
             }
 
-            ErroResponseApiAsaasDTO erroResponseApiAsaasDTO = objectMapper.readValue(stringRetornoFinalizaCompraCartaoCredito, new TypeReference<ErroResponseApiAsaasDTO>() {});
+            ErroResponseApiAsaasDTO erroResponseApiAsaasDTO = objectMapper
+                    .readValue(stringRetornoFinalizaCompraCartaoCredito, new TypeReference<ErroResponseApiAsaasDTO>() {
+                    });
 
             logger.error("--------Erro ao finalizar compra por cartão de credito-----------");
             logger.error("--------Erro ao efetuar cobrança-----------");
             logger.error("--------Retorno API-----------: " + stringRetornoFinalizaCompraCartaoCredito);
-            return new ResponseEntity<String>("Erro ao efetuar cobrança" + erroResponseApiAsaasDTO.listaErros() , HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<String>("Erro ao efetuar cobrança" + erroResponseApiAsaasDTO.listaErros(), HttpStatus.NOT_ACCEPTABLE);
         }
-        logger.info("--------Finalização de compra por cartão de credito realizada com sucesso-----------");
-        logger.info("--------Retorno API-----------: " + stringRetornoFinalizaCompraCartaoCredito);
 
-        CobrancaApiAsaasCartaoDTO
+        CobrancaGeradaCartaoCreditoAsaasDTO cartaoCredito = objectMapper.
+                readValue(stringRetornoFinalizaCompraCartaoCredito, new TypeReference<CobrancaGeradaCartaoCreditoAsaasDTO>() {
+                });
 
-        return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+        int recorrencia = 1;
+        List<BoletoJuno> boletoJunos = new ArrayList<BoletoJuno>();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date dataCobranca = dateFormat.parse(cartaoCredito.getDueDate());
+        Calendar calendar = Calendar.getInstance();
+
+        for (int p = 1; p <= qtdparcela; p++) {
+
+            BoletoJuno boletoJuno = new BoletoJuno();
+
+            boletoJuno.setChargeICartao(cartaoCredito.getId());
+            boletoJuno.setCheckoutUrl(cartaoCredito.getInvoiceUrl());
+            boletoJuno.setCode(cartaoCredito.getId());
+            boletoJuno.setDataVencimento(dateFormat.format(dataCobranca));
+
+            calendar.setTime(dataCobranca);
+            calendar.add(Calendar.MONTH, 1);
+            dataCobranca = calendar.getTime();
+
+            boletoJuno.setEmpresa(vendaCompraLojaVirtual.getEmpresa());
+            boletoJuno.setIdChrBoleto(cartaoCredito.getId());
+            boletoJuno.setIdPix(cartaoCredito.getId());
+            boletoJuno.setInstallmentLink(cartaoCredito.getInvoiceUrl());
+            boletoJuno.setQuitado(false);
+            boletoJuno.setRecorrencia(recorrencia);
+            boletoJuno.setValor(BigDecimal.valueOf(cobrancaApiAsaasCartaoDTO.getInstallmentValue()));
+            boletoJuno.setVendaCompraLojaVirtual(vendaCompraLojaVirtual);
+
+            recorrencia++;
+            boletoJunos.add(boletoJuno);
+        }
+
+        boletoJunoRepository.saveAllAndFlush(boletoJunos);
+
+        if (cartaoCredito.getStatus().equalsIgnoreCase("CONFIRMED")) {
+
+            for (BoletoJuno boletoJuno : boletoJunos) {
+                boletoJunoRepository.quitarBoletoById(boletoJuno.getId());
+            }
+
+            vd_Cp_Loja_virt_repository.updateFinalizaVenda(vendaCompraLojaVirtual.getId());
+
+            logger.info("--------Finalização de compra por cartão de credito realizada com sucesso-----------");
+            logger.info("--------Retorno API-----------: " + stringRetornoFinalizaCompraCartaoCredito);
+
+            return new ResponseEntity<String>("sucesso", HttpStatus.OK);
+        }else{
+            logger.error("--------Erro ao finalizar compra por cartão de credito-----------");
+            logger.error("--------Retorno API-----------: " + stringRetornoFinalizaCompraCartaoCredito);
+            return new ResponseEntity<String>("Pagamento não pode ser finalizado: Status:" + cartaoCredito.getStatus(), HttpStatus.OK);
+
+        }
     }
 
 
